@@ -1,2 +1,2 @@
-![logocolocrew](LogoCompletCouleur.png | width=100)
+![logocolocrew](LogoCompletCouleur.png )
 # colocrew
