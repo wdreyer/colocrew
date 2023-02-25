@@ -2,4 +2,5 @@
 
 # Colocrew
 
-This repository contains an application to improve hiring process for summer camps.
+Ce dépôt contient une application pour améliorer le processus de recrutement
+pour les colonies de vacances.
