@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native'; 
+import { StyleSheet, Text, View} from 'react-native';
+// import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Colo Crew</Text>
-      <StatusBar style="auto" />
+      <SignUpScreen />
     </View>
   );
 }
@@ -14,8 +15,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // backgroundColor: '#fff',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
