@@ -12,6 +12,8 @@ import {
     TouchableOpacity,
 } from "react-native";
 
+import PrimaryButton from "../components/PrimaryButton";
+
 export default function SignUpScreen({ navigation }) {
     const handleForm = () => {
         navigation.navigate("AreaChoiceScreen");
@@ -83,15 +85,10 @@ export default function SignUpScreen({ navigation }) {
                                     />
                                 </View>
 
-                                <TouchableOpacity
-                                    onPress={() => handleForm()}
-                                    activeOpacity={0.7}
-                                    style={styles.primaryButton}
-                                >
-                                    <Text style={styles.primaryTextButton}>
-                                        S'inscrire
-                                    </Text>
-                                </TouchableOpacity>
+                                <PrimaryButton
+                                    textBtn="S'inscrire"
+                                    actionOnPress={handleForm}
+                                />
 
                                 <TouchableOpacity
                                     activeOpacity={0.7}
