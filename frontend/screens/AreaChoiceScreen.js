@@ -11,7 +11,7 @@ export default function AreaChoiceScreen() {
     style={styles.container}
     colors= {["#281c47" , "#b8336a"]}>
         <Image style={styles.image} source={require('../assets/LogoCompletBlanc.png')} />
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <View style={styles.buttonsContainer}>
         <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={() => navigation.navigate('TabRecruiterNavigator')}>
           <Text style={styles.buttonText}>Espace Recruteur</Text>

@@ -6,7 +6,6 @@ export default function App() {
   
   return (
     <View style={styles.container}>
-      <Text>Colo Crew</Text>
       <StatusBar style="auto" />
       <AreaChoiceScreen />
     </View>
