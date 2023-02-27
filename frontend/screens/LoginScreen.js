@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -11,6 +12,8 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity,
 } from "react-native";
+
+import PrimaryButton from "../components/PrimaryButton";
 
 export default function LoginScreen({ navigation }) {
     const handleForm = () => {
@@ -57,7 +60,11 @@ export default function LoginScreen({ navigation }) {
                                     <TextInput
                                         style={styles.input}
                                         placeholder="john@email.com"
-                                        placeholderTextColor="#fff"
+                                        placeholderTextColor="rgba(167, 167, 167, 1)"
+                                        autoCapitalize="none"
+                                        keyboardType="email-address"
+                                        textContentType="emailAddress"
+                                        autoComplete="email"
                                     />
                                 </View>
                                 <View style={styles.inputContainer}>
@@ -66,26 +73,19 @@ export default function LoginScreen({ navigation }) {
                                     </Text>
                                     <TextInput
                                         style={styles.input}
-                                        placeholder="john@email.com"
+                                        secureTextEntry={true}
                                         placeholderTextColor="rgba(167, 167, 167, 1)"
-                                        autoCapitalize="none"
-                                        keyboardType="email-address"
-                                        textContentType="emailAddress"
-                                        autoComplete="email"
+                                        placeholder="mysecretpassword"
                                     />
                                 </View>
 
-                                <TouchableOpacity
-                                    onPress={() => handleForm()}
-                                    activeOpacity={0.7}
-                                    style={styles.primaryButton}
-                                >
-                                    <Text style={styles.primaryTextButton}>
-                                        Se connecter
-                                    </Text>
-                                </TouchableOpacity>
+                                <PrimaryButton
+                                    textBtn="Se connecter"
+                                    actionOnPress={handleForm}
+                                />
 
-                                <TouchableOpacity onPress={() => handleGoogleConnect()}
+                                <TouchableOpacity
+                                    onPress={() => handleGoogleConnect()}
                                     activeOpacity={0.7}
                                     style={styles.googleConnectButton}
                                 >
