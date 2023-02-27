@@ -1,5 +1,4 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -53,6 +52,8 @@ export default function LoginScreen({ navigation }) {
                                     style={styles.tinyLogo}
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
+
+
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.labelInput}>
                                         E-mail
