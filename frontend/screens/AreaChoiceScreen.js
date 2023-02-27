@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 
-export default function AreaChoiceScreen() {
+export default function AreaChoiceScreen({ navigation }) {
   return (
     
     <LinearGradient 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     textAlign: 'center',
-    color: '#281C47',
+    color: 'black',
     fontWeight: 'bold',
   },
 });
