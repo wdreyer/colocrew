@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import ChoiceScreen from './screens/ChoiceScreen';
+import AreaChoiceScreen from './screens/AreaChoiceScreen';
 import RecruiterHomeScreen from './screens/RecruiterHomeScreen';
 import RecruiterSwipeScreen from './screens/RecruiterSwipeScreen';
 import RecruiterProfileScreen from './screens/RecruiterProfileScreen';
@@ -93,7 +93,7 @@ export default function App() {
   return (
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Choice" component={ChoiceScreen} />
+            <Stack.Screen name="AreaChoice" component={AreaChoiceScreen} />
             <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
             <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
           </Stack.Navigator>
