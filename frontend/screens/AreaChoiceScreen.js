@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 
-export default function AreaChoiceScreen() {
+export default function AreaChoiceScreen({ navigation }) {
   return (
     
     <LinearGradient 
