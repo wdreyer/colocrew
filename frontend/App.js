@@ -21,7 +21,7 @@ const TabRecruiterNavigator = () => {
   return (
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ color, size }) => {
-        let iconName: string = '';
+        let iconName = '';
 
         if (route.name === 'RecruiterHome') {
           iconName = 'home';
@@ -56,7 +56,7 @@ const TabCandidateNavigator = () => {
   return (
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ color, size }) => {
-        let iconName: string = '';
+        let iconName = '';
 
         if (route.name === 'CandidateHome') {
           iconName = 'home';
@@ -95,6 +95,7 @@ export default function App() {
   return (
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="CandidateProfileScreen" component={CandidateProfileScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
