@@ -11,10 +11,8 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity,
 } from "react-native";
-import Input from "../components/Input";
 
 import PrimaryButton from "../components/PrimaryButton";
-import UploadImage from "../components/UploadImage";
 
 export default function LoginScreen({ navigation }) {
 

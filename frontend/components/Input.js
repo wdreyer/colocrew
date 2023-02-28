@@ -18,9 +18,7 @@ export default function Input(props) {
                 placeholderTextColor = "rgba(167, 167, 167, 1)"
                 placeholder = {props.placeholder}
 
-
                 secureTextEntry = {props.type === "password" && true}
-                
         
                 autoCapitalize = {props.type === "email" ? "none" : props.type === "password" ? "password" : "sentences"}
                 keyboardType ={props.type === "email" ? "email-address" : props.type === "phone" ? "numeric" : "default"}
