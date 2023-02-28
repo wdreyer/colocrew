@@ -11,6 +11,9 @@ import {
   Keyboard,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
+  Modal,
+  Pressable,
 } from "react-native";
 import { useState } from "react";
 import avatarImage from "../assets/MathiasAvatar.png";
@@ -21,6 +24,7 @@ export default function CandidateProfileScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <KeyboardAvoidingView
@@ -83,6 +87,40 @@ export default function CandidateProfileScreen({ navigation }) {
                 multiline={true}
               />
             </View>
+            <View style={styles.passwordContainer}>
+              <Text style={styles.passwordText}> Mot de passe : </Text>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>
+                      Mot de passe formulaire
+                    </Text>
+
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      style={styles.buttonContainer}
+                      onPress={() => setModalVisible(!modalVisible)}
+                    >
+                      <Text style={styles.buttonValidate}>Valider</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
+              <Pressable onPress={() => setModalVisible(true)}>
+                <Text style={styles.textLinkModifiedPassword}>
+                  Modifier mon mot de passe
+                </Text>
+              </Pressable>
+            </View>
+
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -171,6 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginVertical: 15,
   },
+
   buttonText: {
     fontSize: 20,
     textAlign: "center",
@@ -183,5 +222,71 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     textAlign: "center",
+  },
+  passwordText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 15,
+  },
+
+  passwordContainer: {
+    textAlign: "left",
+    paddingLeft: 30,
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#53496B",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '80%',
+  },
+
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  textLinkModifiedPassword: {
+    color: "#7AC3F7",
+    textDecorationLine: "underline",
+    paddingVertical: "2%",
+    paddingHorizontal: "2%",
+  },
+
+  buttonValidate: {
+    backgroundColor: "#FAD4D8",
+    borderColor: "black",
+    borderWidth: "1px",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 6,
+    marginVertical: 15,
   },
 });
