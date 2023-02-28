@@ -12,6 +12,8 @@ import {
     TouchableOpacity,
 } from "react-native";
 
+import PrimaryButton from "../components/PrimaryButton";
+
 export default function LoginScreen({ navigation }) {
     const handleForm = () => {
         navigation.navigate("AreaChoiceScreen");
@@ -50,19 +52,10 @@ export default function LoginScreen({ navigation }) {
                                     style={styles.tinyLogo}
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
+
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.labelInput}>
                                         E-mail
-                                    </Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="john@email.com"
-                                        placeholderTextColor="#fff"
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.labelInput}>
-                                        Mot de passe
                                     </Text>
                                     <TextInput
                                         style={styles.input}
@@ -74,18 +67,25 @@ export default function LoginScreen({ navigation }) {
                                         autoComplete="email"
                                     />
                                 </View>
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.labelInput}>
+                                        Mot de passe
+                                    </Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        secureTextEntry={true}
+                                        placeholderTextColor="rgba(167, 167, 167, 1)"
+                                        placeholder="mysecretpassword"
+                                    />
+                                </View>
+
+                                <PrimaryButton
+                                    textBtn="Se connecter"
+                                    actionOnPress={handleForm}
+                                />
 
                                 <TouchableOpacity
-                                    onPress={() => handleForm()}
-                                    activeOpacity={0.7}
-                                    style={styles.primaryButton}
-                                >
-                                    <Text style={styles.primaryTextButton}>
-                                        Se connecter
-                                    </Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity onPress={() => handleGoogleConnect()}
+                                    onPress={() => handleGoogleConnect()}
                                     activeOpacity={0.7}
                                     style={styles.googleConnectButton}
                                 >
