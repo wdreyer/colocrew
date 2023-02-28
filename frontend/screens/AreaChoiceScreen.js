@@ -6,7 +6,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function AreaChoiceScreen({ navigation }) {
   return (
-    
     <LinearGradient 
     style={styles.container}
     colors= {["#281c47" , "#b8336a"]}>
