@@ -21,7 +21,7 @@ const TabRecruiterNavigator = () => {
   return (
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ color, size }) => {
-        let iconName: string = '';
+        let iconName = '';
 
         if (route.name === 'RecruiterHome') {
           iconName = 'home';
