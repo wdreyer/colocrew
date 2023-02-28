@@ -20,9 +20,9 @@ const userSchema = mongoose.Schema({
   description : String,
   photos : String,
   // qualifications : [{ type: mongoose.Schema.Types.ObjectId, ref: 'qualifications' }],
-  // isCandidate : Boolean,
+  isCandidate : Boolean,
   // applications : [{ type: mongoose.Schema.Types.ObjectId, ref: 'applications' }],
-  // isRecruiter : Boolean,
+  isRecruiter : Boolean,
   // camps : [{ type: mongoose.Schema.Types.ObjectId, ref: 'camps' }],
 });
 
