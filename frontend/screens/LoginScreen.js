@@ -53,7 +53,6 @@ export default function LoginScreen({ navigation }) {
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
 
-
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.labelInput}>
                                         E-mail
