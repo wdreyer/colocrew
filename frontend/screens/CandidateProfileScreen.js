@@ -62,14 +62,6 @@ export default function CandidateProfileScreen({ navigation }) {
                 value={firstName}
                 keyboardType="text"
               />
-              <TextInput
-                style={styles.input}
-                onChangeText={setEmail}
-                placeholder="Email"
-                value={email}
-                placeholderTextColor="#52597A"
-                keyboardType="text"
-              />
                <TextInput
                 style={styles.input}
                 onChangeText={setAdress}
