@@ -25,6 +25,8 @@ export default function CandidateProfileScreen({ navigation }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [adress, setAdress] = useState("");
+  const [birthday, setBirthday] = useState("");
 
   return (
     <KeyboardAvoidingView
@@ -68,6 +70,14 @@ export default function CandidateProfileScreen({ navigation }) {
                 placeholderTextColor="#52597A"
                 keyboardType="text"
               />
+               <TextInput
+                style={styles.input}
+                onChangeText={setAdress}
+                placeholder="Adresse"
+                placeholderTextColor="#52597A"
+                value={adress}
+                keyboardType="text"
+              />
               <TextInput
                 style={styles.input}
                 onChangeText={setPhoneNumber}
@@ -75,6 +85,14 @@ export default function CandidateProfileScreen({ navigation }) {
                 placeholderTextColor="#52597A"
                 value={phoneNumber}
                 keyboardType="numeric"
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={setBirthday}
+                placeholder="Date d'anniversaire"
+                value={birthday}
+                placeholderTextColor="#52597A"
+                keyboardType="text"
               />
               <TextInput
                 style={styles.descriptionInput}
@@ -254,7 +272,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: '80%',
+    width: "90%",
   },
 
   buttonOpen: {
