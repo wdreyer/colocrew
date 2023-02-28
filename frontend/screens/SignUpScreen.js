@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
         lineHeight: 32,
     },
     error : {
-        color:"red",
+        color:"white",
         marginBottom: 10,
         fontSize: 18,
         backgroundColor:"rgba(0,0,0,0.5)",        
