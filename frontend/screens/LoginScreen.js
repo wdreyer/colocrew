@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
 
     const handleForm = (value) => {
         // console.log(value);
-        // navigation.navigate("AreaChoiceScreen");
+        navigation.navigate("AreaChoiceScreen");
     };
 
     const goToSignUpPage = () => {
@@ -56,19 +56,8 @@ export default function LoginScreen({ navigation }) {
                                     style={styles.tinyLogo}
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
-
-                                <UploadImage />
-
+                                
                                 <View style={styles.inputContainer}>
-                                    <Input
-                                        labelTxt="Label"
-                                        placeholder="placeholder"
-                                        type="email"
-                                        onChangeText={(value) =>
-                                            handleForm(value)
-                                        }
-                                    />
-
                                     <Text style={styles.labelInput}>
                                         E-mail
                                     </Text>
