@@ -11,12 +11,16 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity,
 } from "react-native";
+import Input from "../components/Input";
 
 import PrimaryButton from "../components/PrimaryButton";
+import UploadImage from "../components/UploadImage";
 
 export default function LoginScreen({ navigation }) {
-    const handleForm = () => {
-        navigation.navigate("AreaChoiceScreen");
+
+    const handleForm = (value) => {
+        // console.log(value);
+        // navigation.navigate("AreaChoiceScreen");
     };
 
     const goToSignUpPage = () => {
@@ -53,7 +57,18 @@ export default function LoginScreen({ navigation }) {
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
 
+                                <UploadImage />
+
                                 <View style={styles.inputContainer}>
+                                    <Input
+                                        labelTxt="Label"
+                                        placeholder="placeholder"
+                                        type="email"
+                                        onChangeText={(value) =>
+                                            handleForm(value)
+                                        }
+                                    />
+
                                     <Text style={styles.labelInput}>
                                         E-mail
                                     </Text>
