@@ -16,7 +16,7 @@ import {
 import React, {useState} from 'react';
 
 //import firebase
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,fetchSignInMethodsForEmail } from "firebase/auth";
 import app from '../src/firebase'
 const auth = getAuth(app)
 
@@ -42,40 +42,48 @@ export default function SignUpScreen({ navigation }) {
         return regex.test(password);
       }  
     
-    const handleForm = () => { 
-        // if(!validateEmail(email)) {
-        //     setMailError('Mail non valide')
-        //     return
-        // }  
-        // if(!validatePassword(password)) {   
-        //     console.log("password non valide")             
-        //     setPasswordError('Le mot de passe doit comprendre au moins 8 caractères, 1 chiffre et 1 caractère spécial')
-        //     return
-        // }
-        // if(password !== passwordConfirm){
-        //     setPasswordConfirmError("Les 2 mots de passe ne sont pas identiques")
-        //     console.log('password valide')
-        //     return
-        // }
-
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            // ...
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
-          });
-
+    const handleForm = () => {
+      if (!validateEmail(email)) {
+        setMailError("Mail non valide");
+        return;
+      }
+      if (!validatePassword(password)) {
+        console.log("password non valide");
+        setPasswordError(
+          "Le mot de passe doit comprendre au moins 8 caractères, 1 chiffre et 1 caractère spécial"
+        );
+        return;
+      }
+      if (password !== passwordConfirm) {
+        setPasswordConfirmError("Les 2 mots de passe ne sont pas identiques");
+        console.log("password valide");
+        return;
+      }
+      fetchSignInMethodsForEmail(auth, email)
+        .then(function (signInMethods) {
+          if (signInMethods.length > 0) {
+           setMailError("L'adresse e-mail est déjà utilisée.");
+            return
+          } else {
+            console.log("L'adresse e-mail est disponible.");
+          }
+        })
+        .catch(function (error) {
+          console.log("Une erreur s'est produite :", error);
+        });
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user)
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
     }
-    
-
-
-
-
 
     const goToLoginPage = () => {
         navigation.navigate("LoginScreen");

@@ -13,10 +13,38 @@ import {
 } from "react-native";
 
 import PrimaryButton from "../components/PrimaryButton";
+import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
+import app from '../src/firebase'
+import { useState } from "react";
+const auth = getAuth(app)
+
+
 
 export default function LoginScreen({ navigation }) {
+
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const [connectionError,setConnectionError] = useState('');
+
     const handleForm = () => {
-        navigation.navigate("AreaChoiceScreen");
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    console.log("ok")
+    // Signed in 
+    navigation.navigate("AreaChoiceScreen");
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setConnectionError('Mauvais mail ou/et mdp')
+    console.log("t'existe pas")
+    return
+  });
+
+
+
+
     };
 
     const goToSignUpPage = () => {
@@ -65,6 +93,13 @@ export default function LoginScreen({ navigation }) {
                                         keyboardType="email-address"
                                         textContentType="emailAddress"
                                         autoComplete="email"
+                                        onChangeText={(email) => {
+                                            setConnectionError('');
+                                            setEmail(email)}}
+                                            value = {email}
+                                            onFocus = {() =>setConnectionError('')}
+
+
                                     />
                                 </View>
                                 <View style={styles.inputContainer}>
@@ -76,7 +111,14 @@ export default function LoginScreen({ navigation }) {
                                         secureTextEntry={true}
                                         placeholderTextColor="rgba(167, 167, 167, 1)"
                                         placeholder="mysecretpassword"
+                                        onChangeText={(password) => {
+                                            setConnectionError('');    
+                                            setPassword(password)}}
+                                            value = {password}
+                                            onFocus={() => setConnectionError('')}
+                                        
                                     />
+                                    {connectionError && <Text style={styles.error} >{connectionError} </Text>}
                                 </View>
 
                                 <PrimaryButton
@@ -216,4 +258,12 @@ const styles = StyleSheet.create({
         color: "#fff",
         lineHeight: 32,
     },
+    error : {
+        color:"red",
+        marginBottom: 10,
+        fontSize: 18,
+        backgroundColor:"rgba(0,0,0,0.5)",        
+        padding: 5,
+        borderRadius : 15,
+    }
 });
