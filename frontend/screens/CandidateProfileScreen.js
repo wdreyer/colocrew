@@ -28,6 +28,29 @@ export default function CandidateProfileScreen({ navigation }) {
   const [adress, setAdress] = useState("");
   const [birthday, setBirthday] = useState("");
 
+  const handleSetProfile = () => {
+    const updateUser = {
+      name: lastName,
+      surname: firstName,
+      email: email,
+      phone: phoneNumber,
+      birthDate: birthday,
+      descritpion: description,
+    };
+    fetch("http://localhost:3000/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ updateUser }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -48,7 +71,7 @@ export default function CandidateProfileScreen({ navigation }) {
             <View style={styles.inputsContainer}>
               <TextInput
                 style={styles.input}
-                onChangeText={setLastName}
+                onChangeText={(value) => setLastName(value)}
                 placeholder="Nom"
                 placeholderTextColor="#52597A"
                 value={lastName}
@@ -56,15 +79,23 @@ export default function CandidateProfileScreen({ navigation }) {
               />
               <TextInput
                 style={styles.input}
-                onChangeText={setFirstName}
+                onChangeText={(value) => setFirstName(value)}
                 placeholder="Prénom"
                 placeholderTextColor="#52597A"
                 value={firstName}
                 keyboardType="text"
               />
-               <TextInput
+              <TextInput
                 style={styles.input}
-                onChangeText={setAdress}
+                onChangeText={(value) => setEmail(value)}
+                placeholder="Email"
+                placeholderTextColor="#52597A"
+                value={email}
+                keyboardType="text"
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={(value) => setAdress(value)}
                 placeholder="Adresse"
                 placeholderTextColor="#52597A"
                 value={adress}
@@ -72,7 +103,7 @@ export default function CandidateProfileScreen({ navigation }) {
               />
               <TextInput
                 style={styles.input}
-                onChangeText={setPhoneNumber}
+                onChangeText={(value) => setPhoneNumber(value)}
                 placeholder="Numéro de téléphone"
                 placeholderTextColor="#52597A"
                 value={phoneNumber}
@@ -80,7 +111,7 @@ export default function CandidateProfileScreen({ navigation }) {
               />
               <TextInput
                 style={styles.input}
-                onChangeText={setBirthday}
+                onChangeText={(value) => setBirthday(value)}
                 placeholder="Date d'anniversaire"
                 value={birthday}
                 placeholderTextColor="#52597A"
@@ -88,7 +119,7 @@ export default function CandidateProfileScreen({ navigation }) {
               />
               <TextInput
                 style={styles.descriptionInput}
-                onChangeText={setDescription}
+                onChangeText={(value) => setDescription(value)}
                 placeholder="Déscription"
                 placeholderTextColor="#52597A"
                 value={description}
@@ -135,7 +166,7 @@ export default function CandidateProfileScreen({ navigation }) {
               <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.button}
-                onPress={() => navigation.navigate("TabCandidateNavigator")}
+                onPress={handleSetProfile}
               >
                 <Text style={styles.buttonText}>Enregistrer</Text>
               </TouchableOpacity>
