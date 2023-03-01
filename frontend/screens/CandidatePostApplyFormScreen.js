@@ -1,24 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, CheckBox, Text, View, TextInput, Button, Image } from 'react-native';
+import { StyleSheet, Switch, Text, View, TextInput, Button, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import CandidatePost from "../components/CandidatePost";
 
 export default function CandidatePostApplyFormScreen({navigation}) {
-
-    const handleFormSubmit = () => {
-
-    };
-
-
 
   return (
     <View style={styles.container}>
         <Text>MA CANDIDATURE</Text>
-        <TextInput text='' ></TextInput>
-        <TextInput text='' ></TextInput>
-        <Text>Type d'hébergement</Text>
+        <CandidatePost isEditable={true} />
         <View style={styles.checkboxContainer}>
-        <CheckBox value={isSelected} onValueChange={setSelection} style={styles.checkbox}/>
-        <CheckBox value={isSelected} onValueChange={setSelection} style={styles.checkbox}/>
         <Text style={styles.label}>Do you like React Native?</Text>
       </View>
       <FontAwesome name='home' size={70} color='white'  />
