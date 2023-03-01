@@ -18,9 +18,10 @@ import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
 import app from '../src/firebase'
 import { useEffect, useState } from "react";
 const auth = getAuth(app)
+import config from './config';
 
 export default function LoginScreen({ navigation }) {
-    const URL_BACKEND = "http://192.168.133.233:3000" 
+    
 
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users);
@@ -47,7 +48,7 @@ export default function LoginScreen({ navigation }) {
         .then((userCredential) => {
             const user = userCredential.user;
             const uid = user.uid; 
-            fetch(`${URL_BACKEND}/users/authByUid/${uid}`, {
+            fetch(`${config.URL_BACKEND}/users/authByUid/${uid}`, {
                 headers: {
                   'Content-Type': 'application/json'
                 },
