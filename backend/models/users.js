@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
   token: String,
   name: String,
   surname : String, 
+  uid: String,
   // address : addressSchema,
   phone : String,
   gender : String,

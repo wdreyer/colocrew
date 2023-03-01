@@ -1,7 +1,31 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../models/users");
-const { checkBody } = require("../modules/checkBody");
+
+router.post('/createuser', (req, res, next) => {
+  const email = req.body.email;
+  const uid = req.body.uid;
+  const newUser = new User({
+    mail: email,
+    uid: uid,
+  });
+  newUser.save()
+    .then(result => {
+      res.status(201).json({
+        message: "Utilisateur créé avec succès",
+        createdUser: result
+      });
+    })
+    .catch(err => {
+      console.log(err); 
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+
+
 
 router.put("/", function (req, res) {
   if (

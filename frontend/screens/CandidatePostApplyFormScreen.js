@@ -1,19 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Switch, Text, View, TextInput, Button, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import PrimaryButton from '../components/PrimaryButton';
+import CandidatePost from "../components/CandidatePost";
 
-export default function RecruiterHomeScreen({navigation}) {
-
-  const goToForm = () =>{
-    navigation.navigate('CandidatePost')
-  }
+export default function CandidatePostApplyFormScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text>CANDIDATE HOME SCREEN</Text>
+        <Text>MA CANDIDATURE</Text>
+        <CandidatePost isEditable={true} />
+        <View style={styles.checkboxContainer}>
+        <Text style={styles.label}>Do you like React Native?</Text>
+      </View>
       <FontAwesome name='home' size={70} color='white'  />
-      <PrimaryButton textBtn='Go to Candidature' actionOnPress={goToForm}/>
       <StatusBar style="auto" />
     </View>
   );
