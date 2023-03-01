@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Pressable, TextInput, Switch, View, Modal } from "react-native";
+ import { StyleSheet, Text, Pressable, TextInput, Switch, View, Modal } from "react-native";
 import TheDatePicker from './TheDatePicker';
 import  PrimaryButton from "./PrimaryButton";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
