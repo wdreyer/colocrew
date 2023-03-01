@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 const User = require("../models/users");
 
@@ -23,9 +23,6 @@ router.post('/createUser', (req, res, next) => {
       });
     });
 });
-
-
-
 
 router.get('/authByUid/:uid', (req, res, next) => {
   User.findOne({uid:req.params.uid})
@@ -57,12 +54,31 @@ router.put('/updateRole', (req, res, next) => {
     });
 });
 
+router.put("/", function (req, res) {
+  if (
+    !checkBody(req.body, ["surname", "name", "address", "phone", "birthDate"])
+  ) {
+    res.json({ result: false, error: "Vous n'avez pas complété tous les chammps requis" });
+    return;
+  }
+  // Si l'id n'existe pas : return res.json({result: false})
 
-
-
-
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  User.findByIdAndUpdate(req.body._id, {
+    surname: req.body.surname,
+    name: req.body.name,
+    email: req.body.email,
+    address: req.body.address,
+    phone: req.body.phone,
+    birthDate: req.body.birthDate,
+    description: req.body.description,
+  }).then((data) => {
+    console.log(data);
+    if (data === null) {
+      return res.json({ result: false });
+    } else {
+      res.json({ result: true });
+    }
+  });
 });
 
 module.exports = router;
