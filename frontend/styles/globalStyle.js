@@ -13,6 +13,13 @@ export default StyleSheet.create({
         marginBottom: 20,
     },
 
+    subtitle: {
+        color: "#fff",
+        fontSize: 20,
+        marginTop: 10,
+        marginBottom: 20,
+    },
+
     labelInput: {
         color: "#fff",
         fontSize: 12,

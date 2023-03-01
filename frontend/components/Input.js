@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#281C47",
         position: "absolute",
         paddingHorizontal: 3,
-        
     },
 
     input: {

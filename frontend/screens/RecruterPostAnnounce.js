@@ -15,10 +15,11 @@ import Input from "../components/Input";
 import UploadImage from "../components/UploadImage";
 import globalStyle from "../styles/globalStyle";
 
-import { CheckBox } from "@rneui/themed";
 import { useState } from "react";
+import Svg, { Path } from "react-native-svg";
 
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import PrimaryButton from "../components/PrimaryButton";
+
 
 export default function RecruterPostAnnounce({ navigation }) {
     const test = () => {
@@ -80,7 +81,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                 onChangeText={test}
                             />
 
-                            <View style={styles.uploadImageContainer}>
+                            <View style={styles.sectionContainer}>
                                 <Text style={styles.titleSection}>
                                     Ajouter des photos :
                                 </Text>
@@ -93,20 +94,32 @@ export default function RecruterPostAnnounce({ navigation }) {
                                 </View>
                             </View>
 
-                            <View style={styles.hostingContainer}>
-                                <Text style={styles.titleSection}>
+                            <View style={styles.sectionContainer}>
+                                <Text style={globalStyle.subtitle}>
                                     Type d'hébergement :
                                 </Text>
-                                <BouncyCheckbox
-                                    size={25}
-                                    fillColor="red"
-                                    unfillColor="#FFFFFF"
-                                    text="Custom Checkbox"
-                                    iconStyle={{ borderColor: "#FFF" }}
-                                    innerIconStyle={{ borderWidth: 2 }}
-                                    onPress={(isChecked) => {}}
-                                />
+                                
                             </View>
+
+                            <View style={styles.sectionContainer}>
+                                <Text style={globalStyle.subtitle}>
+                                    Séjours :
+                                </Text>
+                                <Svg
+                                    style={styles.addButton}
+                                    viewBox="0 0 24 24"
+                                    width="50"
+                                    height="50"
+                                    fill="#FAD4D8"
+                                >
+                                    <Path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11H7v2h4v4h2v-4h4v-2h-4V7h-2v4z" />
+                                </Svg>
+                            </View>
+
+                            <PrimaryButton
+                                actionOnPress={test}
+                                textBtn="Publier une annonce"
+                            />
                         </View>
                     </SafeAreaView>
                 </KeyboardAvoidingView>
@@ -150,7 +163,7 @@ const styles = StyleSheet.create({
         color: "#FFF",
     },
 
-    uploadImageContainer: {
+    sectionContainer: {
         marginBottom: 30,
     },
 
@@ -163,4 +176,6 @@ const styles = StyleSheet.create({
     checkBox: {
         backgroundColor: "red",
     },
+
+    sejourContainer: {},
 });
