@@ -16,11 +16,13 @@ const styles = StyleSheet.create({
     primaryButton: {
         backgroundColor: "#FAD4D8",
         width: "100%",
+        minWidth: "85%",
         justifyContent: "center",
         alignItems: "center",
         height: 50,
         borderRadius: 6,
         marginTop: 10,
+        paddingHorizontal: 20,
     },
 
     primaryTextButton: {

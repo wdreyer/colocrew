@@ -22,6 +22,7 @@ const auth = getAuth(app)
 
 export default function LoginScreen({ navigation }) {
 
+
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [connectionError,setConnectionError] = useState('');
@@ -82,7 +83,7 @@ export default function LoginScreen({ navigation }) {
                                     style={styles.tinyLogo}
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
-
+                                
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.labelInput}>
                                         E-mail
