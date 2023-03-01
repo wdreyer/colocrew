@@ -20,7 +20,7 @@ export default function CandidatePost(props) {
         {key:'7', value:'Drinks'},
     ];
 
-    const [startDate, setStartDate] = useState('');
+    const [startDate, setStartDate] = useState(''); 
     const [endDate, setEndtDate] = useState('');
     const [childrenAge, setChildrenAge] = useState('');
     const [isEnabled, setIsEnabled] = useState(false);
