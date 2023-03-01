@@ -14,7 +14,7 @@ export default function Input(props) {
         <View>
             <Text style={styles.labelInput}>{props.labelTxt}</Text>
             <TextInput onChangeText={(value) => handleInput(value)}
-                style = {props.multiline === "textArea" ? styles.inputTextArea : styles.input}
+                style = {props.multiline === true ? styles.inputTextArea : styles.input}
                 placeholderTextColor = "rgba(167, 167, 167, 1)"
                 placeholder = {props.placeholder}
 
@@ -26,7 +26,7 @@ export default function Input(props) {
                 keyboardType = {props.type === "email" ? "email-address" : props.type === "phone" ? "numeric" : "default"}
                 textContentType = {props.type === "email" ? "emailAddress" : props.type === "phone" ? "telephoneNumber" : "none"}
 
-                multiline = {props.multiline === "textArea" ? true : false}
+                multiline = {props.multiline === true && true}
 
                 value = {textInput}
             />

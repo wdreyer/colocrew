@@ -3,7 +3,6 @@ import {
     StyleSheet,
     Text,
     View,
-    Button,
     Image,
     SafeAreaView,
     TouchableWithoutFeedback,
@@ -14,28 +13,41 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Input from "../components/Input";
 import UploadImage from "../components/UploadImage";
+import globalStyle from "../styles/globalStyle";
+
+import { CheckBox } from "@rneui/themed";
+import { useState } from "react";
+
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function RecruterPostAnnounce({ navigation }) {
     const test = () => {
         console.log("test function");
     };
 
+    const [checked, setChecked] = useState(true);
+    const toggleCheckbox = () => setChecked(!checked);
+
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <KeyboardAvoidingView
-                style={styles.container}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                enabled
-            >
-                <ScrollView>
+            <ScrollView style={styles.scrollView}>
+                <KeyboardAvoidingView
+                    style={styles.container}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    enabled
+                >
                     <SafeAreaView style={styles.safeAreaContainer}>
-                        <View style={styles.logoContainer}></View>
-                        <Image
-                            style={styles.logo}
-                            source={require("../assets/LogoMiniBlanc.png")}
-                        />
+                        <View style={styles.logoContainer}>
+                            <Image
+                                style={styles.logo}
+                                source={require("../assets/LogoMiniBlanc.png")}
+                            />
+                        </View>
+
                         <View style={styles.contentContainer}>
-                            <Text style={styles.titlePage}>Mon annonce</Text>
+                            <Text style={globalStyle.titlePage}>
+                                Mon annonce
+                            </Text>
 
                             <Input
                                 labelTxt="Titre de l'annonce *"
@@ -53,7 +65,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                 labelTxt="Description"
                                 placeholder="Description"
                                 onChangeText={test}
-                                multiline="textArea"
+                                multiline={true}
                             />
 
                             <Input
@@ -80,10 +92,25 @@ export default function RecruterPostAnnounce({ navigation }) {
                                     <UploadImage />
                                 </View>
                             </View>
+
+                            <View style={styles.hostingContainer}>
+                                <Text style={styles.titleSection}>
+                                    Type d'hébergement :
+                                </Text>
+                                <BouncyCheckbox
+                                    size={25}
+                                    fillColor="red"
+                                    unfillColor="#FFFFFF"
+                                    text="Custom Checkbox"
+                                    iconStyle={{ borderColor: "#FFF" }}
+                                    innerIconStyle={{ borderWidth: 2 }}
+                                    onPress={(isChecked) => {}}
+                                />
+                            </View>
                         </View>
                     </SafeAreaView>
-                </ScrollView>
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </ScrollView>
         </TouchableWithoutFeedback>
     );
 }
@@ -93,10 +120,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#281C47",
     },
+
+    scrollView: {
+        backgroundColor: "#281C47",
+    },
+
     logoContainer: {
         justifyContent: "center",
         width: "100%",
-        paddingHorizontal: 30,
+        marginHorizontal: 30,
+    },
+
+    contentContainer: {
+        margin: 25,
     },
 
     logo: {
@@ -105,26 +141,26 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
 
-    titlePage: {
-        color: "#fff",
-        fontSize: 30,
-        marginTop: 10,
-        marginBottom: 20,
-    },
-
     safeAreaContainer: {
-        alignItems: "center",
+        flex: 1,
     },
-
 
     titleSection: {
         fontSize: 20,
         color: "#FFF",
     },
 
+    uploadImageContainer: {
+        marginBottom: 30,
+    },
+
     uploadImageWrapper: {
         width: "100%",
         flexDirection: "row",
         flexWrap: "wrap",
-    }
+    },
+
+    checkBox: {
+        backgroundColor: "red",
+    },
 });
