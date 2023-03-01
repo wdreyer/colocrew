@@ -18,7 +18,6 @@ import React, {useEffect, useState} from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { addUserToStore } from "../reducers/users";
 
-
 //import firebase
 import { getAuth, createUserWithEmailAndPassword,fetchSignInMethodsForEmail } from "firebase/auth";
 import app from '../src/firebase'
@@ -54,10 +53,7 @@ export default function SignUpScreen({ navigation }) {
             }))
               navigation.navigate("AreaChoiceScreen");
             }
-
             )
-
-
         }
 
     const validateEmail = (email) => {
