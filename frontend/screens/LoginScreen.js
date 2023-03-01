@@ -27,13 +27,13 @@ export default function LoginScreen({ navigation }) {
     const [connectionError,setConnectionError] = useState('');
 
     const handleForm = () => {
-        navigation.navigate("AreaChoiceScreen");
+       
        
     signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     console.log("ok")
     // Signed in 
-   
+    navigation.navigate("AreaChoiceScreen");
     // ...
   })
   .catch((error) => {
