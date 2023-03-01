@@ -1,14 +1,30 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, TextInput, View, PermissionsAndroid } from "react-native";
 
 export default function Input(props) {
+
+    const [textInput, setTextInput] = useState('');
+
+    const handleInput = (value) => {
+        setTextInput(value)
+        props.onChangeText(value)
+    }
 
     return (
         <View>
             <Text style={styles.labelInput}>{props.labelTxt}</Text>
-            <TextInput
-                style={styles.input}
-                placeholderTextColor="rgba(167, 167, 167, 1)"
-                placeholder={props.placeholder}
+            <TextInput onChangeText={(value) => handleInput(value)}
+                style = {styles.input}
+                placeholderTextColor = "rgba(167, 167, 167, 1)"
+                placeholder = {props.placeholder}
+
+                secureTextEntry = {props.type === "password" && true}
+        
+                autoCapitalize = {props.type === "email" ? "none" : props.type === "password" ? "password" : "sentences"}
+                keyboardType ={props.type === "email" ? "email-address" : props.type === "phone" ? "numeric" : "default"}
+                textContentType ={props.type === "email" ? "emailAddress" : props.type === "phone" ? "telephoneNumber" : "none"}
+
+                value = {textInput}
             />
         </View>
     );

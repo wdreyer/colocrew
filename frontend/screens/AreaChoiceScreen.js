@@ -2,11 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native'; 
 import { LinearGradient } from 'expo-linear-gradient';
 
-
-
 export default function AreaChoiceScreen({ navigation }) {
   return (
-    
     <LinearGradient 
     style={styles.container}
     colors= {["#281c47" , "#b8336a"]}>
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#FAD4D8',
     borderColor: '#281C47',
-    borderWidth: '1px',
+    borderWidth: 1,
     width: 350,
     height: 55,
     justifyContent: 'center',
