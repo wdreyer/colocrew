@@ -25,7 +25,7 @@ export default function CandidateProfileScreen({ navigation }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [adress, setAdress] = useState("");
+  const [address, setAddress] = useState("");
   const [birthday, setBirthday] = useState("");
 
   const handleSetProfile = () => {
@@ -37,19 +37,19 @@ export default function CandidateProfileScreen({ navigation }) {
       birthDate: birthday,
       descritpion: description,
     };
-    fetch("http://localhost:3000/users", {
+    fetch("http://10.0.2.137:3000", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ updateUser }),
     })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -73,39 +73,38 @@ export default function CandidateProfileScreen({ navigation }) {
                 style={styles.input}
                 onChangeText={(value) => setLastName(value)}
                 placeholder="Nom"
-                placeholderTextColor="#52597A"
-                value={lastName}
-                keyboardType="text"
+                placeholderTextColor="rgba(167, 167 , 167 , 1)"
+                keyboardType="default"
               />
               <TextInput
                 style={styles.input}
                 onChangeText={(value) => setFirstName(value)}
                 placeholder="Prénom"
-                placeholderTextColor="#52597A"
+                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={firstName}
-                keyboardType="text"
+                keyboardType="default"
               />
               <TextInput
                 style={styles.input}
                 onChangeText={(value) => setEmail(value)}
                 placeholder="Email"
-                placeholderTextColor="#52597A"
+                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={email}
-                keyboardType="text"
+                keyboardType="email-address"
               />
               <TextInput
                 style={styles.input}
-                onChangeText={(value) => setAdress(value)}
+                onChangeText={(value) => setAddress(value)}
                 placeholder="Adresse"
-                placeholderTextColor="#52597A"
-                value={adress}
-                keyboardType="text"
+                placeholderTextColor="rgba(167, 167 , 167 , 1)"
+                value={address}
+                keyboardType="default"
               />
               <TextInput
                 style={styles.input}
                 onChangeText={(value) => setPhoneNumber(value)}
                 placeholder="Numéro de téléphone"
-                placeholderTextColor="#52597A"
+                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={phoneNumber}
                 keyboardType="numeric"
               />
@@ -114,16 +113,16 @@ export default function CandidateProfileScreen({ navigation }) {
                 onChangeText={(value) => setBirthday(value)}
                 placeholder="Date d'anniversaire"
                 value={birthday}
-                placeholderTextColor="#52597A"
-                keyboardType="text"
+                placeholderTextColor="rgba(167, 167 , 167 , 1)"
+                keyboardType="default"
               />
               <TextInput
                 style={styles.descriptionInput}
                 onChangeText={(value) => setDescription(value)}
                 placeholder="Déscription"
-                placeholderTextColor="#52597A"
+                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={description}
-                keyboardType="text"
+                keyboardType="default"
                 textAlignVertical="top"
                 multiline={true}
               />
@@ -184,7 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#281C47",
   },
   image: {
-    position: "fixed",
+    position: "absolute",
     left: 10,
     top: 10,
     width: 50,
@@ -219,7 +218,6 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderRadius: 6,
     marginVertical: 15,
-    placeholderTextColor: "lightgrey",
   },
 
   descriptionInput: {
@@ -231,7 +229,6 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderRadius: 6,
     marginVertical: 15,
-    placeholderTextColor: "lightgrey",
   },
 
   buttonContainer: {
@@ -242,7 +239,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#FAD4D8",
     borderColor: "black",
-    borderWidth: "1px",
+    borderWidth: 1,
     width: 350,
     height: 55,
     justifyContent: "center",
@@ -324,7 +321,7 @@ const styles = StyleSheet.create({
   buttonValidate: {
     backgroundColor: "#FAD4D8",
     borderColor: "black",
-    borderWidth: "1px",
+    borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 6,
