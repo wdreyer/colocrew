@@ -11,43 +11,75 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity,
 } from "react-native";
-
 import PrimaryButton from "../components/PrimaryButton";
+import { useSelector, useDispatch } from 'react-redux';
+import { addUserToStore } from "../reducers/users";
 import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
 import app from '../src/firebase'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const auth = getAuth(app)
 
-
-
 export default function LoginScreen({ navigation }) {
+    const URL_BACKEND = "http://192.168.133.233:3000" 
 
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.users);
 
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [connectionError,setConnectionError] = useState('');
 
+  useEffect(() => {
+    if(user.isConnected && user.isRecruiter) {
+        navigation.navigate("TabRecruiterNavigator");
+    }
+    else if(user.isConnected && user.isCandidate){
+      navigation.navigate("TabCandidateNavigator");
+      }
+   else if(user.isConnected && !user.isRecruiter && !user.isCandidate){
+      navigation.navigate("AreaChoiceScreen")
+    }  
+  }, [user]);        
+
+
     const handleForm = () => {
-       
-       
-    signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    console.log("ok")
-    // Signed in 
-    navigation.navigate("AreaChoiceScreen");
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    setConnectionError('Mauvais mail ou/et mdp')
-    console.log("t'existe pas")
-    return
-  });
-
-
-
-
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            const uid = user.uid; 
+            fetch(`${URL_BACKEND}/users/authByUid/${uid}`, {
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+              })
+            .then(rs => rs.json())
+            .then(res => {          
+                console.log("here",res.data.isRecruiter) 
+               dispatch(addUserToStore({
+                  isConnected : true,
+                  email : res.data.email,
+                  uid: res.data.uid,
+                  isCandidate: res.data.isCandidate,
+                  isRecruiter: res.data.isRecruiter,
+              }))
+              if( res.data.isRecruiter) {
+                navigation.navigate("TabRecruiterNavigator");
+            }
+            else if( res.data.isCandidate){
+              navigation.navigate("TabCandidateNavigator");
+              }
+           else{
+              navigation.navigate("AreaChoiceScreen")
+            }           
+              })             
+           
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setConnectionError("Mauvais mail ou/et mdp");
+          return;
+        });
     };
 
     const goToSignUpPage = () => {
