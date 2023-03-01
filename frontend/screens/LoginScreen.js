@@ -15,7 +15,9 @@ import {
 import PrimaryButton from "../components/PrimaryButton";
 
 export default function LoginScreen({ navigation }) {
-    const handleForm = () => {
+
+    const handleForm = (value) => {
+        // console.log(value);
         navigation.navigate("AreaChoiceScreen");
     };
 
@@ -52,7 +54,7 @@ export default function LoginScreen({ navigation }) {
                                     style={styles.tinyLogo}
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
-
+                                
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.labelInput}>
                                         E-mail
