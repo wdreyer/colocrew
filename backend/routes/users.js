@@ -7,15 +7,15 @@ router.put("/", function (req, res) {
   if (
     !checkBody(req.body, ["surname", "name", "address", "phone", "birthDate"])
   ) {
-    res.json({ result: false, error: "Missing or empty fields" });
+    res.json({ result: false, error: "Vous n'avez pas complété tous les chammps requis" });
     return;
   }
-
   // Si l'id n'existe pas : return res.json({result: false})
 
   User.findByIdAndUpdate(req.body._id, {
     surname: req.body.surname,
     name: req.body.name,
+    email: req.body.email,
     address: req.body.address,
     phone: req.body.phone,
     birthDate: req.body.birthDate,
