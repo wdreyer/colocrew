@@ -7,12 +7,11 @@ export default function CandidatePostApplyFormScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-        <Text>MA CANDIDATURE</Text>
+      <Image style={styles.logo} source={require('../assets/LogoMiniBlanc.png')}/>
+        <Text style={styles.title}>MA CANDIDATURE</Text>
         <CandidatePost isEditable={true} />
         <View style={styles.checkboxContainer}>
-        <Text style={styles.label}>Do you like React Native?</Text>
       </View>
-      <FontAwesome name='home' size={70} color='white'  />
       <StatusBar style="auto" />
     </View>
   );
@@ -24,6 +23,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#281C47',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  logo:{
+    width:45,
+    height:45,
+  },
+
+  title:{
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 
 

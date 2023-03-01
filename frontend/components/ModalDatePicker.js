@@ -3,9 +3,14 @@ import TheDatePicker from './TheDatePicker';
 import  PrimaryButton from "./PrimaryButton";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react';
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
+
 
 export default function ModalDatePicker(props) {
+    const todayDate = getToday();
+    console.log(todayDate);
     const [dateModalVisible, setDateModalVisible] = useState(false);
+    
 
     const handleDateModal = () => {
         console.log('Click HandleDateModal');
@@ -13,6 +18,10 @@ export default function ModalDatePicker(props) {
 
     const handleSubmitForm = () => {
         console.log('blabla');
+    };
+
+    const recupDate = () => {
+      set
     };
 
     return (
@@ -29,7 +38,7 @@ export default function ModalDatePicker(props) {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text>{props.titleModal}</Text>
-                    <TheDatePicker selected={props.selectedDate} current={props.currentDate}></TheDatePicker>
+                    <TheDatePicker selected={todayDate} current={todayDate}></TheDatePicker>
                     <View  style={styles.modalButtons}>
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
