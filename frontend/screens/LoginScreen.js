@@ -22,18 +22,20 @@ const auth = getAuth(app)
 
 export default function LoginScreen({ navigation }) {
 
+
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [connectionError,setConnectionError] = useState('');
 
     const handleForm = () => {
-        navigation.navigate("AreaChoiceScreen");
+
+ 
        
     signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     console.log("ok")
     // Signed in 
-   
+   navigation.navigate("AreaChoiceScreen");
     // ...
   })
   .catch((error) => {
@@ -82,7 +84,7 @@ export default function LoginScreen({ navigation }) {
                                     style={styles.tinyLogo}
                                     source={require("../assets/LogoColocrewCompletBlanc.png")}
                                 />
-
+                                
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.labelInput}>
                                         E-mail

@@ -8,6 +8,7 @@ require('dotenv').config();
 var applicationsRouter = require('./routes/applications');
 var campsRouter = require('./routes/camps');
 var usersRouter = require('./routes/users');
+var settingsRouter = require('./routes/settings');
 
 require('./models/connection');
 
@@ -25,5 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/applications', applicationsRouter);
 app.use('/camps',campsRouter);
 app.use('/users', usersRouter);
+app.use('/settings', settingsRouter);
 
 module.exports = app;
