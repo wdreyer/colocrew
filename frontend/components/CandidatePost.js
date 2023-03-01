@@ -34,6 +34,33 @@ export default function CandidatePost(props) {
         console.log('blabla');
     };
 
+    const AActivitiesList = () => {
+        
+        fetch('http://10.0.2.32:3000/settings/activities', {
+			    method: 'GET',
+			    headers: { 'Content-Type': 'application/json' },
+			    body: JSON.stringify(),
+		}).then(response => response.json())
+			.then(data => {
+                //console.log(data.activities);
+				if (data.result) {
+					console.log('fetch Activities', data.activities)
+                    const dataActivities = data.activities.map((data,i) => {
+                        {key:i, value:data.name, disabled:true}
+                    })
+                    }
+                console.log(dataActivities);
+                })
+        return(
+        <MultipleSelectList 
+            setSelected={(val) => setSelected(val)} 
+            data={dataActivities} 
+            save="value"
+            onSelect={() => alert(selected)} 
+            label="Activités"
+        />)
+    }
+
     if (props.isEditable) {
         return (
         <View>
@@ -49,6 +76,7 @@ export default function CandidatePost(props) {
                 value={isEnabled}
             />
             <Text >Activités</Text>
+            <AActivitiesList/>
             <MultipleSelectList 
                 setSelected={(val) => setSelected(val)} 
                 data={data} 
@@ -56,11 +84,6 @@ export default function CandidatePost(props) {
                 onSelect={() => alert(selected)} 
                 label="Categories"
             />
-            <Pressable
-                style={[styles.button, styles.buttonOpen]}
-                onPress={() => setModalVisible(true)}>
-                <Text style={styles.textStyle}>Show Modal</Text>
-              </Pressable>
             <PrimaryButton textBtn='Publier ma candidature'  actionOnPress={() => handleSubmitForm()} />
         </View>
         );

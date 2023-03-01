@@ -19,7 +19,7 @@ export default function ModalDatePicker(props) {
             <View style={styles.centeredView}>
             <FontAwesome name='calendar' size={40} color='white' onPress={() => setDateModalVisible(true)}  />
                 <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={dateModalVisible}
                 onRequestClose={() => {
