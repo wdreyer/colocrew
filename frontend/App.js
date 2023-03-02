@@ -21,6 +21,7 @@ import RecruterPostAnnounce from './screens/RecruterPostAnnounce';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import users from './reducers/users';
+import ScreenModel from './components/ScreenModel';
 
 
 const Tab = createBottomTabNavigator();
@@ -109,6 +110,7 @@ export default function App() {
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="CandidatePost" component={CandidatePostApplyFormScreen} />
+            <Stack.Screen name="ScreenModel" component={ScreenModel} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
