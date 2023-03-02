@@ -22,6 +22,7 @@ import {
   Pressable,
 } from "react-native";
 import avatarImage from "../assets/MathiasAvatar.png";
+import config from '../config';
 
 export default function CandidateProfileScreen({ navigation }) {
   const [lastName, setLastName] = useState("");
@@ -50,7 +51,7 @@ export default function CandidateProfileScreen({ navigation }) {
       birthDate: birthday,
       descritpion: description,
     };
-    fetch("http://10.0.2.137:3000", {
+    fetch(`${config.URL_BACKEND}/users`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ updateUser }),
@@ -289,7 +290,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
-  
+
   modalView: {
     margin: 20,
     backgroundColor: "#53496B",

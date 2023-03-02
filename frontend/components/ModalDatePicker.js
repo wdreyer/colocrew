@@ -14,8 +14,6 @@ import { useState } from "react";
 import { getToday, getFormatedDate } from "react-native-modern-datepicker";
 
 export default function ModalDatePicker(props) {
-    const todayDate = getToday();
-    console.log(todayDate);
     const [dateModalVisible, setDateModalVisible] = useState(false);
 
 
