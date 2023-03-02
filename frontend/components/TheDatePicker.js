@@ -1,8 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import DatePicker from 'react-native-modern-datepicker';
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
+import { useEffect, useState } from "react";
+
 
 export default function TheDatePicker(props) {
+  const [selectedDate, setSelectedDate] = useState("");
+  
   return (
     <View style={styles.datePicker}>
       <DatePicker
@@ -16,9 +21,10 @@ export default function TheDatePicker(props) {
           borderColor: 'rgba(122, 146, 165, 0.1)',
         }}
         current={props.current}
-        minimumDate='2023-02-10'
-        maximumDate='2023-02-17'
+        minimumDate='2023-01-01'
+        maximumDate='2099-02-17'
         selected={props.selected}
+        onSelectedChange={selectedDate => {setSelectedDate(selectedDate); console.log(selectedDate);}}
         mode="calendar"
         minuteInterval={30}
         style={{ borderRadius: 10 }}
