@@ -33,10 +33,10 @@ export default function ScreenModel() {
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
-          style={styles.container}
+          style={globalStyle.container}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <SafeAreaProvider style={styles.safeAreaContainer}>
+          <SafeAreaProvider style={globalStyle.safeAreaContainer}>
             <StatusBar style="light" />
 
             <View style={globalStyle.headerContainer}>
@@ -48,7 +48,7 @@ export default function ScreenModel() {
               <Text> </Text>
             </View>
             <View style={globalStyle.body}>
-              <View style={styles.contentContainer}>
+              <View style={globalStyle.contentContainer}>
                 {/* Ajoutez ici les autres éléments de la screen */}
               </View>
             </View>

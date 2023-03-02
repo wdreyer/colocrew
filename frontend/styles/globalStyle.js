@@ -91,4 +91,17 @@ export default StyleSheet.create({
     textAlign: "center",
     marginRight: 50,
   },
+
+  container: {
+    flex: 1,
+    backgroundColor: "#281C47",
+  },
+
+  safeAreaContainer: {
+    flex: 1,
+  },
+
+  contentContainer: {
+    margin: 25,
+  },
 });
