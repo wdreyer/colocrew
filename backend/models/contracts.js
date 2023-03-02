@@ -5,7 +5,6 @@ types: Array,
 period : Array,
 taxes : Boolean,
 minimalwage : Number,
-
 });
 
 const Contract = mongoose.model('contracts', contractsSchema);
