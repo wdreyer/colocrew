@@ -31,6 +31,35 @@ export default function AreaChoiceScreen({ navigation }) {
             uid: res.userUpdated.uid,
             isCandidate: res.userUpdated.isCandidate,
             isRecruiter: res.userUpdated.isRecruiter,
+        }))
+        })        
+    navigation.navigate('TabRecruiterNavigator')
+    }
+
+    const handleCandidate = () => {
+      fetch(`${config.URL_BACKEND}/users/updateRole`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          uid : user.token,
+          isRecruiter : false,
+          isCandidate : true,      
+        })
+      }).then(rs => rs.json())
+      .then(res => {           
+         dispatch(addUserToStore({
+          isConnected : true,
+          email : res.userUpdated.email,
+          uid: res.userUpdated.uid,
+          isCandidate: res.userUpdated.isCandidate,
+          isRecruiter: res.userUpdated.isRecruiter,
+        }))
+        })        
+    navigation.navigate('TabCandidateNavigator')
+    }
+
           })
         );
       });
