@@ -22,7 +22,7 @@ import { addUserToStore } from "../reducers/users";
 import { getAuth, createUserWithEmailAndPassword,fetchSignInMethodsForEmail } from "firebase/auth";
 import app from '../src/firebase'
 const auth = getAuth(app)
-import config from './config';
+import config from '../config';
 
 //end import firebase
 
