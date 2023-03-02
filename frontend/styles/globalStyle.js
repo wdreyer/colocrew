@@ -17,7 +17,8 @@ export default StyleSheet.create({
         color: "#fff",
         fontSize: 20,
         marginTop: 10,
-        marginBottom: 20,
+        marginBottom: 10,
+        marginRight: 10,
     },
 
     labelInput: {

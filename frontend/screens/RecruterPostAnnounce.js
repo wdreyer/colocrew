@@ -9,6 +9,7 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     ScrollView,
+    TouchableOpacity,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Input from "../components/Input";
@@ -19,19 +20,38 @@ import { useState } from "react";
 import Svg, { Path } from "react-native-svg";
 
 import PrimaryButton from "../components/PrimaryButton";
-
+import ModalDatePicker from "../components/ModalDatePicker";
+import SelectableList from "../components/SelectableList";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function RecruterPostAnnounce({ navigation }) {
+    const [checked, setChecked] = useState(true);
+    const toggleCheckbox = () => setChecked(!checked);
+
+    const [startDate, setStartDate] = useState("01-01-2020");
+
+    const [counterChild, setCounterChild] = useState(0);
+    const [counterAnim, setCounterAnim] = useState(0);
+
     const test = () => {
         console.log("test function");
     };
 
-    const [checked, setChecked] = useState(true);
-    const toggleCheckbox = () => setChecked(!checked);
+    const handleStartDate = (date) => {
+        setStartDate(date);
+    };
+
+    const handleCounterChild = (value) => {
+        setCounterChild(value);
+    };
+
+    const handleCounterAnim = (value) => {
+        setCounterAnim(value);
+    };
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <ScrollView style={styles.scrollView}>
+        <ScrollView style={styles.scrollView}>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <KeyboardAvoidingView
                     style={styles.container}
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -98,22 +118,74 @@ export default function RecruterPostAnnounce({ navigation }) {
                                 <Text style={globalStyle.subtitle}>
                                     Type d'hébergement :
                                 </Text>
-                                
+                                <View style={styles.wrapper}>
+                                    <Text style={styles.choiceLabel}>
+                                        Tente
+                                    </Text>
+                                    <Text style={styles.choiceLabel}>
+                                        Centre
+                                    </Text>
+                                    <Text style={styles.choiceLabel}>
+                                        Itinérant
+                                    </Text>
+                                </View>
                             </View>
 
                             <View style={styles.sectionContainer}>
-                                <Text style={globalStyle.subtitle}>
-                                    Séjours :
-                                </Text>
-                                <Svg
-                                    style={styles.addButton}
-                                    viewBox="0 0 24 24"
-                                    width="50"
-                                    height="50"
-                                    fill="#FAD4D8"
-                                >
-                                    <Path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11H7v2h4v4h2v-4h4v-2h-4V7h-2v4z" />
-                                </Svg>
+                                <View style={styles.wrapper}>
+                                    <Text style={globalStyle.subtitle}>
+                                        Début :
+                                    </Text>
+                                    <View style={styles.dateContainer}>
+                                        <ModalDatePicker
+                                            recupDate={(date) =>
+                                                handleStartDate(date)
+                                            }
+                                        />
+                                        <Text style={styles.date}>
+                                            {startDate}
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.wrapper}>
+                                    <Text style={globalStyle.subtitle}>
+                                        Fin :
+                                    </Text>
+                                    <View style={styles.dateContainer}>
+                                        <ModalDatePicker
+                                            recupDate={(date) =>
+                                                handleStartDate(date)
+                                            }
+                                        />
+                                        <Text style={styles.date}>
+                                            {startDate}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.sectionContainer}>
+                                <View style={styles.wrapper}>
+                                    <Input labelTxt="Nombre d'enfant(s)"
+                                        onChangeText={(value) =>
+                                            handleCounterChild(value)
+                                        }
+                                        value={counterChild}
+                                        counter={true}
+                                        type={"counter"}
+                                    />
+                                </View>
+                                <View style={styles.wrapper}>
+                                    <Input labelTxt="Nombre d'animateur(s)"
+                                        onChangeText={(value) =>
+                                            handleCounterAnim(value)
+                                        }
+                                        value={counterAnim}
+                                        counter={true}
+                                        type={"counter"}
+                                    />
+                                </View>
                             </View>
 
                             <PrimaryButton
@@ -123,8 +195,8 @@ export default function RecruterPostAnnounce({ navigation }) {
                         </View>
                     </SafeAreaView>
                 </KeyboardAvoidingView>
-            </ScrollView>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+        </ScrollView>
     );
 }
 
@@ -135,6 +207,7 @@ const styles = StyleSheet.create({
     },
 
     scrollView: {
+        flex: 1,
         backgroundColor: "#281C47",
     },
 
@@ -161,6 +234,7 @@ const styles = StyleSheet.create({
     titleSection: {
         fontSize: 20,
         color: "#FFF",
+        marginBottom: 10,
     },
 
     sectionContainer: {
@@ -175,7 +249,39 @@ const styles = StyleSheet.create({
 
     checkBox: {
         backgroundColor: "red",
+        justifyContent: "center",
     },
 
-    sejourContainer: {},
+    dateContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    date: {
+        marginLeft: 20,
+        color: "#FFF",
+        fontSize: 20,
+    },
+
+    counter: {
+        color: "#FFF",
+        fontSize: 20,
+        marginHorizontal: 10,
+    },
+
+    wrapper: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    choiceLabel: {
+        color: "#281c47",
+        fontSize: 20,
+        marginTop: 10,
+        marginBottom: 20,
+        marginRight: 20,
+        backgroundColor: "#FAD4D8",
+        borderRadius: 10,
+        padding: 10,
+    },
 });
