@@ -1,5 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Input from "../components/Input";
+import ModalDatePicker from "../components/ModalDatePicker";
+import { useState } from "react";
+
+
+
 import {
   StyleSheet,
   Text,
@@ -15,7 +21,6 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import { useState } from "react";
 import avatarImage from "../assets/MathiasAvatar.png";
 
 export default function CandidateProfileScreen({ navigation }) {
@@ -27,6 +32,14 @@ export default function CandidateProfileScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [address, setAddress] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
+
+
+  const handleDateChange = (date) => {
+    setBirthday(date);
+    setDatePickerVisible(false);
+  };
+  
 
   const handleSetProfile = () => {
     const updateUser = {
@@ -68,62 +81,67 @@ export default function CandidateProfileScreen({ navigation }) {
             <View style={styles.avatarContainer}>
               <Image source={avatarImage} style={styles.avatar} />
             </View>
-            <View style={styles.inputsContainer}>
-              <TextInput
+            <View style={[styles.inputsContainer, { width: "100%" }]}>
+              <Input
                 style={styles.input}
-                onChangeText={(value) => setLastName(value)}
+                labelTxt="Nom"
                 placeholder="Nom"
-                placeholderTextColor="rgba(167, 167 , 167 , 1)"
-                keyboardType="default"
+                onChangeText={(value) => setLastName(value)}
               />
-              <TextInput
-                style={styles.input}
-                onChangeText={(value) => setFirstName(value)}
+              <Input
+                style={(styles.input, styles.customInputStyle)}
+                labelTxt="Prénom"
                 placeholder="Prénom"
-                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={firstName}
-                keyboardType="default"
+                onChangeText={(value) => setFirstName(value)}
               />
-              <TextInput
+              <Input
                 style={styles.input}
-                onChangeText={(value) => setEmail(value)}
+                labelTxt="Email"
                 placeholder="Email"
-                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={email}
-                keyboardType="email-address"
+                onChangeText={(value) => setEmail(value)}
+                type="email"
               />
-              <TextInput
+              <Input
                 style={styles.input}
-                onChangeText={(value) => setAddress(value)}
+                labelTxt="Adresse"
                 placeholder="Adresse"
-                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={address}
-                keyboardType="default"
+                onChangeText={(value) => setAddress(value)}
               />
-              <TextInput
+              <Input
                 style={styles.input}
-                onChangeText={(value) => setPhoneNumber(value)}
+                labelTxt="Numéro de téléphone"
                 placeholder="Numéro de téléphone"
-                placeholderTextColor="rgba(167, 167 , 167 , 1)"
                 value={phoneNumber}
-                keyboardType="numeric"
+                onChangeText={(value) => setPhoneNumber(value)}
+                type="phone"
               />
-              <TextInput
+              <TouchableWithoutFeedback
+                onPress={() => setDatePickerVisible(true)}
+              >
+                <View style={styles.input}>
+                  <Text style={styles.labelText}>Date d'anniversaire</Text>
+                  <Text style={styles.inputText}>{birthday}</Text>
+                </View>
+              </TouchableWithoutFeedback>
+              {datePickerVisible && (
+                <ModalDatePicker
+                  current={birthday}
+                  selected={birthday}
+                  onSelectedChange={(date) => {
+                    setDatePickerVisible(false);
+                    setBirthday(date);
+                  }}
+                />
+              )}
+              <Input
                 style={styles.input}
-                onChangeText={(value) => setBirthday(value)}
-                placeholder="Date d'anniversaire"
-                value={birthday}
-                placeholderTextColor="rgba(167, 167 , 167 , 1)"
-                keyboardType="default"
-              />
-              <TextInput
-                style={styles.descriptionInput}
-                onChangeText={(value) => setDescription(value)}
-                placeholder="Déscription"
-                placeholderTextColor="rgba(167, 167 , 167 , 1)"
+                labelTxt="Description"
+                placeholder="Description"
                 value={description}
-                keyboardType="default"
-                textAlignVertical="top"
+                onChangeText={(value) => setDescription(value)}
                 multiline={true}
               />
             </View>
@@ -208,16 +226,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 40,
   },
-
-  input: {
-    width: 350,
-    height: 55,
-    color: "white",
-    borderWidth: 0.5,
-    padding: 10,
-    borderColor: "white",
-    borderRadius: 6,
-    marginVertical: 15,
+  customInputStyle: {
+    width: "80%",
+    height: 45,
   },
 
   descriptionInput: {
@@ -278,6 +289,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
+  
   modalView: {
     margin: 20,
     backgroundColor: "#53496B",

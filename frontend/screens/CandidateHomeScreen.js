@@ -2,8 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PrimaryButton from '../components/PrimaryButton';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 export default function RecruiterHomeScreen({navigation}) {
+
+  const user = useSelector((state) => state.users);
+
 
   const goToForm = () =>{
     navigation.navigate('CandidatePost')
