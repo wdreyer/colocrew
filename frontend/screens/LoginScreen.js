@@ -18,7 +18,7 @@ import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
 import app from '../src/firebase'
 import { useEffect, useState } from "react";
 const auth = getAuth(app)
-import config from './config';
+import config from '../config';
 
 export default function LoginScreen({ navigation }) {
     
