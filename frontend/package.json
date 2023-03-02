@@ -11,31 +11,36 @@
   "dependencies": {
     "@ant-design/icons-react-native": "^2.3.2",
     "@ant-design/react-native": "^5.0.4",
-
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.11",
+    "@react-native-community/checkbox": "^0.5.14",
     "@react-native-community/segmented-control": "^2.2.2",
     "@react-native-community/slider": "^4.4.2",
-
     "@react-navigation/bottom-tabs": "6",
     "@react-navigation/native": "6",
     "@react-navigation/native-stack": "6",
     "@reduxjs/toolkit": "^1.9.3",
+    "@rneui/base": "^0.0.0-edge.2",
+    "@rneui/themed": "^0.0.0-edge.2",
     "expo": "~48.0.4",
     "expo-constants": "^14.2.1",
     "expo-image-picker": "^14.1.1",
     "expo-linear-gradient": "^12.1.1",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.17.1",
+    "link": "^1.5.1",
     "moment": "^2.29.4",
+    "pod-install": "^0.1.38",
     "react": "18.2.0",
-    "react-native": "0.71.3",
-
-    "react-native-gesture-handler": "^2.9.0",
-
+    "react-native": "^0.71.3",
+    "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-dropdown-select-list": "^2.0.4",
+    "react-native-gesture-handler": "^2.9.0",
     "react-native-modern-datepicker": "^1.0.0-beta.91",
-
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
+    "react-native-select-multiple": "^2.1.0",
     "react-native-svg": "^13.8.0",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0"

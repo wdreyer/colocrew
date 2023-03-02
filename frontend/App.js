@@ -14,7 +14,10 @@ import RecruiterProfileScreen from './screens/RecruiterProfileScreen';
 import CandidateHomeScreen from './screens/CandidateHomeScreen';
 import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
 import CandidateProfileScreen from './screens/CandidateProfileScreen';
+
 import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
+import RecruterPostAnnounce from './screens/RecruterPostAnnounce';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -96,11 +99,9 @@ export default function App() {
   return (
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            
-            <Stack.Screen name="CandidatePost" component={CandidatePostApplyFormScreen} />
+            <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
             <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
             <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
           </Stack.Navigator>
