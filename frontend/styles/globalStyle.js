@@ -95,6 +95,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#281C47",
+    paddingBottom : 5,
   },
 
   safeAreaContainer: {
