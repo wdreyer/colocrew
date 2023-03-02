@@ -3,15 +3,15 @@ import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUserToStore } from "../reducers/users";
+import config from './config';
 
 
 export default function AreaChoiceScreen({ navigation }) {
     const user = useSelector((state) => state.users);
-    const URL_BACKEND = "http://192.168.133.233:3000" 
     const dispatch = useDispatch()
 
     const handleRecruiter = () => {
-      fetch(`${URL_BACKEND}/users/updateRole`, {
+      fetch(`${config.URL_BACKEND}/users/updateRole`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
