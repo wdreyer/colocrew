@@ -38,8 +38,8 @@ export default function ModalDatePicker(props) {
                     <View style={styles.modalView}>
                         <Text>{props.titleModal}</Text>
                         <TheDatePicker
-                            selected={todayDate}
-                            current={todayDate}
+                            // selected={todayDate}
+                            // current={todayDate}
                         ></TheDatePicker>
                         <View style={styles.modalButtons}>
                             <Pressable

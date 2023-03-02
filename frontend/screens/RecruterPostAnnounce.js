@@ -11,6 +11,8 @@ import {
     ScrollView,
     TouchableOpacity,
 } from "react-native";
+
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Input from "../components/Input";
 import UploadImage from "../components/UploadImage";
@@ -50,153 +52,159 @@ export default function RecruterPostAnnounce({ navigation }) {
     };
 
     return (
-        <ScrollView style={styles.scrollView}>
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <KeyboardAvoidingView
-                    style={styles.container}
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    enabled
-                >
-                    <SafeAreaView style={styles.safeAreaContainer}>
-                        <View style={styles.logoContainer}>
+        <KeyboardAvoidingView
+            style={globalStyle.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <ScrollView
+                style={globalStyle.body}
+                contentContainerStyle={globalStyle.scrollView}
+            >
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <SafeAreaView style={globalStyle.safeAreaContainer}>
+                        <StatusBar style="light" />
+
+                        <View style={globalStyle.headerContainer}>
                             <Image
-                                style={styles.logo}
+                                style={globalStyle.logo}
                                 source={require("../assets/LogoMiniBlanc.png")}
                             />
-                        </View>
-
-                        <View style={styles.contentContainer}>
-                            <Text style={globalStyle.titlePage}>
+                            <Text style={globalStyle.titleText}>
                                 Mon annonce
                             </Text>
+                            <Text> </Text>
+                        </View>
+                        <View>
+                            <View style={globalStyle.contentContainer}>
+                                <Input
+                                    labelTxt="Titre de l'annonce *"
+                                    placeholder="Super séjour cheval à Val d'Isère"
+                                    onChangeText={test}
+                                />
 
-                            <Input
-                                labelTxt="Titre de l'annonce *"
-                                placeholder="Super séjour cheval à Val d'Isère"
-                                onChangeText={test}
-                            />
+                                <Input
+                                    labelTxt="Lieu *"
+                                    placeholder="Lieu"
+                                    onChangeText={test}
+                                />
 
-                            <Input
-                                labelTxt="Lieu *"
-                                placeholder="Lieu"
-                                onChangeText={test}
-                            />
+                                <Input
+                                    labelTxt="Description"
+                                    placeholder="Description"
+                                    onChangeText={test}
+                                    multiline={true}
+                                />
 
-                            <Input
-                                labelTxt="Description"
-                                placeholder="Description"
-                                onChangeText={test}
-                                multiline={true}
-                            />
+                                <Input
+                                    labelTxt="Salaire (Brut / jour)"
+                                    placeholder="0€"
+                                    onChangeText={test}
+                                />
 
-                            <Input
-                                labelTxt="Salaire (Brut / jour)"
-                                placeholder="0€"
-                                onChangeText={test}
-                            />
+                                <Input
+                                    labelTxt="Activités"
+                                    placeholder="Activités"
+                                    onChangeText={test}
+                                />
 
-                            <Input
-                                labelTxt="Activités"
-                                placeholder="Activités"
-                                onChangeText={test}
-                            />
-
-                            <View style={styles.sectionContainer}>
-                                <Text style={styles.titleSection}>
-                                    Ajouter des photos :
-                                </Text>
-                                <View style={styles.uploadImageWrapper}>
-                                    <UploadImage />
-                                    <UploadImage />
-                                    <UploadImage />
-                                    <UploadImage />
-                                    <UploadImage />
+                                <View style={styles.sectionContainer}>
+                                    <Text style={styles.titleSection}>
+                                        Ajouter des photos :
+                                    </Text>
+                                    <View style={styles.uploadImageWrapper}>
+                                        <UploadImage />
+                                        <UploadImage />
+                                        <UploadImage />
+                                        <UploadImage />
+                                        <UploadImage />
+                                    </View>
                                 </View>
-                            </View>
 
-                            <View style={styles.sectionContainer}>
-                                <Text style={globalStyle.subtitle}>
-                                    Type d'hébergement :
-                                </Text>
-                                <View style={styles.wrapper}>
-                                    <Text style={styles.choiceLabel}>
-                                        Tente
-                                    </Text>
-                                    <Text style={styles.choiceLabel}>
-                                        Centre
-                                    </Text>
-                                    <Text style={styles.choiceLabel}>
-                                        Itinérant
-                                    </Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.sectionContainer}>
-                                <View style={styles.wrapper}>
+                                <View style={styles.sectionContainer}>
                                     <Text style={globalStyle.subtitle}>
-                                        Début :
+                                        Type d'hébergement :
                                     </Text>
-                                    <View style={styles.dateContainer}>
-                                        <ModalDatePicker
-                                            recupDate={(date) =>
-                                                handleStartDate(date)
-                                            }
-                                        />
-                                        <Text style={styles.date}>
-                                            {startDate}
+                                    <View style={styles.wrapper}>
+                                        <Text style={styles.choiceLabel}>
+                                            Tente
+                                        </Text>
+                                        <Text style={styles.choiceLabel}>
+                                            Centre
+                                        </Text>
+                                        <Text style={styles.choiceLabel}>
+                                            Itinérant
                                         </Text>
                                     </View>
                                 </View>
 
-                                <View style={styles.wrapper}>
-                                    <Text style={globalStyle.subtitle}>
-                                        Fin :
-                                    </Text>
-                                    <View style={styles.dateContainer}>
-                                        <ModalDatePicker
-                                            recupDate={(date) =>
-                                                handleStartDate(date)
-                                            }
-                                        />
-                                        <Text style={styles.date}>
-                                            {startDate}
+                                <View style={styles.sectionContainer}>
+                                    <View style={styles.wrapper}>
+                                        <Text style={globalStyle.subtitle}>
+                                            Début :
                                         </Text>
+                                        <View style={styles.dateContainer}>
+                                            <ModalDatePicker
+                                                recupDate={(date) =>
+                                                    handleStartDate(date)
+                                                }
+                                            />
+                                            <Text style={styles.date}>
+                                                {startDate}
+                                            </Text>
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.wrapper}>
+                                        <Text style={globalStyle.subtitle}>
+                                            Fin :
+                                        </Text>
+                                        <View style={styles.dateContainer}>
+                                            <ModalDatePicker
+                                                recupDate={(date) =>
+                                                    handleStartDate(date)
+                                                }
+                                            />
+                                            <Text style={styles.date}>
+                                                {startDate}
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
 
-                            <View style={styles.sectionContainer}>
-                                <View style={styles.wrapper}>
-                                    <Input labelTxt="Nombre d'enfant(s)"
-                                        onChangeText={(value) =>
-                                            handleCounterChild(value)
-                                        }
-                                        value={counterChild}
-                                        counter={true}
-                                        type={"counter"}
-                                    />
+                                <View style={styles.sectionContainer}>
+                                    <View style={styles.wrapper}>
+                                        <Input
+                                            labelTxt="Nombre d'enfant(s)"
+                                            onChangeText={(value) =>
+                                                handleCounterChild(value)
+                                            }
+                                            value={counterChild}
+                                            counter={true}
+                                            type={"counter"}
+                                        />
+                                    </View>
+                                    <View style={styles.wrapper}>
+                                        <Input
+                                            labelTxt="Nombre d'animateur(s)"
+                                            onChangeText={(value) =>
+                                                handleCounterAnim(value)
+                                            }
+                                            value={counterAnim}
+                                            counter={true}
+                                            type={"counter"}
+                                        />
+                                    </View>
                                 </View>
-                                <View style={styles.wrapper}>
-                                    <Input labelTxt="Nombre d'animateur(s)"
-                                        onChangeText={(value) =>
-                                            handleCounterAnim(value)
-                                        }
-                                        value={counterAnim}
-                                        counter={true}
-                                        type={"counter"}
-                                    />
-                                </View>
+                                <PrimaryButton
+                                    actionOnPress={test}
+                                    textBtn="Publier une annonce"
+                                />
                             </View>
-
-                            <PrimaryButton
-                                actionOnPress={test}
-                                textBtn="Publier une annonce"
-                            />
                         </View>
                     </SafeAreaView>
-                </KeyboardAvoidingView>
-            </TouchableWithoutFeedback>
-        </ScrollView>
+                </TouchableWithoutFeedback>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
