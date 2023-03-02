@@ -14,6 +14,14 @@ import RecruiterProfileScreen from './screens/RecruiterProfileScreen';
 import CandidateHomeScreen from './screens/CandidateHomeScreen';
 import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
 import CandidateProfileScreen from './screens/CandidateProfileScreen';
+import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
+import RecruterPostAnnounce from './screens/RecruterPostAnnounce';
+
+
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import users from './reducers/users';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -87,15 +95,19 @@ const TabCandidateNavigator = () => {
   );
 };
 
+const store = configureStore({
+ reducer: { users },
+});
+
 export default function App() {
 
   const Stack = createNativeStackNavigator();
 
 
   return (
+    <Provider store={store}>
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="CandidateProfileScreen" component={CandidateProfileScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
@@ -103,5 +115,6 @@ export default function App() {
             <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
           </Stack.Navigator>
       </NavigationContainer>
+      </Provider>
   );
 }

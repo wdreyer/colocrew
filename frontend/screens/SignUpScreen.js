@@ -13,18 +13,21 @@ import {
     TouchableOpacity,
     Pressable,
 } from "react-native";
-import React, {useState} from 'react';
+
+import React, {useEffect, useState} from 'react';
+import { useSelector,useDispatch } from 'react-redux';
+import { addUserToStore } from "../reducers/users";
 
 //import firebase
 import { getAuth, createUserWithEmailAndPassword,fetchSignInMethodsForEmail } from "firebase/auth";
 import app from '../src/firebase'
 const auth = getAuth(app)
+import config from './config';
 
-//endimport firebase
+//end import firebase
 
 export default function SignUpScreen({ navigation }) {
-
-
+    const dispatch = useDispatch();
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [passwordConfirm,setPasswordConfirm] = useState('');
@@ -32,6 +35,27 @@ export default function SignUpScreen({ navigation }) {
     const [passwordError, setPasswordError] = useState('');
     const [passwordConfirmError, setPasswordConfirmError] = useState('');
 
+    const addUserinDB = (email, uid) => {
+        fetch(`${config.URL_BACKEND}/users/createUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email : email,
+              uid : uid
+            })
+          }).then(rs => rs.json())
+          .then( res => {        
+             dispatch(addUserToStore({
+                isConnected : true,
+                email : res.createdUser.email,
+                uid : res.createdUser.uid,
+            }))
+              navigation.navigate("AreaChoiceScreen");
+            }
+            )
+        }
 
     const validateEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -71,18 +95,16 @@ export default function SignUpScreen({ navigation }) {
         .catch(function (error) {
           console.log("Une erreur s'est produite :", error);
         });
-      createUserWithEmailAndPassword(auth, email, password)
+        createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user;
-          console.log(user)
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // ..
-        });
+          const email = user.email;
+          const uid = user.uid;
+          addUserinDB(email,uid);
+          navigation.navigate("AreaChoiceScreen");                 
+        }) 
+           
+      
     }
 
     const goToLoginPage = () => {

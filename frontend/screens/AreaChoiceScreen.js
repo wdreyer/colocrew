@@ -1,8 +1,67 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import { useSelector, useDispatch } from 'react-redux';
+import { addUserToStore } from "../reducers/users";
+import config from './config';
+
 
 export default function AreaChoiceScreen({ navigation }) {
+    const user = useSelector((state) => state.users);
+    const dispatch = useDispatch()
+
+    const handleRecruiter = () => {
+      fetch(`${config.URL_BACKEND}/users/updateRole`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          uid : user.token,
+          isRecruiter : true,
+          isCandidate : false,
+      
+        })
+      }).then(rs => rs.json())
+      .then(res => {           
+         dispatch(addUserToStore({
+            isConnected : true,
+            email : res.userUpdated.email,
+            uid: res.userUpdated.uid,
+            isCandidate: res.userUpdated.isCandidate,
+            isRecruiter: res.userUpdated.isRecruiter,
+        }))
+        })        
+    navigation.navigate('TabRecruiterNavigator')
+    }
+
+    const handleCandidate = () => {
+      fetch(`${URL_BACKEND}/users/updateRole`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          uid : user.token,
+          isRecruiter : false,
+          isCandidate : true,      
+        })
+      }).then(rs => rs.json())
+      .then(res => {           
+         dispatch(addUserToStore({
+          isConnected : true,
+          email : res.userUpdated.email,
+          uid: res.userUpdated.uid,
+          isCandidate: res.userUpdated.isCandidate,
+          isRecruiter: res.userUpdated.isRecruiter,
+        }))
+        })        
+    navigation.navigate('TabCandidateNavigator')
+    }
+
+
+
+
   return (
     <LinearGradient 
     style={styles.container}
@@ -10,10 +69,10 @@ export default function AreaChoiceScreen({ navigation }) {
         <Image style={styles.image} source={require('../assets/LogoCompletBlanc.png')} />
       <StatusBar style="light" />
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={() => navigation.navigate('TabRecruiterNavigator')}>
+        <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={() => handleRecruiter()}>
           <Text style={styles.buttonText}>Espace Recruteur</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={() => navigation.navigate('TabCandidateNavigator')}>
+        <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={() => handleCandidate() }>
           <Text style={styles.buttonText}>Espace Candidat</Text>
         </TouchableOpacity>
       </View>
