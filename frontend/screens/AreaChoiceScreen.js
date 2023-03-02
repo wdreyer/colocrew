@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUserToStore } from "../reducers/users";
-import config from './config';
+import config from '../config';
 
 
 export default function AreaChoiceScreen({ navigation }) {
