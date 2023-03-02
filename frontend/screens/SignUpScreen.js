@@ -22,7 +22,7 @@ import { addUserToStore } from "../reducers/users";
 import { getAuth, createUserWithEmailAndPassword,fetchSignInMethodsForEmail } from "firebase/auth";
 import app from '../src/firebase'
 const auth = getAuth(app)
-import config from './config';
+import config from '../config';
 
 //end import firebase
 
@@ -34,8 +34,11 @@ export default function SignUpScreen({ navigation }) {
     const [mailError, setMailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [passwordConfirmError, setPasswordConfirmError] = useState('');
+    console.log(config.URL_BACKEND)
 
     const addUserinDB = (email, uid) => {
+
+
         fetch(`${config.URL_BACKEND}/users/createUser`, {
             method: 'POST',
             headers: {

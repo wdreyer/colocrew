@@ -3,8 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUserToStore } from "../reducers/users";
-import config from './config';
-
+import config from '../config';
 
 export default function AreaChoiceScreen({ navigation }) {
     const user = useSelector((state) => state.users);
@@ -17,7 +16,7 @@ export default function AreaChoiceScreen({ navigation }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          uid : user.token,
+          uid : user.uid,
           isRecruiter : true,
           isCandidate : false,
       
@@ -36,13 +35,13 @@ export default function AreaChoiceScreen({ navigation }) {
     }
 
     const handleCandidate = () => {
-      fetch(`${URL_BACKEND}/users/updateRole`, {
+      fetch(`${config.URL_BACKEND}/users/updateRole`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          uid : user.token,
+          uid : user.uid,
           isRecruiter : false,
           isCandidate : true,      
         })

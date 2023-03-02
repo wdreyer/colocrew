@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isConnected : false,
     email : "",
-    token : "",
+    uid : "",
     isCandidate : false,
     isRecruiter : false,
 };
@@ -17,7 +17,7 @@ export const usersSlice = createSlice({
    addUserToStore: (state, action) => {
     state.isConnected = action.payload.isConnected;
     state.email = action.payload.email;
-    state.token = action.payload.uid;
+    state.uid = action.payload.uid;
     state.isCandidate = action.payload.isCandidate;
     state.isRecruiter = action.payload.isRecruiter;
    },
