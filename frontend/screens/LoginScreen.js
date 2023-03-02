@@ -31,15 +31,17 @@ export default function LoginScreen({ navigation }) {
     const [connectionError,setConnectionError] = useState('');
 
   useEffect(() => {
+    if(true){
     if(user.isConnected && user.isRecruiter) {
         navigation.navigate("TabRecruiterNavigator");
     }
     else if(user.isConnected && user.isCandidate){
       navigation.navigate("TabCandidateNavigator");
       }
-   else if(user.isConnected && !user.isRecruiter && !user.isCandidate){
+    else if(user.isConnected && !user.isRecruiter && !user.isCandidate){
       navigation.navigate("AreaChoiceScreen")
     }  
+}
   }, [user]);        
 
 
