@@ -102,6 +102,7 @@ export default function App() {
 
             
 
+            <Stack.Screen name="RecruterPostAnnounce" component={RecruterPostAnnounce} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
