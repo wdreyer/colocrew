@@ -27,16 +27,16 @@ import config from "../config";
 
 export default function ScreenModel() {
   return (
-    <ScrollView
-      style={globalStyle.body}
-      contentContainerStyle={globalStyle.scrollView}
-    >
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView
+        style={globalStyle.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          style={globalStyle.body}
+          contentContainerStyle={globalStyle.scrollView}
         >
-          <SafeAreaProvider style={styles.safeAreaContainer}>
+          <SafeAreaProvider style={globalStyle.safeAreaContainer}>
             <StatusBar style="light" />
 
             <View style={globalStyle.headerContainer}>
@@ -44,32 +44,17 @@ export default function ScreenModel() {
                 style={globalStyle.logo}
                 source={require("../assets/LogoMiniBlanc.png")}
               />
-              <Text style={globalStyle.titleText}>Mon profil</Text>
+              <Text style={globalStyle.titleText}>Mon titre ici</Text>
               <Text> </Text>
             </View>
-            <View style={globalStyle.body}>
-              <View style={styles.contentContainer}>
+            <View>
+              <View style={globalStyle.contentContainer}>
                 {/* Ajoutez ici les autres éléments de la screen */}
               </View>
             </View>
           </SafeAreaProvider>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#281C47",
-  },
-
-  safeAreaContainer: {
-    flex: 1,
-  },
-
-  contentContainer: {
-    margin: 25,
-  },
-});
