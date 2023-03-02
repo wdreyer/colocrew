@@ -21,6 +21,7 @@ import RecruterPostAnnounce from './screens/RecruterPostAnnounce';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import users from './reducers/users';
+import ScreenModel from './components/ScreenModel';
 
 
 const Tab = createBottomTabNavigator();
