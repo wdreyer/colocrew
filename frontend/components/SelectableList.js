@@ -2,16 +2,17 @@ import { Text } from "react-native";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useEffect, useState } from 'react';
+import config from '../config';
 
 export default function SelectableList ({type}) {
     const [DataActivities, setDataActivities] = useState([]);
     const [selected, setSelected] = useState("");
     const [data,setData] = useState([]);
-    console.log(type);
+    console.log(selected);
     
     console.log(type);
     useEffect(() => {
-      fetch(`http://10.0.2.32:3000/settings/${type}`, {
+      fetch(`${config.URL_BACKEND}/settings/${type}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(),
@@ -44,6 +45,7 @@ export default function SelectableList ({type}) {
         badgeStyles={{color:"#FFF", backgroundColor:"#C398BC"}}
         badgeTextStyles={{color:"#281C47"}}
         labelStyles={{color:"#FFF", backgroundColor:"#FFF"}}
+        maxHeight={200}
       />
     );
   };

@@ -36,7 +36,7 @@ export default function AreaChoiceScreen({ navigation }) {
     }
 
     const handleCandidate = () => {
-      fetch(`${URL_BACKEND}/users/updateRole`, {
+      fetch(`${config.URL_BACKEND}/users/updateRole`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
