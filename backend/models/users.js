@@ -17,7 +17,7 @@ const addressSchema = mongoose.Schema({
     address: { type: addressSchema, default: {} },
     phone: { type: String, default: '' },
     gender: { type: String, default: '' },
-    birthDate: { type: Date, default: null },
+    birthDate: { type: String, default: null },
     description: { type: String, default: '' },
     photos: { type: String, default: '' },
     qualifications: [{ type: mongoose.Schema.Types.ObjectId, ref: 'qualifications' }],

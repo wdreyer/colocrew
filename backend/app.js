@@ -13,6 +13,8 @@ var settingsRouter = require('./routes/settings');
 require('./models/connection');
 
 var app = express();
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 
 app.use(cors());
 

@@ -1,43 +1,60 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import PrimaryButton from '../components/PrimaryButton';
-import { useSelector, useDispatch } from 'react-redux';
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Input from "../components/Input";
+import PrimaryButton from "../components/PrimaryButton";
+import ModalDatePicker from "../components/ModalDatePicker";
+import { useState } from "react";
+import globalStyle from "../styles/globalStyle";
 
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+  KeyboardAvoidingView,
+  Alert,
+  Modal,
+  Pressable,
+  TextInput,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
+import config from "../config";
 
-export default function RecruiterHomeScreen({navigation}) {
-
-  const user = useSelector((state) => state.users);
-
-
-  const goToForm = () =>{
-    navigation.navigate('CandidatePostApplyFormScreen')
-  }
-
+export default function ScreenModel() {
   return (
-    <View style={styles.container}>
-      <Text>CANDIDATE HOME SCREEN</Text>
-      <FontAwesome name='home' size={70} color='white'  />
-      <PrimaryButton textBtn='Go to Candidature' actionOnPress={goToForm}/>
-      <StatusBar style="auto" />
-    </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView
+        style={globalStyle.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          style={globalStyle.body}
+          contentContainerStyle={globalStyle.scrollView}
+        >
+          <SafeAreaProvider style={globalStyle.safeAreaContainer}>
+            <StatusBar style="light" />
+
+            <View style={globalStyle.headerContainer}>
+              <Image
+                style={globalStyle.logo}
+                source={require("../assets/LogoMiniBlanc.png")}
+              />
+              <Text style={globalStyle.titleText}>Accueil Candidat</Text>
+              <Text> </Text>
+            </View>
+            <View>
+              <View style={globalStyle.contentContainer}>
+                {/* Ajoutez ici les autres éléments de la screen */}
+              </View>
+            </View>
+          </SafeAreaProvider>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#281C47',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-
-  button: {
-    backgroundColor: '#3B2',
-    width: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
-  }
-});
