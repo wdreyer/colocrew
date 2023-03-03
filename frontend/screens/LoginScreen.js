@@ -21,7 +21,6 @@ const auth = getAuth(app)
 import config from '../config';
 
 export default function LoginScreen({ navigation }) {
-    
 
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users);
