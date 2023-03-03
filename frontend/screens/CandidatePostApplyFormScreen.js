@@ -10,8 +10,6 @@ export default function CandidatePostApplyFormScreen({navigation}) {
       <Image style={styles.logo} source={require('../assets/LogoMiniBlanc.png')}/>
         <Text style={styles.title}>MA CANDIDATURE</Text>
         <CandidatePost isEditable={true} />
-        <View style={styles.checkboxContainer}>
-      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -26,15 +24,22 @@ const styles = StyleSheet.create({
   },
 
   logo:{
-    width:45,
-    height:45,
+    resizeMode: 'contain',
+    width:50,
+    height:50,
+    alignSelf: 'flex-start',
+    margin: 20,
+    marginTop: 50,
   },
 
   title:{
     color: '#FFF',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 24,
+    fontWeight:'bold',
+    marginBottom: 30,
+    
+    
+
   },
 
 

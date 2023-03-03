@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import Input from "../components/Input";
-import ModalDatePicker from "../components/ModalDatePicker";
-import { useState } from "react";
-
-
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import Input from "./Input";
+import ModalDatePicker from "./ModalDatePicker";
+import PrimaryButton from "./PrimaryButton";
+import { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import {
   StyleSheet,
@@ -21,40 +21,70 @@ import {
   Modal,
   Pressable,
 } from "react-native";
+import config from "../config";
 import avatarImage from "../assets/MathiasAvatar.png";
-import config from '../config';
 
-export default function CandidateProfileScreen({ navigation }) {
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [description, setDescription] = useState("");
+export default function ProfileScreen(props) {
+  const user = useSelector((state) => state.users);
+  const uid = user.uid;
+  const enfantRef = useRef(null);
+
+    //States formulaire    
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLastName] = useState("");   
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [description, setDescription] = useState("");
+    //const [address, setAddress] = useState("");
+    const [birthDate, setBirthDate] = useState("");
+    const [editable, setEditable] = useState(false)
+     //States 
   const [modalVisible, setModalVisible] = useState(false);
-  const [address, setAddress] = useState("");
-  const [birthday, setBirthday] = useState("");
   const [datePickerVisible, setDatePickerVisible] = useState(false);
 
+  // 2 modes possible display edit 
+  useEffect(() => {
+    setEditable(props.editable);
+  }, [props.editable]); 
 
-  const handleDateChange = (date) => {
-    setBirthday(date);
+  // Date à faire plus tard !
+
+    const handleDateChange = (date) => {
+    setBirthDate(date);
     setDatePickerVisible(false);
-  };
-  
+  }; 
 
+  //chargement des props affichage  :
+  useEffect(()=> {
+    const { firstname,lastname,email,phone, description,birthDate } = props.profileData ;
+    setFirstName(firstname),
+    setLastName(lastname),   
+    setEmail(email),
+    setPhone(phone),
+    setDescription(description),
+    setBirthDate(birthDate)
+  },[props]) 
+
+
+
+ 
+ // édition et sauvergarde du profil en DB
   const handleSetProfile = () => {
+    console.log("enter")
     const updateUser = {
-      name: lastName,
-      surname: firstName,
-      email: email,
-      phone: phoneNumber,
-      birthDate: birthday,
-      descritpion: description,
+      uid,
+      firstname,
+      lastname,
+      email,
+      phone,
+      birthDate,
+      description,
     };
-    fetch(`${config.URL_BACKEND}/users`, {
+
+    fetch(`${config.URL_BACKEND}/users` , {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ updateUser }),
+      body: JSON.stringify(updateUser),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -62,92 +92,113 @@ export default function CandidateProfileScreen({ navigation }) {
       })
       .catch((error) => {
         console.error(error);
-      });
+      });      
+      setEditable(false)
+      props.onUpdate()
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <ScrollView>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <SafeAreaProvider style={styles.container}>
-            <StatusBar style="light" />
-            <Image
-              style={styles.image}
-              source={require("../assets/LogoMiniBlanc.png")}
-            />
-            <Text style={styles.titleText}>Mon profil</Text>
+<>
             <View style={styles.avatarContainer}>
               <Image source={avatarImage} style={styles.avatar} />
             </View>
-            <View style={[styles.inputsContainer, { width: "100%" }]}>
+            <View style={[styles.inputsContainer]}>
+            {!editable ? (
+              <Text style={styles.displayedText}>{lastname}</Text>
+            ) : (
               <Input
                 style={styles.input}
                 labelTxt="Nom"
                 placeholder="Nom"
                 onChangeText={(value) => setLastName(value)}
+                defaultValue={lastname}
               />
+            )}
+            {!editable ? (
+              <Text style={styles.displayedText}>{firstname}</Text>
+            ) : (
               <Input
                 style={(styles.input, styles.customInputStyle)}
                 labelTxt="Prénom"
                 placeholder="Prénom"
-                value={firstName}
+                defaultValue={firstname}
                 onChangeText={(value) => setFirstName(value)}
               />
+              )}
+              {!editable ? (
+                <Text style={styles.displayedText}>{email}</Text>
+              ) : (
               <Input
                 style={styles.input}
                 labelTxt="Email"
                 placeholder="Email"
-                value={email}
+                defaultValue={email}
                 onChangeText={(value) => setEmail(value)}
-                type="email"
+                type={email}
               />
-              <Input
-                style={styles.input}
-                labelTxt="Adresse"
-                placeholder="Adresse"
-                value={address}
-                onChangeText={(value) => setAddress(value)}
-              />
+              )}
+
+              {!editable ? (
+                <Text style={styles.displayedText}>{phone}</Text>
+              ) : (
               <Input
                 style={styles.input}
                 labelTxt="Numéro de téléphone"
-                placeholder="Numéro de téléphone"
-                value={phoneNumber}
-                onChangeText={(value) => setPhoneNumber(value)}
+                placeholder="0102030405"
+                defaultValue={phone}
+                onChangeText={(value) => setPhone(value)}
                 type="phone"
               />
+              )}
+              {!editable ? (
+                <Text style={styles.displayedText}>{birthDate}</Text>
+              ) : (
               <TouchableWithoutFeedback
                 onPress={() => setDatePickerVisible(true)}
               >
-                <View style={styles.input}>
-                  <Text style={styles.labelText}>Date d'anniversaire</Text>
-                  <Text style={styles.inputText}>{birthday}</Text>
+                <View style={styles.birthDate}>
+              
+                  <Text style={styles.labelText}>Date de naissance : </Text>
+                  <Text style={styles.labelText}>{birthDate}</Text>
                 </View>
               </TouchableWithoutFeedback>
+              )}
+             
               {datePickerVisible && (
                 <ModalDatePicker
-                  current={birthday}
-                  selected={birthday}
+                  current={birthDate}
+                  selected={birthDate}
                   onSelectedChange={(date) => {
                     setDatePickerVisible(false);
-                    setBirthday(date);
+                    setBirthDate(date);
                   }}
                 />
               )}
+
+              {!editable ? (
+                <>
+                <Text style={styles.displayedText}>Description :</Text> 
+                <Text style={styles.description} >{description}</Text>
+                </>
+              ) : (
               <Input
                 style={styles.input}
                 labelTxt="Description"
-                placeholder="Description"
-                value={description}
+                placeholder="Décris nous en quelques lignes tes expériences,tes motivations,tes valeurs,etc..."
+                defaultValue={description}
                 onChangeText={(value) => setDescription(value)}
                 multiline={true}
               />
-            </View>
+              )}
+            
+            {!editable ? (
+              <></>
+            ) : (            
             <View style={styles.passwordContainer}>
-              <Text style={styles.passwordText}> Mot de passe : </Text>
+              <Text style={styles.passwordText}> Mot de passe : </Text>             
+              <Text onPress={() => setModalVisible(true)} style={styles.textLinkModifiedPassword}>
+                Modifier mon mot de passe
+              </Text>
               <Modal
                 animationType="slide"
                 transparent={true}
@@ -162,7 +213,6 @@ export default function CandidateProfileScreen({ navigation }) {
                     <Text style={styles.modalText}>
                       Mot de passe formulaire
                     </Text>
-
                     <TouchableOpacity
                       activeOpacity={0.7}
                       style={styles.buttonContainer}
@@ -173,26 +223,24 @@ export default function CandidateProfileScreen({ navigation }) {
                   </View>
                 </View>
               </Modal>
-              <Pressable onPress={() => setModalVisible(true)}>
-                <Text style={styles.textLinkModifiedPassword}>
-                  Modifier mon mot de passe
-                </Text>
-              </Pressable>
+
+            
+        
+
+            </View>
+            )}
+            {!editable ? (
+              <></>
+            ) : (
+            <View style={styles.buttonContainer}>
+            <PrimaryButton actionOnPress={()=> handleSetProfile()} textBtn="Enregistrer" />
+            </View>
+            )}
             </View>
 
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.button}
-                onPress={handleSetProfile}
-              >
-                <Text style={styles.buttonText}>Enregistrer</Text>
-              </TouchableOpacity>
-            </View>
-          </SafeAreaProvider>
-        </TouchableWithoutFeedback>
-      </ScrollView>
-    </KeyboardAvoidingView>
+       
+            </>
+       
   );
 }
 
@@ -200,11 +248,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#281C47",
+    color: "white",
   },
   image: {
     position: "absolute",
     left: 10,
-    top: 10,
+    top: 30,
     width: 50,
     height: 50,
     resizeMode: "contain",
@@ -244,8 +293,7 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    width : '90%',
   },
 
   button: {
@@ -290,7 +338,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
-
+  
   modalView: {
     margin: 20,
     backgroundColor: "#53496B",
@@ -327,8 +375,7 @@ const styles = StyleSheet.create({
   textLinkModifiedPassword: {
     color: "#7AC3F7",
     textDecorationLine: "underline",
-    paddingVertical: "2%",
-    paddingHorizontal: "2%",
+
   },
 
   buttonValidate: {
@@ -340,4 +387,36 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginVertical: 15,
   },
+
+  displayedText : {
+    color : "white",
+    fontSize : 30,
+  },
+
+  labelText  : {
+    textAlign : 'left',
+    color : "white",
+    fontSize : 15,
+  },
+  description : {
+    color: "white",
+    fontSize : 18,
+    width : "90%",
+  },
+  passwordContainer : {
+    alignItems : "center",
+    flexDirection : "row",
+    paddingVertical: "2%",
+    paddingHorizontal: "2%",
+
+  },
+  birthDate : {
+    alignItems : "center",
+    flexDirection : "row",
+    paddingHorizontal: "2%",
+    paddingBottom : "5%",
+    textAlign : "left",
+    justifyContent :"flex-start",
+
+  }
 });
