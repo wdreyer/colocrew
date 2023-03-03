@@ -11,7 +11,7 @@ export default function RecruiterHomeScreen({navigation}) {
 
 
   const goToForm = () =>{
-    navigation.navigate('CandidatePost')
+    navigation.navigate('CandidatePostApplyFormScreen')
   }
 
   return (

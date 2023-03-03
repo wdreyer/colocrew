@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function ToggleButton(props) {
-  const [timesPressed, setTimesPressed] = useState(0);
   const [isPressed, setIsPressed] = useState(props.isPressed);
 
   const handleOnPress = () => {
+    props.funcReverseData({state : !isPressed, value : props.textButton});
     setIsPressed(!isPressed);
-    console.log(isPressed);
+    //console.log(isPressed);
   };
 
   return (

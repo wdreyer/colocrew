@@ -5,6 +5,7 @@ const Activities = require("../models/activities");
 const Lodgings = require("../models/lodgings");
 const Qualifications = require("../models/qualifications");
 const Contracts = require("../models/contracts");
+const Locations = require("../models/locations");
 
 router.get('/activities', function(req, res, next) {
     Activities.find().then((data) => {
@@ -46,6 +47,20 @@ router.get('/qualifications', function(req, res, next) {
           });
         }
       });
+});
+
+router.get('/locations', function(req, res, next) {
+  Locations.find().then((data) => {
+      if (data) {
+        res.json({ result: true, data: data });
+        //console.log(data);
+      } else {
+        res.json({
+          result: false,
+          error: `Pas de data à afficher`,
+        });
+      }
+    });
 });
 
 router.get('/contractType', function(req, res, next) {

@@ -1,23 +1,24 @@
 const mongoose = require('mongoose');
 
 const applicationsSchema = mongoose.Schema({
-    title : String, 
-    idCandidate : { type: mongoose.Schema.Users.ObjectId, ref: 'users' },
-    stardDate : Date,
+     
+    idCandidate : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+    startDate : Date,
     endDate : Date,
+    title : String,
     description : String,
-    lodgingtype : [{ type: mongoose.Schema.Lodging.ObjectId, ref: 'lodgings' }],
-    location : String,
-    activities : [{ type: mongoose.Schema.LearningGoals.ObjectId, ref: 'activities'  }],
-    learningGoals : [{ type: mongoose.Schema.LearningGoals.ObjectId, ref: 'learninggoals' }],
-    salaryseType : String,
-    salary: Number,
+    lodgingType : Array,
+    locations : Array,
+    activities : Array,
+    learningGoals : Array,
+    salariesType : String,
+    salarie: Number,
     contractType : Array,
-    salaryPeriod : String,
+    salariePeriod : Array,
     isActive : { type : Boolean, default: true},
     isArchived : { type : Boolean, default: false}, 
-    likes : [{ type: mongoose.Schema.Users.ObjectId, ref: 'users'  }],
-    dislikes : [{ type: mongoose.Schema.Users.ObjectId, ref: 'users'  }],
+    likes : [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'  }],
+    dislikes : [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'  }],
     
 })
 
