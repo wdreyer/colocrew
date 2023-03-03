@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View, PermissionsAndroid } from "react-nat
 
 export default function Input(props) {
 
-    const [textInput, setTextInput] = useState('');
+    const [textInput, setTextInput] = useState(props.defaultValue);
 
     const handleInput = (value) => {
         setTextInput(value)
@@ -37,9 +37,9 @@ export default function Input(props) {
 const styles = StyleSheet.create({
     labelInput: {
         color: "#fff",
-        fontSize: 12,
+        fontSize: 15,
         marginBottom: 2,
-        top: -6,
+        top: -10,
         marginLeft: 8,
         zIndex: 100,
         backgroundColor: "#281C47",
@@ -57,12 +57,13 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 15,
         color: "#fff",
+        fontSize: 15,
     },
 
     inputTextArea: {
         position: "relative",
         minWidth: "70%",
-        width: "100%",
+        maxWidth: "70%",
         borderWidth: 1,
         borderColor: "#fff",
         borderRadius: 5,
