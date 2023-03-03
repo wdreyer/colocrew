@@ -1,47 +1,57 @@
+import React from 'react';
+import Profile from '../components/Profile';
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import Input from "../components/Input";
-import ModalDatePicker from "../components/ModalDatePicker";
-import { useState } from "react";
-
-
-
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity,
-  TextInput,
   Image,
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
   KeyboardAvoidingView,
-  Alert,
-  Modal,
-  Pressable,
+  TouchableOpacity,
+  View
 } from "react-native";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useSelector } from 'react-redux';
 import avatarImage from "../assets/MathiasAvatar.png";
 import config from '../config';
 
 export default function CandidateProfileScreen({ navigation }) {
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [description, setDescription] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [address, setAddress] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [datePickerVisible, setDatePickerVisible] = useState(false);
+const [profileData, setProfileData] = useState({});
+const user = useSelector((state) => state.users);
+console.log(user)
+const uid = '8vpGzN94vRf0sRR1tHrI1DsIVt03'
+console.log(uid)
+
+useEffect (()=> {
+  fetch(`${config.URL_BACKEND}/users/authByUid/${uid}`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+.then(rs => rs.json())
+.then(res => {
+  setProfileData(prevState => ({...prevState, firstname: res.data.firstname,lastname : res.data.lastname, email : res.data.email, phone : res.data.phone , birthDate : res.data.birthDate, description : res.data.description,birthDate : res.data.birthDate}));
+})
+
+},[])
 
 
-  const handleDateChange = (date) => {
-    setBirthday(date);
-    setDatePickerVisible(false);
-  };
-  
 
+
+
+const [mode, setMode] = useState('display');
+const changeMode = () => {
+  if(mode === 'display'){
+    setMode('edit')
+  }
+  else if (mode === 'edit'){
+    setMode('display')
+  }
+} 
   const handleSetProfile = () => {
     const updateUser = {
       name: lastName,
@@ -66,211 +76,63 @@ export default function CandidateProfileScreen({ navigation }) {
   };
 
   return (
+   
     <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={styles.container}
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <ScrollView>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <SafeAreaProvider style={styles.container}>
-            <StatusBar style="light" />
-            <Image
-              style={styles.image}
-              source={require("../assets/LogoMiniBlanc.png")}
-            />
-            <Text style={styles.titleText}>Mon profil</Text>
-            <View style={styles.avatarContainer}>
-              <Image source={avatarImage} style={styles.avatar} />
-            </View>
-            <View style={[styles.inputsContainer, { width: "100%" }]}>
-              <Input
-                style={styles.input}
-                labelTxt="Nom"
-                placeholder="Nom"
-                onChangeText={(value) => setLastName(value)}
-              />
-              <Input
-                style={(styles.input, styles.customInputStyle)}
-                labelTxt="Prénom"
-                placeholder="Prénom"
-                value={firstName}
-                onChangeText={(value) => setFirstName(value)}
-              />
-              <Input
-                style={styles.input}
-                labelTxt="Email"
-                placeholder="Email"
-                value={email}
-                onChangeText={(value) => setEmail(value)}
-                type="email"
-              />
-              <Input
-                style={styles.input}
-                labelTxt="Adresse"
-                placeholder="Adresse"
-                value={address}
-                onChangeText={(value) => setAddress(value)}
-              />
-              <Input
-                style={styles.input}
-                labelTxt="Numéro de téléphone"
-                placeholder="Numéro de téléphone"
-                value={phoneNumber}
-                onChangeText={(value) => setPhoneNumber(value)}
-                type="phone"
-              />
-              <TouchableWithoutFeedback
-                onPress={() => setDatePickerVisible(true)}
-              >
-                <View style={styles.input}>
-                  <Text style={styles.labelText}>Date d'anniversaire</Text>
-                  <Text style={styles.inputText}>{birthday}</Text>
-                </View>
-              </TouchableWithoutFeedback>
-              {datePickerVisible && (
-                <ModalDatePicker
-                  current={birthday}
-                  selected={birthday}
-                  onSelectedChange={(date) => {
-                    setDatePickerVisible(false);
-                    setBirthday(date);
-                  }}
-                />
-              )}
-              <Input
-                style={styles.input}
-                labelTxt="Description"
-                placeholder="Description"
-                value={description}
-                onChangeText={(value) => setDescription(value)}
-                multiline={true}
-              />
-            </View>
-            <View style={styles.passwordContainer}>
-              <Text style={styles.passwordText}> Mot de passe : </Text>
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <Text style={styles.modalText}>
-                      Mot de passe formulaire
-                    </Text>
+    <ScrollView>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <SafeAreaView style={styles.container}>
+          <StatusBar style="light" />
+          <View style={styles.headerContainer}>          
+          <Image
+          style={styles.image}
+          source={require("../assets/LogoMiniBlanc.png")}
+        />
+          <Text style={styles.titleText}>Mon profil</Text>
+       
 
-                    <TouchableOpacity
-                      activeOpacity={0.7}
-                      style={styles.buttonContainer}
-                      onPress={() => setModalVisible(!modalVisible)}
-                    >
-                      <Text style={styles.buttonValidate}>Valider</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </Modal>
-              <Pressable onPress={() => setModalVisible(true)}>
-                <Text style={styles.textLinkModifiedPassword}>
-                  Modifier mon mot de passe
-                </Text>
-              </Pressable>
-            </View>
+          <TouchableOpacity style={styles.icon} onPress={()=>changeMode()}>
 
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.button}
-                onPress={handleSetProfile}
-              >
-                <Text style={styles.buttonText}>Enregistrer</Text>
-              </TouchableOpacity>
-            </View>
-          </SafeAreaProvider>
-        </TouchableWithoutFeedback>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          <FontAwesome name={mode === 'display' ? "edit" : "save"} color="white" size={30}  />
+
+
+        </TouchableOpacity>
+        </View>
+
+      <Profile mode={mode} profileData={profileData} />
+
+      </SafeAreaView>
+      </TouchableWithoutFeedback>
+    </ScrollView>
+  </KeyboardAvoidingView>
+   
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#281C47",
+    paddingBottom : 5,
+  },
+  headerContainer : {
+    marginLeft : 20,
+    marginRight : 20,
+    marginTop : 5,
+    flexDirection : 'row',
+    alignItems : 'center',
+    justifyContent : 'space-between',
   },
   image: {
-    position: "absolute",
-    left: 10,
-    top: 10,
     width: 50,
     height: 50,
     resizeMode: "contain",
-  },
-
-  avatarContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 30,
-  },
-  avatar: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
-  },
-
-  inputsContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "column",
-    marginTop: 40,
-  },
-  customInputStyle: {
-    width: "80%",
-    height: 45,
-  },
-
-  descriptionInput: {
-    width: 350,
-    height: 300,
-    color: "white",
-    borderWidth: 0.5,
-    padding: 10,
-    borderColor: "white",
-    borderRadius: 6,
-    marginVertical: 15,
-  },
-
-  buttonContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  button: {
-    backgroundColor: "#FAD4D8",
-    borderColor: "black",
-    borderWidth: 1,
-    width: 350,
-    height: 55,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 6,
-    marginVertical: 15,
-  },
-
-  buttonText: {
-    fontSize: 20,
-    textAlign: "center",
-    color: "black",
-    fontWeight: "bold",
-  },
-
+  }, 
   titleText: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 25,
     textAlign: "center",
   },
   passwordText: {
@@ -323,21 +185,4 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
   },
-
-  textLinkModifiedPassword: {
-    color: "#7AC3F7",
-    textDecorationLine: "underline",
-    paddingVertical: "2%",
-    paddingHorizontal: "2%",
-  },
-
-  buttonValidate: {
-    backgroundColor: "#FAD4D8",
-    borderColor: "black",
-    borderWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 6,
-    marginVertical: 15,
-  },
-});
+  })

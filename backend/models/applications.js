@@ -12,7 +12,7 @@ const applicationsSchema = mongoose.Schema({
     learningGoals : [{ type: mongoose.Schema.LearningGoals.ObjectId, ref: 'learninggoals' }],
     salaryseType : String,
     salary: Number,
-    contractType : String,
+    contractType : Array,
     salaryPeriod : String,
     isActive : { type : Boolean, default: true},
     isArchived : { type : Boolean, default: false}, 
