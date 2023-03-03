@@ -15,7 +15,9 @@ import CandidateHomeScreen from './screens/CandidateHomeScreen';
 import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
 import CandidateProfileScreen from './screens/CandidateProfileScreen';
 import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
-import RecruterPostAnnounce from './screens/RecruterPostAnnounce';
+import RecruterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
+import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
+import MyAnnounceScreen from './screens/MyAnnounceScreen';
 
 
 import { Provider } from 'react-redux';
@@ -110,7 +112,7 @@ export default function App() {
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
 
-            <Stack.Screen name="ScreenModel" component={ScreenModel} />
+            <Stack.Screen name="RecruiterHomeScreen" component={RecruiterHomeScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
