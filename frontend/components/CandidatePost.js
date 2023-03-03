@@ -11,6 +11,8 @@ import config from "../config";
 
 export default function CandidatePost(props) {
     const todayDate = getToday();
+    const formattedDate = getFormatedDate(new Date(), "DD/MM/YYYY"); 
+    //console.log('Formatted date ',formattedDate);
     const [dateModalVisible, setDateModalVisible] = useState(false);
     const [tabContracts, setTabContracts] = useState([]);
     const [tabQualifications, setTabQualifications] = useState([]);
@@ -67,35 +69,21 @@ export default function CandidatePost(props) {
                 
                 
           }, []);
-            //console.log('TABBBBB  : ',tabQualifications);
-            //console.log('TABBBBB  : ',tabLodgings);
-            //console.log('TABBBBB  : ',tabContracts);
 
-            const ContractTypesButtons = () => {
+        const ContractTypesButtons = () => {
                 let contractsList = tabContracts.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
                 return(<View style={styles.section}>{contractsList}</View>)
             }
         
-            const LodgingButtons = () => {
+        const LodgingButtons = () => {
             let lodgingsList = tabLodgings.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
             return(<View style={styles.section}>{lodgingsList}</View>)
-        }
+            }
 
         const QualificationsButtons = () => {
             let qualificationsList = tabQualifications.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
             return(<View style={styles.section}>{qualificationsList}</View>)
-        }
-
-          const sectionQualifications = () =>  {
-            return (
-              <View style={styles.section}>
-                  <ToggleButton isPressed={false} textButton='CDI'></ToggleButton>
-              </View>
-            );
-        }
-
-          
-
+            }
 
 //   const data = [
 //     { key: "1", value: "Mobiles", disabled: true },
@@ -128,21 +116,23 @@ export default function CandidatePost(props) {
     };
 
     const handleSubmitForm = () => {
-        console.log("blabla");
+        console.log("Formulaire soumis");
     };
 
 
   if (props.isEditable) {
     return (
-    <View>
+    <View style={styles.centeredView}>
         <View style={styles.datePickers}>
-            <Text style={styles.labelDatePicker}>Disponibilités*</Text>
+          <Text style={styles.labelDatePicker}>Disponibilités*</Text>
+          <View style={styles.containerDatePickers}>
             <View style={styles.datePicker}>
                 <Text style={styles.labelDatePicker}>Date de début*</Text>
                 <ModalDatePicker
                 titleModal="Date de début"
                 currentDate={startDate}
                 selectedDate={startDate}
+                todayDate={todayDate}
                 recupDate={(dateFrom)=>recupDateFrom(dateFrom)}
                 />
             </View>
@@ -152,13 +142,15 @@ export default function CandidatePost(props) {
                 titleModal="Date de fin"
                 currentDate={endDate}
                 selectedDate={endDate}
+                todayDate={todayDate}
                 recupDate={(dateTo)=>recupDateTo(dateTo)}
                 />
             </View>
         </View>
         <View style={styles.dispoDates}>
-            <Text style={styles.ddate}>{startDate}</Text>
-            <Text style={styles.ddate}>{endDate}</Text>
+            <Text style={styles.date}>Du {startDate}</Text>
+            <Text style={styles.date}>au {endDate}</Text>
+        </View>
         </View>
         
         
@@ -185,22 +177,20 @@ export default function CandidatePost(props) {
           textBtn="Publier ma candidature"
           actionOnPress={() => handleSubmitForm()}
         />
-        
-            
     </View>
     )
   } else {
     console.log("erreur")
     return (<Text>Erreur</Text>);
   }
-}
+};
 
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 25,
   },
   modalView: {
     width: "90%",
@@ -221,22 +211,45 @@ labelsFields: {
     fontSize: 14,
     color: '#fff',
     marginBottom: 10,
-    marginTop: 5,
+    marginTop: 20,
 },
 
 section:{
+    position:'relative',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'left',
+    justifyContent: 'space-around',
     width: 350,
     height: 'auto',
     padding: 10,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#fff',
+    borderWidth: 0.3,
+    borderRadius: 25,
+    borderColor: '#938CA4',
+},
+containerDatePickers:{
+  marginTop: 20,
+  flexDirection:'row',
+  height: 80,
+  width:'100%',
 },
 
-labelDatePicker: {
+  datePickers: {
+    position: "relative",
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: "#fff",
+    borderRadius: 5,
+    height: 120,
+    marginBottom: 10,
+    width: "100%",
+    padding: 10,
+    color: "#fff",
+
+  },
+
+  labelDatePicker: {
     color: "#fff",
     fontSize: 12,
     marginBottom: 2,
@@ -246,22 +259,6 @@ labelDatePicker: {
     position: "absolute",
     paddingHorizontal: 3,
 },
-
-  datePickers: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: "#fff",
-    borderRadius: 5,
-    height: 120,
-    marginBottom: 10,
-    position: "relative",
-    width: "95%",
-    padding: 10,
-    color: "#fff",
-
-  },
 
 datePicker:{
     justifyContent: 'center',
@@ -276,7 +273,7 @@ dispoDates: {
     height:40,
 },
 
-ddate: {
+date: {
 fontSize: 20,
 fontWeight: 'bold',
 color: "#C398BC",

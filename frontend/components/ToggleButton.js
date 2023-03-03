@@ -15,7 +15,7 @@ export default function ToggleButton(props) {
       <Pressable
         onPress={() => handleOnPress()}
         style={() => [
-          { backgroundColor: isPressed ? "#C398BC" : "#999", justifyContent:'center',  alignItems: 'center', marginLeft: 5, height:35, },
+          { backgroundColor: isPressed ? "#C398BC" : "#938CA4", justifyContent:'center',  alignItems: 'center', marginLeft: 5, height:35, },
           styles.wrapperCustom,
         ]}
       >

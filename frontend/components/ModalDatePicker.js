@@ -4,22 +4,21 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DatePicker from 'react-native-modern-datepicker';
+
+
+
 export default function ModalDatePicker(props) {
     const todayDate = getToday();
-    console.log('Date du jour ===> ',todayDate);
+    //console.log('Date du jour ===> ',todayDate);
     const [dateModalVisible, setDateModalVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
     
-
-export default function ModalDatePicker(props) {
-    const [dateModalVisible, setDateModalVisible] = useState(false);
     const handleDateModal = () => {
+
         props.recupDate(selectedDate)
         //console.log('Click HandleDateModal');
         setDateModalVisible(!dateModalVisible)
     };
-
-
     return (
             <View style={styles.centeredView}>
               <FontAwesome name='calendar' size={40} color='white' onPress={() => setDateModalVisible(true)}  />
@@ -44,6 +43,7 @@ export default function ModalDatePicker(props) {
                                       textSecondaryColor: '#D6C7A1',
                                       borderColor: 'rgba(122, 146, 165, 0.1)',
                                     }}
+                                    format={'DD-MM-YYYY'}
                                     current={props.current}
                                     minimumDate={props.todayDate}
                                     maximumDate='2199-05-21'
@@ -53,46 +53,22 @@ export default function ModalDatePicker(props) {
                                     minuteInterval={30}
                                     style={{ borderRadius: 10 }}
                                   />
-                            <View  style={styles.modalButtons}>
-                              <View style={styles.button}>
-                                <PrimaryButton textBtn='Valider la date' actionOnPress={() => handleDateModal(selectedDate)} ></PrimaryButton>
-                                <PrimaryButton textBtn='Annuler' actionOnPress={() => setDateModalVisible(!dateModalVisible)} ></PrimaryButton>
-                              </View>   
+                                  <View  style={styles.modalButtons}>
+                                    <View style={styles.button}>
+                                      <PrimaryButton textBtn='Valider la date' actionOnPress={() => handleDateModal(selectedDate)} ></PrimaryButton>
+                                      <PrimaryButton textBtn='Annuler' actionOnPress={() => setDateModalVisible(!dateModalVisible)} ></PrimaryButton>
+                                    </View>   
+                                  </View>
                             </View>
-                            </View>
-                          </View>
-                        </View>                    
-              
-                animationType="slide"
-                transparent={true}
-                visible={dateModalVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setDateModalVisible(!dateModalVisible);
-                }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text>{props.titleModal}</Text>
-                    <TheDatePicker selected={props.selectedDate} current={props.currentDate}></TheDatePicker>
-                    <View  style={styles.modalButtons}>
-                    <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => setDateModalVisible(!dateModalVisible)}>
-                        <Text style={styles.textStyle}>Valider la date</Text>
-                    </Pressable>
-                    <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => setDateModalVisible(!dateModalVisible)}>
-                        <Text style={styles.textStyle}>Annuler</Text>
-                    </Pressable>
-
                     </View>
-                    </View>
-                </View>
+                  </View>
+                    
+                  
                 </Modal>
             </View>
         );
     }
+
 
 const styles = StyleSheet.create({
 
@@ -150,49 +126,3 @@ const styles = StyleSheet.create({
     
     
   });
-  
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    width: "90%",
-    height: "70%",
-    margin: 0,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 10,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalButtons: {
-    flexDirection: "row",
-  },
-  button: {
-    borderRadius: 20,
-    margin: 10,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});

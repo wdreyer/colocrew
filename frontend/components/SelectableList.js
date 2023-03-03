@@ -8,9 +8,8 @@ export default function SelectableList ({type}) {
     const [DataActivities, setDataActivities] = useState([]);
     const [selected, setSelected] = useState("");
     const [data,setData] = useState([]);
-    console.log(selected);
     
-    console.log(type);
+    //console.log('Type de données SelectableList', type);
     useEffect(() => {
       fetch(`${config.URL_BACKEND}/settings/${type}`, {
         method: "GET",
@@ -26,7 +25,7 @@ export default function SelectableList ({type}) {
               return { key:i, value: data.name, disabled: false };
             });
             setData(newArray);
-            console.log("DATA ACTIVITIES ", DataActivities);
+            
           }
         });
     }, []);
