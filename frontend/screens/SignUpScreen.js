@@ -34,8 +34,11 @@ export default function SignUpScreen({ navigation }) {
     const [mailError, setMailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [passwordConfirmError, setPasswordConfirmError] = useState('');
+    console.log(config.URL_BACKEND)
 
     const addUserinDB = (email, uid) => {
+
+
         fetch(`${config.URL_BACKEND}/users/createUser`, {
             method: 'POST',
             headers: {

@@ -44,33 +44,28 @@ router.put('/updateRole', (req, res, next) => {
   User.findOneAndUpdate({ uid }, { isCandidate, isRecruiter }, { new: true })
     .then(result => {
       if (result.nModified === 0) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
-      return res.status(200).send({ message: 'User updated successfully', userUpdated: result });
+      return res.status(200).json({ message: 'User updated successfully', userUpdated: result });
     })
     .catch(error => {
       console.error(error);
-      return res.status(500).send({ error: 'Internal server error' });
+      return res.status(500).json({ error: 'Internal server error' });
     });
 });
 
 router.put("/", function (req, res) {
-  if (
-    !checkBody(req.body, ["surname", "name", "address", "phone", "birthDate"])
-  ) {
-    res.json({ result: false, error: "Vous n'avez pas complété tous les chammps requis" });
-    return;
-  }
+  console.log("enter the road")
+  console.log(req.body)
+  const {uid,firstname,lastname, email, phone, description, birthDate } = req.body;
   // Si l'id n'existe pas : return res.json({result: false})
-
-  User.findByIdAndUpdate(req.body._id, {
-    surname: req.body.surname,
-    name: req.body.name,
-    email: req.body.email,
-    address: req.body.address,
-    phone: req.body.phone,
-    birthDate: req.body.birthDate,
-    description: req.body.description,
+  User.findOneAndUpdate({uid: uid}, {
+    firstname,
+    lastname,
+    email,
+    phone,
+    birthDate,
+    description,
   }).then((data) => {
     console.log(data);
     if (data === null) {

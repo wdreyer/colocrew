@@ -10,14 +10,14 @@ import SignUpScreen from './screens/SignUpScreen';
 import AreaChoiceScreen from './screens/AreaChoiceScreen';
 import RecruiterHomeScreen from './screens/RecruiterHomeScreen';
 import RecruiterSwipeScreen from './screens/RecruiterSwipeScreen';
-import RecruiterProfileScreen from './screens/RecruiterProfileScreen';
 import CandidateHomeScreen from './screens/CandidateHomeScreen';
 import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
-import CandidateProfileScreen from './screens/CandidateProfileScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
 import RecruiterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
 import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
 import MyAnnounceScreen from './screens/MyAnnounceScreen';
+
 
 
 import { Provider } from 'react-redux';
@@ -38,7 +38,7 @@ const TabRecruiterNavigator = () => {
           iconName = 'home';
         } else if (route.name === 'RecruiterSwipe') {
           iconName = 'heart';
-        } else if (route.name === 'RecruiterProfile') {
+        } else if (route.name === 'ProfileScreen') {
           iconName = 'user';
         }
 
@@ -58,7 +58,7 @@ const TabRecruiterNavigator = () => {
     })}>
       <Tab.Screen name="RecruiterHome" component={RecruiterHomeScreen} />
       <Tab.Screen name="RecruiterSwipe" component={RecruiterSwipeScreen} />
-      <Tab.Screen name="RecruiterProfile" component={RecruiterProfileScreen} />
+      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
@@ -73,7 +73,7 @@ const TabCandidateNavigator = () => {
           iconName = 'home';
         } else if (route.name === 'CandidateSwipe') {
           iconName = 'heart';
-        } else if (route.name === 'CandidateProfile') {
+        } else if (route.name === 'ProfileScreen') {
           iconName = 'user';
         }
 
@@ -93,7 +93,7 @@ const TabCandidateNavigator = () => {
     })}>
       <Tab.Screen name="CandidateHome" component={CandidateHomeScreen} />
       <Tab.Screen name="CandidateSwipe" component={CandidateSwipeScreen} />
-      <Tab.Screen name="CandidateProfile" component={CandidateProfileScreen} />
+      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
@@ -111,13 +111,13 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-
-            <Stack.Screen name="RecruiterHomeScreen" component={RecruiterHomeScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
-            <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
             <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
+            <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
+         
+            
           </Stack.Navigator>
       </NavigationContainer>
       </Provider>
