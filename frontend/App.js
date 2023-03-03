@@ -4,9 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
-
 import AreaChoiceScreen from './screens/AreaChoiceScreen';
 import RecruiterHomeScreen from './screens/RecruiterHomeScreen';
 import RecruiterSwipeScreen from './screens/RecruiterSwipeScreen';
@@ -15,7 +15,7 @@ import CandidateHomeScreen from './screens/CandidateHomeScreen';
 import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
 import CandidateProfileScreen from './screens/CandidateProfileScreen';
 import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
-import RecruterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
+import RecruiterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
 import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
 import MyAnnounceScreen from './screens/MyAnnounceScreen';
 
