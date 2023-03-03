@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, PermissionsAndroid } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Input(props) {
 
-    const [textInput, setTextInput] = useState(null);
+    const [textInput, setTextInput] = useState('');
 
     const handleInput = (value) => {
         setTextInput(value)

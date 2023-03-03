@@ -4,7 +4,7 @@ const campsSchema = mongoose.Schema({
     title : String, 
     idRecruiter : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     photos : Array,
-    stardDate : Date,
+    startDate : Date,
     endDate : Date,
     description : String,
     lodgingtype : [{ type: mongoose.Schema.Types.ObjectId, ref: 'lodgings' }],
@@ -19,6 +19,9 @@ const campsSchema = mongoose.Schema({
     isArchived : { type : Boolean, default: false}, 
     likes : [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'  }],
     dislikes : [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'  }],
+    childNumber: Number,
+    animNumber: Number,
+
     
 })
 

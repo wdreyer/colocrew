@@ -25,6 +25,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
 import SelectableList from "../components/SelectableList";
 import { TextInput } from "react-native-gesture-handler";
+import ToggleButton from "../components/ToggleButton";
 
 export default function RecruterPostAnnounce({ navigation }) {
     const [checked, setChecked] = useState(true);
@@ -35,9 +36,60 @@ export default function RecruterPostAnnounce({ navigation }) {
     const [counterChild, setCounterChild] = useState(0);
     const [counterAnim, setCounterAnim] = useState(0);
 
+
+    const [titleAnnounce, setTitleAnnounce] = useState('');
+    const [placeAnnounce, setPlaceAnnounce] = useState('');
+    const [descriptionAnnounce, setDescriptionAnnounce] = useState('');
+    const [salaryAnnounce, setSalaryAnnounce] = useState('');
+
+    const handleForm = () => {
+        console.log('test')
+
+        const formData = new FormData();
+
+        formData.append('photoFromFront', {
+        uri: 'file://...',
+        name: 'photo.jpg',
+        type: 'image/jpeg',
+        });
+
+        fetch('http://.../upload', {
+        method: 'POST',
+        body: formData,
+        }).then((response) => response.json())
+        .then((data) => {
+        
+        });
+    }
+
+
     const test = () => {
         console.log("test function");
     };
+
+    const handleImageUrl = (value) => {
+        console.log(value)
+    }
+
+    const handleTitleAnnounce = (value) => {
+        setTitleAnnounce(value)
+    }
+
+    const handlePlaceAnnounce = (value) => {
+        setPlaceAnnounce(value)
+    }
+
+    const handleDescriptionAnnounce = (value) => {
+        setDescriptionAnnounce(value)
+    }
+
+    const handleSalaryAnnounce = (value) => {
+        setSalaryAnnounce(value)
+    }
+
+    const handleActivitty= (value) => {
+        setSalaryAnnounce(value)
+    }
 
     const handleStartDate = (date) => {
         setStartDate(date);
@@ -79,26 +131,26 @@ export default function RecruterPostAnnounce({ navigation }) {
                                 <Input
                                     labelTxt="Titre de l'annonce *"
                                     placeholder="Super séjour cheval à Val d'Isère"
-                                    onChangeText={test}
+                                    onChangeText={(value) => handleTitleAnnounce(value)}
                                 />
 
                                 <Input
                                     labelTxt="Lieu *"
                                     placeholder="Lieu"
-                                    onChangeText={test}
+                                    onChangeText={(value) => handlePlaceAnnounce(value)}
                                 />
 
                                 <Input
                                     labelTxt="Description"
                                     placeholder="Description"
-                                    onChangeText={test}
+                                    onChangeText={(value) => handleDescriptionAnnounce(value)}
                                     multiline={true}
                                 />
 
                                 <Input
                                     labelTxt="Salaire (Brut / jour)"
                                     placeholder="0€"
-                                    onChangeText={test}
+                                    onChangeText={(value) => handleSalaryAnnounce(value)}
                                 />
 
                                 <Input
@@ -112,7 +164,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                         Ajouter des photos :
                                     </Text>
                                     <View style={styles.uploadImageWrapper}>
-                                        <UploadImage />
+                                        <UploadImage onUpdate={handleImageUrl} />
                                         <UploadImage />
                                         <UploadImage />
                                         <UploadImage />
@@ -125,15 +177,9 @@ export default function RecruterPostAnnounce({ navigation }) {
                                         Type d'hébergement :
                                     </Text>
                                     <View style={styles.wrapper}>
-                                        <Text style={styles.choiceLabel}>
-                                            Tente
-                                        </Text>
-                                        <Text style={styles.choiceLabel}>
-                                            Centre
-                                        </Text>
-                                        <Text style={styles.choiceLabel}>
-                                            Itinérant
-                                        </Text>
+                                        <ToggleButton textButton="Tente" />
+                                        <ToggleButton textButton="Centre" />
+                                        <ToggleButton textButton="Itinérant" />
                                     </View>
                                 </View>
 
@@ -196,7 +242,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                     </View>
                                 </View>
                                 <PrimaryButton
-                                    actionOnPress={test}
+                                    actionOnPress={handleForm}
                                     textBtn="Publier une annonce"
                                 />
                             </View>
@@ -261,8 +307,8 @@ const styles = StyleSheet.create({
     },
 
     dateContainer: {
-        flexDirection: "row",
-        alignItems: "center",
+        // flexDirection: "row",
+        // alignItems: "center",
     },
 
     date: {
