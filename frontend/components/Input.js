@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, PermissionsAndroid } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Input(props) {
 
@@ -11,10 +11,10 @@ export default function Input(props) {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.labelInput}>{props.labelTxt}</Text>
-            <TextInput onChangeText={(value) => handleInput(value)}
-                style = {props.multiline === true ? styles.inputTextArea : styles.input}
+            <TextInput onChangeText={(value) => handleInput(value)} 
+                style = {props.multiline === true ? styles.inputTextArea : props.counter === true ? styles.inputCounter : styles.input}
                 placeholderTextColor = "rgba(167, 167, 167, 1)"
                 placeholder = {props.placeholder}
 
@@ -23,7 +23,7 @@ export default function Input(props) {
                 secureTextEntry = {props.type === "password" && true}
         
                 autoCapitalize = {props.type === "email" ? "none" : props.type === "password" ? "password" : "sentences"}
-                keyboardType = {props.type === "email" ? "email-address" : props.type === "phone" ? "numeric" : "default"}
+                keyboardType = {props.type === "email" ? "email-address" : props.type === "phone" ? "numeric" : props.type === "counter" ? "numeric" :  "default"}
                 textContentType = {props.type === "email" ? "emailAddress" : props.type === "phone" ? "telephoneNumber" : "none"}
 
                 multiline = {props.multiline === true && true}
@@ -35,9 +35,13 @@ export default function Input(props) {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginVertical: 15,
+    },
+
     labelInput: {
         color: "#fff",
-        fontSize: 15,
+        fontSize: 16,
         marginBottom: 2,
         top: -10,
         marginLeft: 8,
@@ -55,7 +59,6 @@ const styles = StyleSheet.create({
         borderColor: "#fff",
         borderRadius: 5,
         padding: 10,
-        marginBottom: 15,
         color: "#fff",
         fontSize: 15,
     },
@@ -73,4 +76,15 @@ const styles = StyleSheet.create({
         color: "#fff",
         height: 200,
     },
+
+    inputCounter: {
+        position: "relative",
+        minWidth: '50%',
+        borderWidth: 1,
+        borderColor: "#fff",
+        borderRadius: 5,
+        color: "#fff",
+        height: 40,
+        paddingHorizontal: 10,
+    }
 });

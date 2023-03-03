@@ -7,21 +7,21 @@ import { useState } from "react";
 import globalStyle from "../styles/globalStyle";
 
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ScrollView,
-  KeyboardAvoidingView,
-  Alert,
-  Modal,
-  Pressable,
-  TextInput,
-  SafeAreaView,
-  Dimensions,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Image,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView,
+    KeyboardAvoidingView,
+    Alert,
+    Modal,
+    Pressable,
+    TextInput,
+    SafeAreaView,
+    Dimensions,
 } from "react-native";
 import config from "../config";
 
