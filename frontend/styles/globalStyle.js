@@ -8,6 +8,7 @@ export default StyleSheet.create({
     backgroundColor: "#281c47",
     height: windowHeight,
     width: windowWidth,
+    color: "#fff",
   },
 
   headerContainer: {
@@ -75,6 +76,7 @@ export default StyleSheet.create({
   },
 
   scrollView: {
+    color: '#fff',
     backgroundColor: "#281C47",
   },
 
@@ -85,7 +87,7 @@ export default StyleSheet.create({
   },
 
   titleText: {
-    color: "white",
+    color: "#fff",
     fontWeight: "bold",
     fontSize: 25,
     textAlign: "center",
@@ -93,6 +95,7 @@ export default StyleSheet.create({
   },
 
   container: {
+    color:'#fff',
     flex: 1,
     backgroundColor: "#281C47",
     paddingBottom : 5,
@@ -100,9 +103,17 @@ export default StyleSheet.create({
 
   safeAreaContainer: {
     flex: 1,
+    color: '#fff',
   },
 
   contentContainer: {
+    color: '#fff',
     margin: 25,
   },
+
+  text: {
+    color: '#fff',
+    fontSize: 20,
+
+  }
 });

@@ -1,36 +1,104 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useSelector, useDispatch } from 'react-redux';
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Input from "../components/Input";
+import PrimaryButton from "../components/PrimaryButton";
+import ModalDatePicker from "../components/ModalDatePicker";
+import { useState } from "react";
+import globalStyle from "../styles/globalStyle";
 
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+  KeyboardAvoidingView,
+  Alert,
+  Modal,
+  Pressable,
+  TextInput,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
+import config from "../config";
+import CardBG from "../components/CardBG";
+import RecruiterProfileScreen from "./RecruiterProfileScreen";
 
-export default function RecruiterHomeScreen({navigation}) {
-  const user = useSelector((state) => state.users);
-
+export default function ScreenModel() {
   return (
-    <View style={styles.container}>
-        <Text>RECRUITER HOME SCREEN</Text>
-      
-      <FontAwesome name='home' size={70} color='white'  />
-      <StatusBar style="auto" />
-    </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView
+        style={globalStyle.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          style={globalStyle.body}
+          contentContainerStyle={globalStyle.scrollView}
+        >
+          <SafeAreaProvider style={globalStyle.safeAreaContainer}>
+            <StatusBar style="light" />
+
+            <View style={globalStyle.headerContainer}>
+              <Image
+                style={globalStyle.logo}
+                source={require("../assets/LogoMiniBlanc.png")}
+              />
+              <Text style={globalStyle.titleText}>Accueil Recruteur</Text>
+              <Text></Text>
+            </View>
+            <View>
+              <View style={globalStyle.contentContainer}>
+                <View>
+                  <Text style={globalStyle.text}>
+                    Veuillez remplir votre profil pour publier une annonce et
+                    consulter les candidatures.
+                  </Text>
+                  <PrimaryButton
+                    textBtn="Remplir mon profil"
+                    actionOnPress={() =>
+                      navigation.navigate(RecruiterProfileScreen)
+                    }
+                  />
+                </View>
+                <View style={styles.candidaturesContainer}>
+                  <Text style={globalStyle.text}>
+                    Dernières candidatures postées:{" "}
+                  </Text>
+                  <CardBG textCard="Candidature 1" />
+                  <CardBG textCard="Candidature 2" />
+                  <CardBG textCard="Candidature 3" />
+                </View>
+                <View>
+                  <Text style={globalStyle.text}>Aucune annonce publiée.</Text>
+                  <PrimaryButton
+                    textBtn="Publier une annonce"
+                    actionOnPress={() =>
+                      navigation.navigate(RecruiterPostAnnounce)
+                    }
+                  />
+                </View>
+                <View style={styles.candidaturesContainer}>
+                  <Text style={globalStyle.text}>
+                    Dernières candidatures postées:{" "}
+                  </Text>
+                  <CardBG textCard="Candidature 1" />
+                  <CardBG textCard="Candidature 2" />
+                  <CardBG textCard="Candidature 3" />
+                </View>
+              </View>
+            </View>
+          </SafeAreaProvider>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#A29',
-    alignItems: 'center',
-    justifyContent: 'center',
+  candidaturesContainer: {
+    marginTop: 30,
   },
-
-
-  button: {
-    backgroundColor: '#3B2',
-    width: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
-  }
 });
