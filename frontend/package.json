@@ -24,6 +24,7 @@
     "@rneui/base": "^0.0.0-edge.2",
     "@rneui/themed": "^0.0.0-edge.2",
     "expo": "~48.0.4",
+    "expo-blur": "^12.2.2",
     "expo-constants": "^14.2.1",
     "expo-image-picker": "^14.1.1",
     "expo-linear-gradient": "^12.1.1",

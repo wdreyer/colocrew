@@ -26,37 +26,35 @@ import {
 import config from "../config";
 
 export default function ScreenModel() {
-    return (
+  return (
+    <KeyboardAvoidingView
+      style={globalStyle.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        style={globalStyle.body}
+        contentContainerStyle={globalStyle.scrollView}
+      >
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <KeyboardAvoidingView
-                style={globalStyle.container}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
-                <ScrollView
-                    style={globalStyle.body}
-                    contentContainerStyle={globalStyle.scrollView}
-                >
-                    <SafeAreaProvider style={globalStyle.safeAreaContainer}>
-                        <StatusBar style="light" />
+          <SafeAreaProvider style={globalStyle.safeAreaContainer}>
+            <StatusBar style="light" />
 
-                        <View style={globalStyle.headerContainer}>
-                            <Image
-                                style={globalStyle.logo}
-                                source={require("../assets/LogoMiniBlanc.png")}
-                            />
-                            <Text style={globalStyle.titleText}>
-                                Mon titre
-                            </Text>
-                            <Text> </Text>
-                        </View>
-                        <View style={globalStyle.body}>
-                            <View style={globalStyle.contentContainer}>
-                                {/* Ajoutez ici les autres éléments de la screen */}
-                            </View>
-                        </View>
-                    </SafeAreaProvider>
-                </ScrollView>
-            </KeyboardAvoidingView>
+            <View style={globalStyle.headerContainer}>
+              <Image
+                style={globalStyle.logo}
+                source={require("../assets/LogoMiniBlanc.png")}
+              />
+              <Text style={globalStyle.titleText}>Mon titre ici</Text>
+              <Text> </Text>
+            </View>
+            <View>
+              <View style={globalStyle.contentContainer}>
+                {/* Ajoutez ici les autres éléments de la screen */}
+              </View>
+            </View>
+          </SafeAreaProvider>
         </TouchableWithoutFeedback>
-    );
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 }

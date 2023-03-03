@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Input(props) {
 
-    const [textInput, setTextInput] = useState('');
+    const [textInput, setTextInput] = useState(props.defaultValue);
 
     const handleInput = (value) => {
         setTextInput(value)
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 16,
         marginBottom: 2,
-        top: -6,
+        top: -10,
         marginLeft: 8,
         zIndex: 100,
         backgroundColor: "#281C47",
@@ -60,12 +60,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         color: "#fff",
+        fontSize: 15,
     },
 
     inputTextArea: {
         position: "relative",
         minWidth: "70%",
-        width: "100%",
+        maxWidth: "70%",
         borderWidth: 1,
         borderColor: "#fff",
         borderRadius: 5,
