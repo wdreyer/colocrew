@@ -44,13 +44,13 @@ router.put('/updateRole', (req, res, next) => {
   User.findOneAndUpdate({ uid }, { isCandidate, isRecruiter }, { new: true })
     .then(result => {
       if (result.nModified === 0) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
-      return res.status(200).send({ message: 'User updated successfully', userUpdated: result });
+      return res.status(200).json({ message: 'User updated successfully', userUpdated: result });
     })
     .catch(error => {
       console.error(error);
-      return res.status(500).send({ error: 'Internal server error' });
+      return res.status(500).json({ error: 'Internal server error' });
     });
 });
 
@@ -62,7 +62,6 @@ router.put("/", function (req, res) {
     return;
   }
   // Si l'id n'existe pas : return res.json({result: false})
-
   User.findByIdAndUpdate(req.body._id, {
     surname: req.body.surname,
     name: req.body.name,
