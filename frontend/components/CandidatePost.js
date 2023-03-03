@@ -1,39 +1,135 @@
 import { StyleSheet, Text, Pressable, TextInput, Switch, View, Modal} from "react-native";
-import { MultipleSelectList } from "react-native-dropdown-select-list";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import Input from "./Input";
 import PrimaryButton from "./PrimaryButton";
 import ModalDatePicker from "./ModalDatePicker";
 import SelectableList from "./SelectableList";
+import ToggleButton from "./ToggleButton";
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
+import config from "../config";
 
 export default function CandidatePost(props) {
-  const [dateModalVisible, setDateModalVisible] = useState(false);
-  
+    const todayDate = getToday();
+    const [dateModalVisible, setDateModalVisible] = useState(false);
+    const [tabContracts, setTabContracts] = useState([]);
+    const [tabQualifications, setTabQualifications] = useState([]);
+    const [tabLodgings, setTabLodgings] = useState([]);
 
-  const data = [
-    { key: "1", value: "Mobiles", disabled: true },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers", disabled: true },
-    { key: "5", value: "Vegetables" },
-    { key: "6", value: "Diary Products" },
-    { key: "7", value: "Drinks" },
-  ];
+    useEffect(() => {
+            fetch(`${config.URL_BACKEND}/settings/contractType`, {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                //console.log('Type de contracts ',data.data);
+                if (data.result) {
+                  let newArray = data.data.map((data,i) => {
+                    return data.name;
+                  });
+                  setTabContracts(newArray);
+                }
+              });
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndtDate] = useState("");
-  const [childrenAge, setChildrenAge] = useState("");
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+              fetch(`${config.URL_BACKEND}/settings/qualifications`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  //console.log('Type de qualifications ',data.data);
+                  if (data.result) {
+                    let newArray = data.data.map((data,i) => {
+                      return data.name;
+                    });
+                    setTabQualifications(newArray);
+                  }
+                });
 
-  const handleDateModal = () => {
-    console.log("Click HandleDateModal");
-  };
+                fetch(`${config.URL_BACKEND}/settings/lodgings`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(),
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      //console.log('Type de lodgings ',data.data);
+                      if (data.result) {
+                        let newArray = data.data.map((data,i) => {
+                          return data.name;
+                        });
+                        setTabLodgings(newArray);
+                      }
+                    });
+                
+                
+          }, []);
+            //console.log('TABBBBB  : ',tabQualifications);
+            //console.log('TABBBBB  : ',tabLodgings);
+            //console.log('TABBBBB  : ',tabContracts);
 
-  const handleSubmitForm = () => {
-    console.log("blabla");
-  };
+            const ContractTypesButtons = () => {
+                let contractsList = tabContracts.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
+                return(<View style={styles.section}>{contractsList}</View>)
+            }
+        
+            const LodgingButtons = () => {
+            let lodgingsList = tabLodgings.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
+            return(<View style={styles.section}>{lodgingsList}</View>)
+        }
+
+        const QualificationsButtons = () => {
+            let qualificationsList = tabQualifications.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
+            return(<View style={styles.section}>{qualificationsList}</View>)
+        }
+
+          const sectionQualifications = () =>  {
+            return (
+              <View style={styles.section}>
+                  <ToggleButton isPressed={false} textButton='CDI'></ToggleButton>
+              </View>
+            );
+        }
+
+          
+
+
+//   const data = [
+//     { key: "1", value: "Mobiles", disabled: true },
+//     { key: "2", value: "Appliances" },
+//     { key: "3", value: "Cameras" },
+//     { key: "4", value: "Computers", disabled: true },
+//     { key: "5", value: "Vegetables" },
+//     { key: "6", value: "Diary Products" },
+//     { key: "7", value: "Drinks" },
+//   ];
+
+    const [startDate, setStartDate] = useState(todayDate);
+    const [endDate, setEndDate] = useState(todayDate);
+    const [childrenAge, setChildrenAge] = useState("");
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+    const recupDateFrom = (date) => {
+        setStartDate(date);
+        //console.log('RECUP START DATE Candidate FORM :  ', date);
+    };
+
+    const recupDateTo = (date) => {
+        setEndDate(date);
+        //console.log('RECUP END DATE Candidate FORM :  ', date);
+    };
+
+    const handleDateModal = () => {
+        console.log("Click HandleDateModal");
+    };
+
+    const handleSubmitForm = () => {
+        console.log("blabla");
+    };
 
 
   if (props.isEditable) {
@@ -42,37 +138,48 @@ export default function CandidatePost(props) {
         <View style={styles.datePickers}>
             <Text style={styles.labelDatePicker}>Disponibilités*</Text>
             <View style={styles.datePicker}>
-             <Text style={styles.labelDatePicker}>Date de début*</Text>
+                <Text style={styles.labelDatePicker}>Date de début*</Text>
                 <ModalDatePicker
                 titleModal="Date de début"
-                currentDate="2023-02-10"
-                selectedDate="2023-02-10"
+                currentDate={startDate}
+                selectedDate={startDate}
+                recupDate={(dateFrom)=>recupDateFrom(dateFrom)}
                 />
             </View>
             <View style={styles.datePicker}>
-            <Text style={styles.labelDatePicker}>Date de fin*</Text>
+                <Text style={styles.labelDatePicker}>Date de fin*</Text>
                 <ModalDatePicker
                 titleModal="Date de fin"
-                currentDate="2023-02-17"
-                selectedDate="2023-02-17"
+                currentDate={endDate}
+                selectedDate={endDate}
+                recupDate={(dateTo)=>recupDateTo(dateTo)}
                 />
             </View>
         </View>
-        <Switch
-          trackColor={{ false: "#767577", true: "#CCC" }}
-          thumbColor={isEnabled ? "#B8336A" : "#AAA"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-        <SelectableList type='contractType'/>
-        <Text>Qualifiactions</Text>
-        <SelectableList type='qualifications'/>
+        <View style={styles.dispoDates}>
+            <Text style={styles.ddate}>{startDate}</Text>
+            <Text style={styles.ddate}>{endDate}</Text>
+        </View>
         
-        <Text>Type d'hébergement</Text>
-        <SelectableList type='lodgings'/>
         
-        <Text>Activités</Text>
+        
+        {/* <Switch
+            trackColor={{ false: "#767577", true: "#CCC" }}
+            thumbColor={isEnabled ? "#B8336A" : "#AAA"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+        /> */}
+        <Text  style={styles.labelsFields}>Type de contrat préféré</Text>
+        <ContractTypesButtons/>
+        
+        <Text  style={styles.labelsFields}>Qualifications</Text>
+        <QualificationsButtons/>
+        
+        <Text style={styles.labelsFields}>Type d'hébergement</Text>
+        <LodgingButtons/>
+        
+        <Text style={styles.labelsFields}>Activités</Text>
         <SelectableList type='activities'/>
         <PrimaryButton
           textBtn="Publier ma candidature"
@@ -108,14 +215,32 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  },
+},
 
-  labelDatePicker: {
+labelsFields: {
+    fontSize: 14,
+    color: '#fff',
+    marginBottom: 10,
+    marginTop: 5,
+},
+
+section:{
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'left',
+    width: 350,
+    height: 'auto',
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#fff',
+},
+
+labelDatePicker: {
     color: "#fff",
     fontSize: 12,
     marginBottom: 2,
     top: -6,
-    
     zIndex: 100,
     backgroundColor: "#281C47",
     position: "absolute",
@@ -143,6 +268,20 @@ datePicker:{
     alignItems: 'center',
     margin:10,
     width:'35%',
+},
+
+dispoDates: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    height:40,
+},
+
+ddate: {
+fontSize: 20,
+fontWeight: 'bold',
+color: "#C398BC",
+margin: 10,
+
 },
   
   button: {

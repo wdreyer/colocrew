@@ -7,6 +7,12 @@ import { useEffect, useState } from "react";
 
 export default function TheDatePicker(props) {
   const [selectedDate, setSelectedDate] = useState("");
+
+  const reverseDate = (date) => {
+    setSelectedDate(date);
+    //console.log('SELECTED DATE  :', selectedDate)
+    props.updateDate(selectedDate)
+  }
   
   return (
     <View style={styles.datePicker}>
@@ -24,7 +30,7 @@ export default function TheDatePicker(props) {
         minimumDate='2023-01-01'
         maximumDate='2099-02-17'
         selected={props.selected}
-        onSelectedChange={selectedDate => {setSelectedDate(selectedDate); console.log(selectedDate);}}
+        onSelectedChange={date => reverseDate(date)}
         mode="calendar"
         minuteInterval={30}
         style={{ borderRadius: 10 }}
