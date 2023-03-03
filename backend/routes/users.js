@@ -55,21 +55,17 @@ router.put('/updateRole', (req, res, next) => {
 });
 
 router.put("/", function (req, res) {
-  if (
-    !checkBody(req.body, ["surname", "name", "address", "phone", "birthDate"])
-  ) {
-    res.json({ result: false, error: "Vous n'avez pas complété tous les chammps requis" });
-    return;
-  }
+  console.log("enter the road")
+  console.log(req.body)
+  const {uid,firstname,lastname, email, phone, description, birthDate } = req.body;
   // Si l'id n'existe pas : return res.json({result: false})
-  User.findByIdAndUpdate(req.body._id, {
-    surname: req.body.surname,
-    name: req.body.name,
-    email: req.body.email,
-    address: req.body.address,
-    phone: req.body.phone,
-    birthDate: req.body.birthDate,
-    description: req.body.description,
+  User.findOneAndUpdate({uid: uid}, {
+    firstname,
+    lastname,
+    email,
+    phone,
+    birthDate,
+    description,
   }).then((data) => {
     console.log(data);
     if (data === null) {
