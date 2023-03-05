@@ -1,61 +1,60 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import LoginScreen from './screens/LoginScreen';
-import SignUpScreen from './screens/SignUpScreen';
-import AreaChoiceScreen from './screens/AreaChoiceScreen';
-import RecruiterHomeScreen from './screens/RecruiterHomeScreen';
-import RecruiterSwipeScreen from './screens/RecruiterSwipeScreen';
-import CandidateHomeScreen from './screens/CandidateHomeScreen';
-import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
-import RecruiterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
-import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
-import MyAnnounceScreen from './screens/MyAnnounceScreen';
+import LoginScreen from "./screens/LoginScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+import AreaChoiceScreen from "./screens/AreaChoiceScreen";
+import RecruiterHomeScreen from "./screens/RecruiterHomeScreen";
+import RecruiterSwipeScreen from "./screens/RecruiterSwipeScreen";
+import CandidateHomeScreen from "./screens/CandidateHomeScreen";
+import CandidateSwipeScreen from "./screens/CandidateSwipeScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import CandidatePostApplyFormScreen from "./screens/CandidatePostApplyFormScreen";
+import RecruiterPostAnnounce from "./screens/RecruiterPostAnnounceScreen";
+import AnnounceArchivedScreen from "./screens/AnnounceArchivedScreen";
+import MyAnnounceScreen from "./screens/MyAnnounceScreen";
 
-
-
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import users from './reducers/users';
-import ScreenModel from './components/ScreenModel';
-
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import users from "./reducers/users";
+import ScreenModel from "./components/ScreenModel";
 
 const Tab = createBottomTabNavigator();
 
 const TabRecruiterNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        let iconName = '';
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = "";
 
-        if (route.name === 'RecruiterHome') {
-          iconName = 'home';
-        } else if (route.name === 'RecruiterSwipe') {
-          iconName = 'heart';
-        } else if (route.name === 'ProfileScreen') {
-          iconName = 'user';
-        }
+          if (route.name === "RecruiterHome") {
+            iconName = "home";
+          } else if (route.name === "RecruiterSwipe") {
+            iconName = "heart";
+          } else if (route.name === "ProfileScreen") {
+            iconName = "user";
+          }
 
-        return <FontAwesome name={iconName} size={size} color={color} />;
-      },
-      tabBarStyle: {
-        height: 90,
-        paddingHorizontal: 5,
-        paddingTop: 0,
-        backgroundColor: '#53496B',
-        position: 'absolute',
-        borderTopWidth: 0,
-    },
-      tabBarActiveTintColor: '#C988A4',
-      tabBarInactiveTintColor: '#fff',
-      headerShown: false,
-    })}>
+          return <FontAwesome name={iconName} size={size} color={color} />;
+        },
+        tabBarStyle: {
+          height: 90,
+          paddingHorizontal: 5,
+          paddingTop: 0,
+          backgroundColor: "#53496B",
+          position: "absolute",
+          borderTopWidth: 0,
+        },
+        tabBarActiveTintColor: "#C988A4",
+        tabBarInactiveTintColor: "#fff",
+        headerShown: false,
+      })}
+    >
       <Tab.Screen name="RecruiterHome" component={RecruiterHomeScreen} />
       <Tab.Screen name="RecruiterSwipe" component={RecruiterSwipeScreen} />
       <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
@@ -65,32 +64,34 @@ const TabRecruiterNavigator = () => {
 
 const TabCandidateNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        let iconName = '';
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = "";
 
-        if (route.name === 'CandidateHome') {
-          iconName = 'home';
-        } else if (route.name === 'CandidateSwipe') {
-          iconName = 'heart';
-        } else if (route.name === 'ProfileScreen') {
-          iconName = 'user';
-        }
+          if (route.name === "CandidateHome") {
+            iconName = "home";
+          } else if (route.name === "CandidateSwipe") {
+            iconName = "heart";
+          } else if (route.name === "ProfileScreen") {
+            iconName = "user";
+          }
 
-        return <FontAwesome name={iconName} size={size} color={color} />;
-      },
-      tabBarStyle: {
-        height: 90,
-        paddingHorizontal: 5,
-        paddingTop: 0,
-        backgroundColor: '#53496B',
-        position: 'absolute',
-        borderTopWidth: 0,
-      },
-      tabBarActiveTintColor: '#C988A4',
-      tabBarInactiveTintColor: '#fff',
-      headerShown: false,
-    })}>
+          return <FontAwesome name={iconName} size={size} color={color} />;
+        },
+        tabBarStyle: {
+          height: 90,
+          paddingHorizontal: 5,
+          paddingTop: 0,
+          backgroundColor: "#53496B",
+          position: "absolute",
+          borderTopWidth: 0,
+        },
+        tabBarActiveTintColor: "#C988A4",
+        tabBarInactiveTintColor: "#fff",
+        headerShown: false,
+      })}
+    >
       <Tab.Screen name="CandidateHome" component={CandidateHomeScreen} />
       <Tab.Screen name="CandidateSwipe" component={CandidateSwipeScreen} />
       <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
@@ -99,27 +100,29 @@ const TabCandidateNavigator = () => {
 };
 
 const store = configureStore({
- reducer: { users },
+  reducer: { users },
 });
 
 export default function App() {
-
   const Stack = createNativeStackNavigator();
-
 
   return (
     <Provider store={store}>
       <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
-            <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
-            <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
-         
-            
-          </Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
+          <Stack.Screen
+            name="TabCandidateNavigator"
+            component={TabCandidateNavigator}
+          />
+          <Stack.Screen
+            name="TabRecruiterNavigator"
+            component={TabRecruiterNavigator}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
-      </Provider>
+    </Provider>
   );
 }
