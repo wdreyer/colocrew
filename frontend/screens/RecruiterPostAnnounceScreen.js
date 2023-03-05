@@ -9,22 +9,16 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     ScrollView,
-    TouchableOpacity,
 } from "react-native";
 
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Input from "../components/Input";
 import UploadImage from "../components/UploadImage";
 import globalStyle from "../styles/globalStyle";
 
 import { useEffect, useState } from "react";
-import Svg, { Path } from "react-native-svg";
 
 import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
-import SelectableList from "../components/SelectableList";
-import { TextInput } from "react-native-gesture-handler";
 import ToggleButton from "../components/ToggleButton";
 import config from "../config";
 import { getToday } from "react-native-modern-datepicker";
@@ -48,12 +42,96 @@ export default function RecruterPostAnnounce({ navigation }) {
     const [startDate, setStartDate] = useState(todayDate);
     const [endDate, setEndDate] = useState(todayDate);
 
-    const [imageUrl, setImageUrl] = useState(null);
+    const [imageUrl, setImageUrl] = useState("");
+
+    const [isActiveErrorTitle, setIsActiveErrorTitle] = useState(false);
+    const [isActiveErrorPlace, setIsActiveErrorPlace] = useState(false);
+    const [isActiveErrorDescription, setIsActiveErrorDescription] =
+        useState(false);
+    const [isActiveErrorSalary, setIsActiveErrorSalary] = useState(false);
+    const [isActiveErrorCounterChild, setIsActiveErrorCounterChild] =
+        useState(false);
+    const [isActiveErrorCounterAnim, setIsActiveErrorCounterAnim] =
+        useState(false);
+    const [isActiveErrorPostLodgings, setIsActiveErrorPostLodgings] =
+        useState(false);
+    const [isActiveErrorPostActivities, setIsActiveErrorPostActivities] =
+        useState(false);
+    const [isActiveErrorStartDate, setIsActiveErrorPostStartDate] =
+        useState(false);
+    const [isActiveErrorEndDate, setIsActiveErrorPostEndDate] = useState(false);
+
+    const toggleErrorMsg = () => {
+        if (!titleAnnounce) {
+            setIsActiveErrorTitle(true);
+        } else {
+            setIsActiveErrorTitle(false);
+        }
+
+        if (!placeAnnounce) {
+            setIsActiveErrorPlace(true);
+        } else {
+            setIsActiveErrorPlace(false);
+        }
+
+        if (!descriptionAnnounce) {
+            setIsActiveErrorDescription(true);
+        } else {
+            setIsActiveErrorDescription(false);
+        }
+
+        if (!salaryAnnounce) {
+            setIsActiveErrorSalary(true);
+        } else {
+            setIsActiveErrorSalary(false);
+        }
+
+        if (postLodgings.length < 1) {
+            setIsActiveErrorPostLodgings(true);
+        } else {
+            setIsActiveErrorPostLodgings(false);
+        }
+
+        if (postActivities.length < 1) {
+            setIsActiveErrorPostActivities(true);
+        } else {
+            setIsActiveErrorPostActivities(false);
+        }
+
+        if (!counterChild) {
+            setIsActiveErrorCounterChild(true);
+        } else {
+            setIsActiveErrorCounterChild(false);
+        }
+
+        if (!counterAnim) {
+            setIsActiveErrorCounterAnim(true);
+        } else {
+            setIsActiveErrorCounterAnim(false);
+        }
+    };
 
     const handleForm = () => {
-        // if(!titleAnnounce, !placeAnnounce, !descriptionAnnounce, !salaryAnnounce,)
+        if (
+            !titleAnnounce ||
+            !placeAnnounce ||
+            !descriptionAnnounce ||
+            !salaryAnnounce ||
+            !counterChild ||
+            !counterAnim ||
+            !postLodgings ||
+            !postActivities ||
+            !startDate ||
+            !endDate
+        ) {
+            toggleErrorMsg();
+            console.log("CHAMP(S) MANQUANT");
+            return;
+        }
 
         if (!imageUrl) {
+            // Create new camp in DB when no picture
+
             const newCamp = {
                 idRecruiter: "64006d94a1e3e9077e720e90",
                 title: titleAnnounce,
@@ -73,10 +151,19 @@ export default function RecruterPostAnnounce({ navigation }) {
                 body: JSON.stringify(newCamp),
             })
                 .then((response) => response.json())
-                .then((data) => console.log(data));
-        }
-
-        else {
+                .then((data) => {
+                    console.log(data);
+                    setIsActiveErrorTitle(false);
+                    setIsActiveErrorPlace(false);
+                    setIsActiveErrorDescription(false);
+                    setIsActiveErrorSalary(false);
+                    setIsActiveErrorPostLodgings(false);
+                    setIsActiveErrorPostActivities(false);
+                    setIsActiveErrorCounterChild(false);
+                    setIsActiveErrorCounterAnim(false);
+                });
+        } else {
+            // Create new camp in DB when picture(s)
 
             const newCamp = {
                 idRecruiter: "64006d94a1e3e9077e720e90",
@@ -92,15 +179,15 @@ export default function RecruterPostAnnounce({ navigation }) {
                 lodgingtype: postLodgings,
             };
             const formData = new FormData();
-    
+
             formData.append("newCamp", JSON.stringify(newCamp));
-    
+
             formData.append("photoFromFront", {
                 uri: imageUrl,
                 name: imageUrl.split("/ImagePicker/")[1],
                 type: "image/jpeg",
             });
-    
+
             fetch(`${config.URL_BACKEND}/camps/createCamp`, {
                 method: "POST",
                 headers: { "Content-Type": "multipart/form-data" },
@@ -109,10 +196,6 @@ export default function RecruterPostAnnounce({ navigation }) {
                 .then((response) => response.json())
                 .then((data) => console.log(data));
         }
-    };
-
-    const test = () => {
-        console.log("test function");
     };
 
     const handleImageUrl = (value) => {
@@ -133,10 +216,6 @@ export default function RecruterPostAnnounce({ navigation }) {
 
     const handleSalaryAnnounce = (value) => {
         setSalaryAnnounce(value);
-    };
-
-    const handleStartDate = (date) => {
-        setStartDate(date);
     };
 
     const handleCounterChild = (value) => {
@@ -182,7 +261,6 @@ export default function RecruterPostAnnounce({ navigation }) {
     };
 
     const handleLodgingsButtons = (data) => {
-        //console.log(data)
         if (data.state && !postLodgings.some((e) => e === data.id)) {
             setPostLodgings((prev) => [...prev, data.id]);
         } else if (!data.state && postLodgings.some((e) => e === data.id)) {
@@ -192,12 +270,10 @@ export default function RecruterPostAnnounce({ navigation }) {
 
     const recupDateFrom = (date) => {
         setStartDate(date);
-        //console.log('RECUP START DATE Candidate FORM :  ', date);
     };
 
     const recupDateTo = (date) => {
         setEndDate(date);
-        //console.log('RECUP END DATE Candidate FORM :  ', date);
     };
 
     useEffect(() => {
@@ -237,6 +313,22 @@ export default function RecruterPostAnnounce({ navigation }) {
                                         handleTitleAnnounce(value)
                                     }
                                 />
+                                <View
+                                    style={
+                                        isActiveErrorTitle &&
+                                        styles.errorMessageContainer
+                                    }
+                                >
+                                    <Text
+                                        style={
+                                            isActiveErrorTitle
+                                                ? styles.errorTxt
+                                                : styles.hideContent
+                                        }
+                                    >
+                                        Champ requis *
+                                    </Text>
+                                </View>
 
                                 <Input
                                     labelTxt="Lieu *"
@@ -245,18 +337,50 @@ export default function RecruterPostAnnounce({ navigation }) {
                                         handlePlaceAnnounce(value)
                                     }
                                 />
+                                <View
+                                    style={
+                                        isActiveErrorPlace &&
+                                        styles.errorMessageContainer
+                                    }
+                                >
+                                    <Text
+                                        style={
+                                            isActiveErrorPlace
+                                                ? styles.errorTxt
+                                                : styles.hideContent
+                                        }
+                                    >
+                                        Champ requis *
+                                    </Text>
+                                </View>
 
                                 <Input
-                                    labelTxt="Description"
+                                    labelTxt="Description *"
                                     placeholder="Description"
                                     onChangeText={(value) =>
                                         handleDescriptionAnnounce(value)
                                     }
                                     multiline={true}
                                 />
+                                <View
+                                    style={
+                                        isActiveErrorDescription &&
+                                        styles.errorMessageContainer
+                                    }
+                                >
+                                    <Text
+                                        style={
+                                            isActiveErrorDescription
+                                                ? styles.errorTxt
+                                                : styles.hideContent
+                                        }
+                                    >
+                                        Champ requis *
+                                    </Text>
+                                </View>
 
                                 <Input
-                                    labelTxt="Salaire (Brut / jour)"
+                                    labelTxt="Salaire (Brut / jour) *"
                                     placeholder="0€"
                                     onChangeText={(value) =>
                                         handleSalaryAnnounce(value)
@@ -265,6 +389,22 @@ export default function RecruterPostAnnounce({ navigation }) {
                                     counter={true}
                                     type={"counter"}
                                 />
+                                <View
+                                    style={
+                                        isActiveErrorSalary &&
+                                        styles.errorMessageContainer
+                                    }
+                                >
+                                    <Text
+                                        style={
+                                            isActiveErrorSalary
+                                                ? styles.errorTxt
+                                                : styles.hideContent
+                                        }
+                                    >
+                                        Champ requis *
+                                    </Text>
+                                </View>
 
                                 <View style={styles.sectionContainer}>
                                     <Text style={styles.titleSection}>
@@ -274,20 +414,16 @@ export default function RecruterPostAnnounce({ navigation }) {
                                         <UploadImage
                                             onUpdate={handleImageUrl}
                                         />
-                                        <UploadImage />
-                                        <UploadImage />
-                                        <UploadImage />
-                                        <UploadImage />
                                     </View>
                                 </View>
 
                                 <View style={styles.sectionContainer}>
                                     <Text style={globalStyle.subtitle}>
-                                        Types d'activités :
+                                        Types d'activités *
                                     </Text>
                                     <View style={styles.wrapper}>
                                         {tabActivities &&
-                                            tabActivities.map((e, i) => {
+                                            tabActivities.map((e) => {
                                                 return (
                                                     <View key={e._id}>
                                                         <ToggleButton
@@ -308,15 +444,31 @@ export default function RecruterPostAnnounce({ navigation }) {
                                                 );
                                             })}
                                     </View>
+                                    <View
+                                        style={
+                                            isActiveErrorPostActivities &&
+                                            styles.errorMessageContainer
+                                        }
+                                    >
+                                        <Text
+                                            style={
+                                                isActiveErrorPostActivities
+                                                    ? styles.errorTxt
+                                                    : styles.hideContent
+                                            }
+                                        >
+                                            Champ requis *
+                                        </Text>
+                                    </View>
 
                                     <Text style={globalStyle.subtitle}>
-                                        Types d'hebergements :
+                                        Types d'hebergements *
                                     </Text>
                                     <View style={styles.wrapper}>
                                         {tabLodgings &&
-                                            tabLodgings.map((e, i) => {
+                                            tabLodgings.map((e) => {
                                                 return (
-                                                    <View key={i}>
+                                                    <View key={e._id}>
                                                         <ToggleButton
                                                             isPressed={postLodgings.some(
                                                                 (el) => el === e
@@ -334,6 +486,22 @@ export default function RecruterPostAnnounce({ navigation }) {
                                                     </View>
                                                 );
                                             })}
+                                    </View>
+                                    <View
+                                        style={
+                                            isActiveErrorPostLodgings &&
+                                            styles.errorMessageContainer
+                                        }
+                                    >
+                                        <Text
+                                            style={
+                                                isActiveErrorPostLodgings
+                                                    ? styles.errorTxt
+                                                    : styles.hideContent
+                                            }
+                                        >
+                                            Champ requis *
+                                        </Text>
                                     </View>
                                 </View>
 
@@ -396,7 +564,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                 <View style={styles.sectionContainer}>
                                     <View style={styles.wrapper}>
                                         <Input
-                                            labelTxt="Nombre d'enfant(s)"
+                                            labelTxt="Nombre d'enfant(s) *"
                                             onChangeText={(value) =>
                                                 handleCounterChild(value)
                                             }
@@ -405,9 +573,26 @@ export default function RecruterPostAnnounce({ navigation }) {
                                             type={"counter"}
                                         />
                                     </View>
+                                    <View
+                                        style={
+                                            isActiveErrorCounterChild &&
+                                            styles.errorMessageContainer
+                                        }
+                                    >
+                                        <Text
+                                            style={
+                                                isActiveErrorCounterChild
+                                                    ? styles.errorTxt
+                                                    : styles.hideContent
+                                            }
+                                        >
+                                            Champ requis *
+                                        </Text>
+                                    </View>
+
                                     <View style={styles.wrapper}>
                                         <Input
-                                            labelTxt="Nombre d'animateur(s)"
+                                            labelTxt="Nombre d'animateur(s) *"
                                             onChangeText={(value) =>
                                                 handleCounterAnim(value)
                                             }
@@ -415,6 +600,22 @@ export default function RecruterPostAnnounce({ navigation }) {
                                             counter={true}
                                             type={"counter"}
                                         />
+                                    </View>
+                                    <View
+                                        style={
+                                            isActiveErrorCounterAnim &&
+                                            styles.errorMessageContainer
+                                        }
+                                    >
+                                        <Text
+                                            style={
+                                                isActiveErrorCounterAnim
+                                                    ? styles.errorTxt
+                                                    : styles.hideContent
+                                            }
+                                        >
+                                            Champ requis *
+                                        </Text>
                                     </View>
                                 </View>
                                 <PrimaryButton
@@ -475,11 +676,6 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         flexWrap: "wrap",
-    },
-
-    checkBox: {
-        backgroundColor: "red",
-        justifyContent: "center",
     },
 
     dateContainer: {
@@ -543,7 +739,6 @@ const styles = StyleSheet.create({
         top: -6,
         zIndex: 100,
         backgroundColor: "#281C47",
-
         paddingHorizontal: 3,
     },
 
@@ -563,7 +758,25 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 20,
         fontWeight: "bold",
-        color: "#C398BC",
+        color: "#FFF",
         margin: 10,
+    },
+
+    errorMessageContainer: {
+        backgroundColor: "red",
+        width: "100%",
+        height: 20,
+        paddingLeft: 10,
+        marginBottom: 20,
+        borderRadius: 2,
+        justifyContent: "center",
+    },
+
+    errorTxt: {
+        color: "#fff",
+    },
+
+    hideContent: {
+        display: "none",
     },
 });
