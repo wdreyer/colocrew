@@ -125,7 +125,7 @@ export default function RecruterPostAnnounce({ navigation }) {
             !endDate
         ) {
             toggleErrorMsg();
-            console.log("CHAMP(S) MANQUANT");
+            console.log("Champ(s) manquant(s)");
             return;
         }
 
@@ -281,6 +281,8 @@ export default function RecruterPostAnnounce({ navigation }) {
         getLodgings();
     }, []);
 
+    
+
     return (
         <KeyboardAvoidingView
             style={globalStyle.container}
@@ -408,7 +410,7 @@ export default function RecruterPostAnnounce({ navigation }) {
 
                                 <View style={styles.sectionContainer}>
                                     <Text style={styles.titleSection}>
-                                        Ajouter des photos :
+                                        Ajouter une photo :
                                     </Text>
                                     <View style={styles.uploadImageWrapper}>
                                         <UploadImage
