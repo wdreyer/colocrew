@@ -21,7 +21,9 @@ export default function ModalDatePicker(props) {
     };
     return (
             <View style={styles.centeredView}>
-              <FontAwesome name='calendar' size={40} color='white' onPress={() => setDateModalVisible(true)}  />
+              <View  style={styles.calendarIcons}>
+                <FontAwesome name='calendar' size={50} color='white' onPress={() => setDateModalVisible(true)}  />
+              </View>
                 <Modal
                   animationType="fade"
                   transparent={true}
@@ -77,8 +79,15 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 22,
+      marginTop: 20,
+      height: 100,
     },
+
+    calendarIcons:{
+      height:50,
+      marginBottom:20,
+    },
+
     datePicker: {
       justifyContent: 'center',
       alignItems: 'center',

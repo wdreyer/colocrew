@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const Camp = require("../models/camps");
+const User = require("../models/users");
 const { checkBody } = require("../modules/checkBody");
 
 const uniqid = require("uniqid");
@@ -8,7 +9,6 @@ const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 
 router.post("/createCamp", async (req, res) => {
-
     if (!req.files) {
         // Create new camp when any picture in DB
 
@@ -59,10 +59,19 @@ router.post("/createCamp", async (req, res) => {
             animNumber,
         });
 
-        camp.save().then(() => {
-            res.status(200).json({
-                result: true,
-                message: "camp successfully created",
+        camp.save().then((result) => {
+            User.findOneAndUpdate(
+                { _id: idRecruiter },
+                { $push: { camps: result._id } }
+            ).then((data) => {
+                if (data === null) {
+                    return res.json({ result: false });
+                } else {
+                    res.status(200).json({
+                        result: true,
+                        message: "camp successfully created",
+                    });
+                }
             });
         });
     } else {
@@ -125,11 +134,19 @@ router.post("/createCamp", async (req, res) => {
                 animNumber,
             });
 
-            camp.save().then(() => {
-                res.status(200).json({
-                    result: true,
-                    message: "camp successfully created",
-                    url: resultCloudinary.secure_url,
+            camp.save().then((result) => {
+                User.findOneAndUpdate(
+                    { _id: idRecruiter },
+                    { $push: { camps: result._id } }
+                ).then((data) => {
+                    if (data === null) {
+                        return res.json({ result: false });
+                    } else {
+                        res.status(200).json({
+                            result: true,
+                            message: "camp successfully created",
+                        });
+                    }
                 });
             });
         } else {

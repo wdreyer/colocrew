@@ -111,6 +111,7 @@ export default function App() {
       <NavigationContainer>
 
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="RecruiterPostAnnounce" component={RecruiterPostAnnounce} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
