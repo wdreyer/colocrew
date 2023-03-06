@@ -39,7 +39,6 @@ export default function CandidatePostApplyFormScreen({navifgation}) {
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <SafeAreaProvider style={globalStyle.safeAreaContainer}>
               <StatusBar style="light" />
-
               <View style={globalStyle.headerContainer}>
                 <Image
                   style={globalStyle.logo}
