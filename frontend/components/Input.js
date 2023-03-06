@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 
     inputCounter: {
         position: "relative",
-        minWidth: '50%',
+        minWidth: '80%',
         borderWidth: 1,
         borderColor: "#fff",
         borderRadius: 5,
