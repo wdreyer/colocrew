@@ -9,7 +9,10 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     ScrollView,
+    TouchableOpacity,
 } from "react-native";
+
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Input from "../components/Input";
 import UploadImage from "../components/UploadImage";
@@ -19,112 +22,235 @@ import { useState } from "react";
 import Svg, { Path } from "react-native-svg";
 
 import PrimaryButton from "../components/PrimaryButton";
-
+import ModalDatePicker from "../components/ModalDatePicker";
+import SelectableList from "../components/SelectableList";
+import { TextInput } from "react-native-gesture-handler";
+import ToggleButton from "../components/ToggleButton";
 
 export default function RecruterPostAnnounce({ navigation }) {
+    const [checked, setChecked] = useState(true);
+    const toggleCheckbox = () => setChecked(!checked);
+
+    const [startDate, setStartDate] = useState("01-01-2020");
+
+    const [counterChild, setCounterChild] = useState(0);
+    const [counterAnim, setCounterAnim] = useState(0);
+
+
+    const [titleAnnounce, setTitleAnnounce] = useState('');
+    const [placeAnnounce, setPlaceAnnounce] = useState('');
+    const [descriptionAnnounce, setDescriptionAnnounce] = useState('');
+    const [salaryAnnounce, setSalaryAnnounce] = useState('');
+
+    const handleForm = () => {
+        console.log('test')
+
+        const formData = new FormData();
+
+        formData.append('photoFromFront', {
+        uri: 'file://...',
+        name: 'photo.jpg',
+        type: 'image/jpeg',
+        });
+
+        fetch('http://.../upload', {
+        method: 'POST',
+        body: formData,
+        }).then((response) => response.json())
+        .then((data) => {
+        
+        });
+    }
+
+
     const test = () => {
         console.log("test function");
     };
 
-    const [checked, setChecked] = useState(true);
-    const toggleCheckbox = () => setChecked(!checked);
+    const handleImageUrl = (value) => {
+        console.log(value)
+    }
+
+    const handleTitleAnnounce = (value) => {
+        setTitleAnnounce(value)
+    }
+
+    const handlePlaceAnnounce = (value) => {
+        setPlaceAnnounce(value)
+    }
+
+    const handleDescriptionAnnounce = (value) => {
+        setDescriptionAnnounce(value)
+    }
+
+    const handleSalaryAnnounce = (value) => {
+        setSalaryAnnounce(value)
+    }
+
+    const handleActivitty= (value) => {
+        setSalaryAnnounce(value)
+    }
+
+    const handleStartDate = (date) => {
+        setStartDate(date);
+    };
+
+    const handleCounterChild = (value) => {
+        setCounterChild(value);
+    };
+
+    const handleCounterAnim = (value) => {
+        setCounterAnim(value);
+    };
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <ScrollView style={styles.scrollView}>
-                <KeyboardAvoidingView
-                    style={styles.container}
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    enabled
-                >
-                    <SafeAreaView style={styles.safeAreaContainer}>
-                        <View style={styles.logoContainer}>
+        <KeyboardAvoidingView
+            style={globalStyle.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <ScrollView
+                style={globalStyle.body}
+                contentContainerStyle={globalStyle.scrollView}
+            >
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <SafeAreaView style={globalStyle.safeAreaContainer}>
+                        <StatusBar style="light" />
+
+                        <View style={globalStyle.headerContainer}>
                             <Image
-                                style={styles.logo}
+                                style={globalStyle.logo}
                                 source={require("../assets/LogoMiniBlanc.png")}
                             />
-                        </View>
-
-                        <View style={styles.contentContainer}>
-                            <Text style={globalStyle.titlePage}>
+                            <Text style={globalStyle.titleText}>
                                 Mon annonce
                             </Text>
+                            <Text> </Text>
+                        </View>
+                        <View>
+                            <View style={globalStyle.contentContainer}>
+                                <Input
+                                    labelTxt="Titre de l'annonce *"
+                                    placeholder="Super séjour cheval à Val d'Isère"
+                                    onChangeText={(value) => handleTitleAnnounce(value)}
+                                />
 
-                            <Input
-                                labelTxt="Titre de l'annonce *"
-                                placeholder="Super séjour cheval à Val d'Isère"
-                                onChangeText={test}
-                            />
+                                <Input
+                                    labelTxt="Lieu *"
+                                    placeholder="Lieu"
+                                    onChangeText={(value) => handlePlaceAnnounce(value)}
+                                />
 
-                            <Input
-                                labelTxt="Lieu *"
-                                placeholder="Lieu"
-                                onChangeText={test}
-                            />
+                                <Input
+                                    labelTxt="Description"
+                                    placeholder="Description"
+                                    onChangeText={(value) => handleDescriptionAnnounce(value)}
+                                    multiline={true}
+                                />
 
-                            <Input
-                                labelTxt="Description"
-                                placeholder="Description"
-                                onChangeText={test}
-                                multiline={true}
-                            />
+                                <Input
+                                    labelTxt="Salaire (Brut / jour)"
+                                    placeholder="0€"
+                                    onChangeText={(value) => handleSalaryAnnounce(value)}
+                                />
 
-                            <Input
-                                labelTxt="Salaire (Brut / jour)"
-                                placeholder="0€"
-                                onChangeText={test}
-                            />
+                                <Input
+                                    labelTxt="Activités"
+                                    placeholder="Activités"
+                                    onChangeText={test}
+                                />
 
-                            <Input
-                                labelTxt="Activités"
-                                placeholder="Activités"
-                                onChangeText={test}
-                            />
-
-                            <View style={styles.sectionContainer}>
-                                <Text style={styles.titleSection}>
-                                    Ajouter des photos :
-                                </Text>
-                                <View style={styles.uploadImageWrapper}>
-                                    <UploadImage />
-                                    <UploadImage />
-                                    <UploadImage />
-                                    <UploadImage />
-                                    <UploadImage />
+                                <View style={styles.sectionContainer}>
+                                    <Text style={styles.titleSection}>
+                                        Ajouter des photos :
+                                    </Text>
+                                    <View style={styles.uploadImageWrapper}>
+                                        <UploadImage onUpdate={handleImageUrl} />
+                                        <UploadImage />
+                                        <UploadImage />
+                                        <UploadImage />
+                                        <UploadImage />
+                                    </View>
                                 </View>
-                            </View>
 
-                            <View style={styles.sectionContainer}>
-                                <Text style={globalStyle.subtitle}>
-                                    Type d'hébergement :
-                                </Text>
-                                
-                            </View>
+                                <View style={styles.sectionContainer}>
+                                    <Text style={globalStyle.subtitle}>
+                                        Type d'hébergement :
+                                    </Text>
+                                    <View style={styles.wrapper}>
+                                        <ToggleButton textButton="Tente" />
+                                        <ToggleButton textButton="Centre" />
+                                        <ToggleButton textButton="Itinérant" />
+                                    </View>
+                                </View>
 
-                            <View style={styles.sectionContainer}>
-                                <Text style={globalStyle.subtitle}>
-                                    Séjours :
-                                </Text>
-                                <Svg
-                                    style={styles.addButton}
-                                    viewBox="0 0 24 24"
-                                    width="50"
-                                    height="50"
-                                    fill="#FAD4D8"
-                                >
-                                    <Path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11H7v2h4v4h2v-4h4v-2h-4V7h-2v4z" />
-                                </Svg>
-                            </View>
+                                <View style={styles.sectionContainer}>
+                                    <View style={styles.wrapper}>
+                                        <Text style={globalStyle.subtitle}>
+                                            Début :
+                                        </Text>
+                                        <View style={styles.dateContainer}>
+                                            <ModalDatePicker
+                                                recupDate={(date) =>
+                                                    handleStartDate(date)
+                                                }
+                                            />
+                                            <Text style={styles.date}>
+                                                {startDate}
+                                            </Text>
+                                        </View>
+                                    </View>
 
-                            <PrimaryButton
-                                actionOnPress={test}
-                                textBtn="Publier une annonce"
-                            />
+                                    <View style={styles.wrapper}>
+                                        <Text style={globalStyle.subtitle}>
+                                            Fin :
+                                        </Text>
+                                        <View style={styles.dateContainer}>
+                                            <ModalDatePicker
+                                                recupDate={(date) =>
+                                                    handleStartDate(date)
+                                                }
+                                            />
+                                            <Text style={styles.date}>
+                                                {startDate}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                                <View style={styles.sectionContainer}>
+                                    <View style={styles.wrapper}>
+                                        <Input
+                                            labelTxt="Nombre d'enfant(s)"
+                                            onChangeText={(value) =>
+                                                handleCounterChild(value)
+                                            }
+                                            value={counterChild}
+                                            counter={true}
+                                            type={"counter"}
+                                        />
+                                    </View>
+                                    <View style={styles.wrapper}>
+                                        <Input
+                                            labelTxt="Nombre d'animateur(s)"
+                                            onChangeText={(value) =>
+                                                handleCounterAnim(value)
+                                            }
+                                            value={counterAnim}
+                                            counter={true}
+                                            type={"counter"}
+                                        />
+                                    </View>
+                                </View>
+                                <PrimaryButton
+                                    actionOnPress={handleForm}
+                                    textBtn="Publier une annonce"
+                                />
+                            </View>
                         </View>
                     </SafeAreaView>
-                </KeyboardAvoidingView>
+                </TouchableWithoutFeedback>
             </ScrollView>
-        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -135,6 +261,7 @@ const styles = StyleSheet.create({
     },
 
     scrollView: {
+        flex: 1,
         backgroundColor: "#281C47",
     },
 
@@ -161,6 +288,7 @@ const styles = StyleSheet.create({
     titleSection: {
         fontSize: 20,
         color: "#FFF",
+        marginBottom: 10,
     },
 
     sectionContainer: {
@@ -175,7 +303,39 @@ const styles = StyleSheet.create({
 
     checkBox: {
         backgroundColor: "red",
+        justifyContent: "center",
     },
 
-    sejourContainer: {},
+    dateContainer: {
+        // flexDirection: "row",
+        // alignItems: "center",
+    },
+
+    date: {
+        marginLeft: 20,
+        color: "#FFF",
+        fontSize: 20,
+    },
+
+    counter: {
+        color: "#FFF",
+        fontSize: 20,
+        marginHorizontal: 10,
+    },
+
+    wrapper: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    choiceLabel: {
+        color: "#281c47",
+        fontSize: 20,
+        marginTop: 10,
+        marginBottom: 20,
+        marginRight: 20,
+        backgroundColor: "#FAD4D8",
+        borderRadius: 10,
+        padding: 10,
+    },
 });
