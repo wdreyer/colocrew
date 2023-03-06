@@ -5,7 +5,7 @@ export default function ToggleButton(props) {
   const [isPressed, setIsPressed] = useState(props.isPressed);
 
   const handleOnPress = () => {
-    props.funcReverseData({state : !isPressed, value : props.textButton});
+    props.funcReverseData({state : !isPressed, value : props.textButton, id: props.id});
     setIsPressed(!isPressed);
     //console.log(isPressed);
   };
@@ -19,7 +19,7 @@ export default function ToggleButton(props) {
           styles.wrapperCustom,
         ]}
       >
-        <Text style={{color: isPressed ? "#FFF" : "#222", fontWeight:'bold'}}>{props.textButton}</Text>
+        <Text style={{color: isPressed ? "#FFF" : "#FFF", fontWeight:'bold'}}>{props.textButton}</Text>
       </Pressable>
     </View>
   );
