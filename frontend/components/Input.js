@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
 
     inputTextArea: {
         position: "relative",
-        minWidth: "70%",
-        maxWidth: "70%",
-        borderWidth: 1,
+        minWidth: "100%",
+        maxWidth: "100%",
+        borderWidth: 0.3,
         borderColor: "#fff",
         borderRadius: 5,
         paddingHorizontal: 10,

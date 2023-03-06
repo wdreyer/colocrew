@@ -24,8 +24,10 @@ router.post('/newApply', function(req, res, next) {
                 .then(result => {
                         res.status(201).json({
                         message: "Candidature créée avec succès",
-                        createdApplying: true
+                        createdApplying: true,
+                        applicationsList: Apply,
                     });
+                    
                 })
                 .catch(err => {
                 console.log(err); 
