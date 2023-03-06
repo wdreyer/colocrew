@@ -16,7 +16,6 @@ import ProfileScreen from "./screens/ProfileScreen";
 import CandidatePostApplyFormScreen from "./screens/CandidatePostApplyFormScreen";
 import RecruiterPostAnnounce from "./screens/RecruiterPostAnnounceScreen";
 import AnnounceArchivedScreen from "./screens/AnnounceArchivedScreen";
-import MyAnnounceScreen from "./screens/MyAnnounceScreen";
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -110,6 +109,10 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="AnnounceArchivedScreen"
+            component={AnnounceArchivedScreen}
+          />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
