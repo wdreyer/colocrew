@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function ToggleButton(props) {
-  const [timesPressed, setTimesPressed] = useState(0);
   const [isPressed, setIsPressed] = useState(props.isPressed);
 
   const handleOnPress = () => {
+    props.funcReverseData({state : !isPressed, value : props.textButton, id: props.id});
     setIsPressed(!isPressed);
-    console.log(isPressed);
+    //console.log(isPressed);
   };
 
   return (
@@ -19,7 +19,7 @@ export default function ToggleButton(props) {
           styles.wrapperCustom,
         ]}
       >
-        <Text style={{color: isPressed ? "#FFF" : "#222", fontWeight:'bold'}}>{props.textButton}</Text>
+        <Text style={{color: isPressed ? "#FFF" : "#FFF", fontWeight:'bold'}}>{props.textButton}</Text>
       </Pressable>
     </View>
   );

@@ -9,6 +9,7 @@ import ToggleButton from "./ToggleButton";
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import config from "../config";
 
+
 export default function CandidatePost(props) {
     const todayDate = getToday();
     const formattedDate = getFormatedDate(new Date(), "DD/MM/YYYY"); 
@@ -17,6 +18,13 @@ export default function CandidatePost(props) {
     const [tabContracts, setTabContracts] = useState([]);
     const [tabQualifications, setTabQualifications] = useState([]);
     const [tabLodgings, setTabLodgings] = useState([]);
+    const [tabLocations, setTabLocations] = useState([]);
+
+    const [postContracts, setPostContracts] = useState([]);
+    const [postQualifications, setPostQualifications] = useState([]);
+    const [postLodgings, setPostLodgings] = useState([]);
+    const [postLocations, setPostLocations] = useState([]);
+    const [postDescription , setPostDescription] = useState([]);
 
     useEffect(() => {
             fetch(`${config.URL_BACKEND}/settings/contractType`, {
@@ -66,24 +74,86 @@ export default function CandidatePost(props) {
                         setTabLodgings(newArray);
                       }
                     });
+
+                fetch(`${config.URL_BACKEND}/settings/locations`, {
+                  method: "GET",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    //console.log('Type de lodgings ',data.data);
+                    if (data.result) {
+                      let newArray = data.data.map((data,i) => {
+                        return data.name;
+                      });
+                      setTabLocations(newArray);
+                    }
+                  });
                 
                 
           }, []);
 
+        const handleContractTypesButtons = (data) => {
+          //console.log(data)
+          if (data.state && !postContracts.some((e) => e === data.value)) {
+              setPostContracts(prev => [...prev, data.value]);
+          } else if (!data.state ) {
+            setPostContracts(prev => prev.filter(e => e !== data.value));
+          }
+        }
+
+        const handleQualificationsButtons = (data) => {
+          //console.log(data)
+          if (data.state && !postQualifications.some((e) => e === data.value)) {
+              setPostQualifications(prev => [...prev, data.value]);
+          } else if (!data.state && postQualifications.some((e) => e === data.value)) {
+            setPostQualifications(prev => prev.filter(e => e !== data.value));
+          }
+        }
+
+        const handleLodgingsButtons = (data) => {
+          //console.log(data)
+          if (data.state && !postLodgings.some((e) => e === data.value)) {
+            setPostLodgings(prev => [...prev, data.value]);
+        } else if (!data.state && postLodgings.some((e) => e === data.value)) {
+          setPostLodgings(prev => prev.filter(e => e !== data.value));
+        }
+        }
+
+        const handleLocationsButtons = (data) => {
+          //console.log(data)
+          if (data.state && !postLocations.some((e) => e === data.value)) {
+            setPostLocations(prev => [...prev, data.value]);
+        } else if (!data.state && postLocations.some((e) => e === data.value)) {
+          setPostLocations(prev => prev.filter(e => e !== data.value));
+        }
+        }
+        
+        //console.log('TABLEAU DE CONTRATS ==>  ',postContracts)
+        //console.log('TABLEAU DE LOGEMENTS ==>  ',postLodgings)
+        //console.log('TABLEAU DE Qualifications ==>  ',postQualifications)
+
+
         const ContractTypesButtons = () => {
-                let contractsList = tabContracts.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
+                let contractsList = tabContracts.map((e, i) => <ToggleButton key={i} isPressed={postContracts.some(el => el === e)} textButton={e} funcReverseData={(data) => handleContractTypesButtons(data) }></ToggleButton>);
                 return(<View style={styles.section}>{contractsList}</View>)
             }
         
         const LodgingButtons = () => {
-            let lodgingsList = tabLodgings.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
+            let lodgingsList = tabLodgings.map((e, i) => <ToggleButton key={i} isPressed={postLodgings.some(el => el === e)} textButton={e} funcReverseData={(data) => handleLodgingsButtons(data) }></ToggleButton>);
             return(<View style={styles.section}>{lodgingsList}</View>)
             }
 
         const QualificationsButtons = () => {
-            let qualificationsList = tabQualifications.map((e, i) => <ToggleButton key={i} isPressed={false} textButton={e}></ToggleButton>);
+            let qualificationsList = tabQualifications.map((e, i) => <ToggleButton key={i} isPressed={postQualifications.some(el => el === e)} textButton={e} funcReverseData={(data) => handleQualificationsButtons(data) }></ToggleButton>);
             return(<View style={styles.section}>{qualificationsList}</View>)
             }
+        
+        const LocationsButtons = () => {
+          let locationsList = tabLocations.map((e, i) => <ToggleButton key={i} isPressed={postLocations.some(el => el === e)} textButton={e} funcReverseData={(data) => handleLocationsButtons(data) }></ToggleButton>);
+          return(<View style={styles.section}>{locationsList}</View>)
+          }
 
 //   const data = [
 //     { key: "1", value: "Mobiles", disabled: true },
@@ -101,49 +171,76 @@ export default function CandidatePost(props) {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-    const recupDateFrom = (date) => {
+    const recupStartDate= (date) => {
         setStartDate(date);
         //console.log('RECUP START DATE Candidate FORM :  ', date);
     };
 
-    const recupDateTo = (date) => {
+    const recupEndDate = (date) => {
         setEndDate(date);
         //console.log('RECUP END DATE Candidate FORM :  ', date);
     };
 
-    const handleDateModal = () => {
-        console.log("Click HandleDateModal");
-    };
+    const handleDescriptionField = (value) => {
+        setPostDescription(value);
+        //console.log(postDescription);
+    }
 
-    const handleSubmitForm = () => {
+    const handleSubmitCandidateForm = () => {
+      fetch(`${config.URL_BACKEND}/applications/newApply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          {
+            startDate : startDate,
+            endDate : endDate,
+            description : postDescription,
+            lodgingType : postLodgings,
+            locations : postLocations,
+            activities : [],
+            contractType : postContracts,
+          }
+        ),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log('Type de qualifications ',data.data);
+          if (data.result) {
+            let newArray = data.data.map((data,i) => {
+              return data.name;
+            });
+            setTabQualifications(newArray);
+          }
+        });
+
         console.log("Formulaire soumis");
     };
 
 
   if (props.isEditable) {
     return (
-    <View style={styles.centeredView}>
+    <View style={styles.CenteredView}>
         <View style={styles.datePickers}>
           <Text style={styles.labelDatePicker}>Disponibilités*</Text>
           <View style={styles.containerDatePickers}>
             <View style={styles.datePicker}>
-                <Text style={styles.labelDatePicker}>Date de début*</Text>
+                <Text style={styles.labelCalendar}>Date de début*</Text>
                 <ModalDatePicker
                 titleModal="Date de début"
                 currentDate={startDate}
                 selectedDate={startDate}
                 todayDate={todayDate}
-                recupDate={(dateFrom)=>recupDateFrom(dateFrom)}
+                recupDate={(startDate)=>recupStartDate(startDate)}
                 />
             </View>
             <View style={styles.datePicker}>
-                <Text style={styles.labelDatePicker}>Date de fin*</Text>
+                <Text style={styles.labelCalendar}>Date de fin*</Text>
                 <ModalDatePicker
                 titleModal="Date de fin"
                 currentDate={endDate}
                 selectedDate={endDate}
                 todayDate={todayDate}
-                recupDate={(dateTo)=>recupDateTo(dateTo)}
+                recupDate={(endDate)=>recupEndDate(endDate)}
                 />
             </View>
         </View>
@@ -152,7 +249,10 @@ export default function CandidatePost(props) {
             <Text style={styles.date}>au {endDate}</Text>
         </View>
         </View>
-        
+        <View>
+        <Input multiline={true} labelTxt='Je suis hyper motivé !' onChangeText={(value) => handleDescriptionField(value)}></Input>
+
+        </View>
         
         
         {/* <Switch
@@ -162,20 +262,27 @@ export default function CandidatePost(props) {
             onValueChange={toggleSwitch}
             value={isEnabled}
         /> */}
+
         <Text  style={styles.labelsFields}>Type de contrat préféré</Text>
         <ContractTypesButtons/>
         
         <Text  style={styles.labelsFields}>Qualifications</Text>
         <QualificationsButtons/>
-        
-        <Text style={styles.labelsFields}>Type d'hébergement</Text>
+
+        <Text style={styles.labelsFields}>Environnement souhaité</Text>
+        <LocationsButtons/>
+
+        <Text style={styles.labelsFields}>Type d'hébergement souhaité</Text>
         <LodgingButtons/>
         
         <Text style={styles.labelsFields}>Activités</Text>
-        <SelectableList type='activities'/>
+        <View style={styles.selectableList}>
+          <SelectableList type='activities'/>
+        </View>
+        
         <PrimaryButton
           textBtn="Publier ma candidature"
-          actionOnPress={() => handleSubmitForm()}
+          actionOnPress={() => handleSubmitCandidateForm()}
         />
     </View>
     )
@@ -186,7 +293,7 @@ export default function CandidatePost(props) {
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  CenteredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -218,46 +325,55 @@ section:{
     position:'relative',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     width: 350,
     height: 'auto',
-    padding: 10,
-    borderWidth: 0.3,
-    borderRadius: 25,
+    padding: 5,
+    borderWidth: 0,
+    borderRadius: 2,
     borderColor: '#938CA4',
 },
 containerDatePickers:{
-  marginTop: 20,
+  marginTop: 10,
   flexDirection:'row',
-  height: 80,
+  justifyContent: 'center',
+  height:90,
   width:'100%',
+  backgroundColor:'#53496B',
 },
 
   datePickers: {
-    position: "relative",
+    backgroundColor:'#53496B',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 0.3,
     borderColor: "#fff",
     borderRadius: 5,
-    height: 120,
-    marginBottom: 10,
+    height: 200,
+    marginBottom: 20,
     width: "100%",
-    padding: 10,
+    padding: 5,
     color: "#fff",
 
+  },
+  labelCalendar: {
+    color:'#fff',
+    fontSize: 16,
+    
+    marginBottom: 25,
   },
 
   labelDatePicker: {
     color: "#fff",
-    fontSize: 12,
-    marginBottom: 2,
+    fontSize: 14,
+    
     top: -6,
     zIndex: 100,
-    backgroundColor: "#281C47",
-    position: "absolute",
+    backgroundColor: "#53496B",
+    position:'absolute',
     paddingHorizontal: 3,
+    
 },
 
 datePicker:{
@@ -276,9 +392,15 @@ dispoDates: {
 date: {
 fontSize: 20,
 fontWeight: 'bold',
-color: "#C398BC",
+color: "#FFF",
 margin: 10,
 
+},
+
+selectableList: {
+  justifyContent: 'center',
+  width: '100%',
+  marginBottom: 40,
 },
   
   button: {

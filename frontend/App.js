@@ -109,11 +109,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
+
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            name="ApplyArchivedScreen"
-            component={ApplyArchivedScreen}
-          />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
