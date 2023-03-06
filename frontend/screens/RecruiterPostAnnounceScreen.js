@@ -16,6 +16,7 @@ import UploadImage from "../components/UploadImage";
 import globalStyle from "../styles/globalStyle";
 
 import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 
 import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
@@ -25,6 +26,8 @@ import { getToday } from "react-native-modern-datepicker";
 
 export default function RecruterPostAnnounce({ navigation }) {
     const todayDate = getToday();
+
+    const user = useSelector((state) => state.users);
 
     const [titleAnnounce, setTitleAnnounce] = useState("");
     const [placeAnnounce, setPlaceAnnounce] = useState("");
@@ -133,7 +136,7 @@ export default function RecruterPostAnnounce({ navigation }) {
             // Create new camp in DB when no picture
 
             const newCamp = {
-                idRecruiter: "64006d94a1e3e9077e720e90",
+                idRecruiter: user.uid,
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -166,7 +169,7 @@ export default function RecruterPostAnnounce({ navigation }) {
             // Create new camp in DB when picture(s)
 
             const newCamp = {
-                idRecruiter: "64006d94a1e3e9077e720e90",
+                idRecruiter: user.uid,
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
