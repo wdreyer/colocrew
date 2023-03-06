@@ -113,7 +113,8 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-          <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
+             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
+          <Stack.Screen name="CandidatePostApplyFormScreen" component={CandidatePostApplyFormScreen} />         
           <Stack.Screen
             name="TabCandidateNavigator"
             component={TabCandidateNavigator}

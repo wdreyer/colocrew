@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         position: "relative",
         minWidth: "100%",
         maxWidth: "100%",
-        borderWidth: 1,
+        borderWidth: 0.3,
         borderColor: "#fff",
         borderRadius: 5,
         paddingHorizontal: 10,

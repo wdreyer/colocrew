@@ -171,22 +171,22 @@ export default function CandidatePost(props) {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-    const recupDateFrom = (date) => {
+    const recupStartDate= (date) => {
         setStartDate(date);
         //console.log('RECUP START DATE Candidate FORM :  ', date);
     };
 
-    const recupDateTo = (date) => {
+    const recupEndDate = (date) => {
         setEndDate(date);
         //console.log('RECUP END DATE Candidate FORM :  ', date);
     };
 
-    const handleDescription = (value) => {
+    const handleDescriptionField = (value) => {
         setPostDescription(value);
         //console.log(postDescription);
     }
 
-    const handleSubmitForm = () => {
+    const handleSubmitCandidateForm = () => {
       fetch(`${config.URL_BACKEND}/applications/newApply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -219,28 +219,28 @@ export default function CandidatePost(props) {
 
   if (props.isEditable) {
     return (
-    <View style={styles.centeredView}>
+    <View style={styles.CenteredView}>
         <View style={styles.datePickers}>
           <Text style={styles.labelDatePicker}>Disponibilités*</Text>
           <View style={styles.containerDatePickers}>
             <View style={styles.datePicker}>
-                <Text style={styles.labelDatePicker}>Date de début*</Text>
+                <Text style={styles.labelCalendar}>Date de début*</Text>
                 <ModalDatePicker
                 titleModal="Date de début"
                 currentDate={startDate}
                 selectedDate={startDate}
                 todayDate={todayDate}
-                recupDate={(dateFrom)=>recupDateFrom(dateFrom)}
+                recupDate={(startDate)=>recupStartDate(startDate)}
                 />
             </View>
             <View style={styles.datePicker}>
-                <Text style={styles.labelDatePicker}>Date de fin*</Text>
+                <Text style={styles.labelCalendar}>Date de fin*</Text>
                 <ModalDatePicker
                 titleModal="Date de fin"
                 currentDate={endDate}
                 selectedDate={endDate}
                 todayDate={todayDate}
-                recupDate={(dateTo)=>recupDateTo(dateTo)}
+                recupDate={(endDate)=>recupEndDate(endDate)}
                 />
             </View>
         </View>
@@ -250,7 +250,7 @@ export default function CandidatePost(props) {
         </View>
         </View>
         <View>
-        <Input multiline={true} labelTxt='Je suis hyper motivé !' onChangeText={(value) => handleDescription(value)}></Input>
+        <Input multiline={true} labelTxt='Je suis hyper motivé !' onChangeText={(value) => handleDescriptionField(value)}></Input>
 
         </View>
         
@@ -276,10 +276,13 @@ export default function CandidatePost(props) {
         <LodgingButtons/>
         
         <Text style={styles.labelsFields}>Activités</Text>
-        <SelectableList type='activities'/>
+        <View style={styles.selectableList}>
+          <SelectableList type='activities'/>
+        </View>
+        
         <PrimaryButton
           textBtn="Publier ma candidature"
-          actionOnPress={() => handleSubmitForm()}
+          actionOnPress={() => handleSubmitCandidateForm()}
         />
     </View>
     )
@@ -290,7 +293,7 @@ export default function CandidatePost(props) {
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  CenteredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -325,43 +328,52 @@ section:{
     justifyContent: 'flex-start',
     width: 350,
     height: 'auto',
-    padding: 10,
-    borderWidth: 0.3,
-    borderRadius: 25,
+    padding: 5,
+    borderWidth: 0,
+    borderRadius: 2,
     borderColor: '#938CA4',
 },
 containerDatePickers:{
-  marginTop: 20,
+  marginTop: 10,
   flexDirection:'row',
-  height: 80,
+  justifyContent: 'center',
+  height:90,
   width:'100%',
+  backgroundColor:'#53496B',
 },
 
   datePickers: {
-    
+    backgroundColor:'#53496B',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 0.3,
     borderColor: "#fff",
     borderRadius: 5,
-    height: 120,
-    marginBottom: 10,
+    height: 200,
+    marginBottom: 20,
     width: "100%",
-    padding: 10,
+    padding: 5,
     color: "#fff",
 
+  },
+  labelCalendar: {
+    color:'#fff',
+    fontSize: 16,
+    
+    marginBottom: 25,
   },
 
   labelDatePicker: {
     color: "#fff",
-    fontSize: 12,
-    marginBottom: 2,
+    fontSize: 14,
+    
     top: -6,
     zIndex: 100,
-    backgroundColor: "#281C47",
-    
+    backgroundColor: "#53496B",
+    position:'absolute',
     paddingHorizontal: 3,
+    
 },
 
 datePicker:{
@@ -380,9 +392,15 @@ dispoDates: {
 date: {
 fontSize: 20,
 fontWeight: 'bold',
-color: "#C398BC",
+color: "#FFF",
 margin: 10,
 
+},
+
+selectableList: {
+  justifyContent: 'center',
+  width: '100%',
+  marginBottom: 40,
 },
   
   button: {

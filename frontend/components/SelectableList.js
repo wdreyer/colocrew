@@ -4,14 +4,21 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useEffect, useState } from 'react';
 import config from '../config';
 
-export default function SelectableList ({type}) {
+export default function SelectableList (props) {
     const [DataActivities, setDataActivities] = useState([]);
     const [selected, setSelected] = useState("");
     const [data,setData] = useState([]);
+
+    const handleListElements = (val) => {
+      setSelected(val);
+      
+
+    }
+    
     
     //console.log('Type de données SelectableList', type);
     useEffect(() => {
-      fetch(`${config.URL_BACKEND}/settings/${type}`, {
+      fetch(`${config.URL_BACKEND}/settings/${props.type}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(),
@@ -29,22 +36,26 @@ export default function SelectableList ({type}) {
           }
         });
     }, []);
+    console.log(selected);
     return (
       <MultipleSelectList
-        searchPlaceholder="Rechercher des activités"
-        setSelected={setSelected}
+        placeholder="Choisir mes activités préférées"
+        searchPlaceholder="Recherche"
+        setSelected={(val) => handleListElements(val)}
         data={data}
         save="value"
         label="Activitésssssss"
-        boxStyles={{color:"#FFF", backgroundColor:"#fff"}}
+        boxStyles={{color:"#281C47", backgroundColor:"#DBD7E7", width:'100%'}}
         dropdownStyles={{color:"#FFF", backgroundColor:"#53496B"}}
         dropdownTextStyles={{color:"#FFF", backgroundColor:"#53496B"}}
-        inputStyles={{color:"#FFF", backgroundColor:"#fff"}}
-        checkBoxStyles={{color:"#FFF", backgroundColor:"#FFF"}}
+        
+        inputStyles={{color:"#281C47", backgroundColor:"#DBD7E7", fontSize:16}}
+        checkBoxStyles={{color:"#281C47", backgroundColor:"#DBD7E7"}}
         badgeStyles={{color:"#FFF", backgroundColor:"#C398BC"}}
         badgeTextStyles={{color:"#281C47"}}
         labelStyles={{color:"#FFF", backgroundColor:"#FFF"}}
-        maxHeight={200}
+        maxHeight={300}
+        
       />
     );
   };

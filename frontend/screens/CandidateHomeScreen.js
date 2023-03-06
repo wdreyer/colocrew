@@ -19,13 +19,14 @@ import {
   Alert,
   Modal,
   Pressable,
+  
   TextInput,
   SafeAreaView,
   Dimensions,
 } from "react-native";
 import config from "../config";
 
-export default function ScreenModel() {
+export default function CandidateHomeScreen({navigation}) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
@@ -44,12 +45,15 @@ export default function ScreenModel() {
                 style={globalStyle.logo}
                 source={require("../assets/LogoMiniBlanc.png")}
               />
-              <Text style={globalStyle.titleText}>Accueil Candidat</Text>
-              <Text> </Text>
+              <Text style={globalStyle.titleText}>Home Candidat</Text>
+              <Text></Text>
             </View>
             <View>
               <View style={globalStyle.contentContainer}>
                 {/* Ajoutez ici les autres éléments de la screen */}
+                <View>
+                <PrimaryButton textBtn='Publier une candidature' actionOnPress={() => navigation.navigate("CandidatePostApplyFormScreen")}/>
+              </View>
               </View>
             </View>
           </SafeAreaProvider>
