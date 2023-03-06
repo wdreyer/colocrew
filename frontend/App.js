@@ -21,11 +21,15 @@ import MyAnnounceScreen from './screens/MyAnnounceScreen';
 
 
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import users from './reducers/users';
 import ScreenModel from './components/ScreenModel';
 
-
+const reducers = combineReducers({ users });
+const persistConfig = { key: 'faceUpP3', storage: AsyncStorage };
 const Tab = createBottomTabNavigator();
 
 const TabRecruiterNavigator = () => {
@@ -63,6 +67,11 @@ const TabRecruiterNavigator = () => {
   );
 };
 
+const store = configureStore({
+  reducer: persistReducer(persistConfig, reducers),
+  middleware: (GetDefaultMiddleware) => GetDefaultMiddleware({serializableCheck: false}),
+});
+
 const TabCandidateNavigator = () => {
   return (
     <Tab.Navigator screenOptions={({ route }) => ({
@@ -98,9 +107,9 @@ const TabCandidateNavigator = () => {
   );
 };
 
-const store = configureStore({
- reducer: { users },
-});
+
+
+const persistor = persistStore(store);
 
 export default function App() {
 
@@ -109,18 +118,18 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
-            <Stack.Screen name="CandidatePostApplyFormScreen" component={CandidatePostApplyFormScreen} />
-            <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
-            <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
-         
-            
-          </Stack.Navigator>
-      </NavigationContainer>
-      </Provider>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="LoginScreen" component={LoginScreen} />
+              <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+              <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
+              <Stack.Screen name="CandidatePostApplyFormScreen" component={CandidatePostApplyFormScreen} />
+              <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
+              <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
+            </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }

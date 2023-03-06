@@ -54,6 +54,7 @@ export default function SignUpScreen({ navigation }) {
                 isConnected : true,
                 email : res.createdUser.email,
                 uid : res.createdUser.uid,
+                mongoID : res.createdUser._id,
             }))
               navigation.navigate("AreaChoiceScreen");
             }

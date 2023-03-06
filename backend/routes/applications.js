@@ -8,8 +8,11 @@ const Contracts = require("../models/contracts");
 const Applications = require("../models/applications");
 
 router.post('/newApply', function(req, res, next) {
+    const datePost = Date.now();
     if(req.body.startDate && req.body.endDate){
         const Apply = {
+            idCandidate : req.idCandidate,
+            datePost : datePost,
             startDate : req.body.startDate,
             endDate : req.body.endDate,
             description : req.body.description,
@@ -25,6 +28,7 @@ router.post('/newApply', function(req, res, next) {
                         res.status(201).json({
                         message: "Candidature créée avec succès",
                         createdApplying: true,
+                        storedApplying: result,
                         applicationsList: Apply,
                     });
                     

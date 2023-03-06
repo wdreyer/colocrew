@@ -26,7 +26,7 @@ import {
 } from "react-native";
 import config from "../config";
 
-export default function CandidatePostApplyFormScreen({navifgation}) {
+export default function CandidatePostApplyFormScreen({navigation}) {
   return (
       <KeyboardAvoidingView
         style={globalStyle.container}
@@ -49,7 +49,7 @@ export default function CandidatePostApplyFormScreen({navifgation}) {
               </View>
               <View>
                 <View style={globalStyle.contentContainer}>
-                  <CandidatePost isEditable={true} />
+                  <CandidatePost isEditable={true} formSubmitted={() => formSubmitted()}/>
                   {/* Ajoutez ici les autres éléments de la screen */}
                 </View>
               </View>
