@@ -3,6 +3,7 @@ var router = express.Router();
 const User = require("../models/users");
 
 router.post('/createUser', (req, res, next) => {
+  console.log('newuser', req.body)
   const email = req.body.email;
   const uid = req.body.uid;
   const newUser = new User({
@@ -25,6 +26,7 @@ router.post('/createUser', (req, res, next) => {
 });
 
 router.get('/authByUid/:uid', (req, res, next) => {
+  console.log(req)
   User.findOne({uid:req.params.uid})
   .then((data) =>{
     if(data){

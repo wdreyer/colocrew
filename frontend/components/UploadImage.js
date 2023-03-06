@@ -33,10 +33,14 @@ export default function UploadImage(props) {
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
+            props.onUpdate(result.assets[0].uri);
         }
-
-        props.onUpdate(result.assets[0].uri);
     };
+
+    const deleteImage = () => {
+        setImage('')
+        props.onUpdate('');
+    }
 
     if (!hasPermission) {
         return (
@@ -54,7 +58,7 @@ export default function UploadImage(props) {
         >
             {image ? (
                 <Svg
-                    onPress={() => setImage('')}
+                    onPress={() => deleteImage()}
                     style={styles.addButton}
                     viewBox="0 0 24 24"
                     width="35"

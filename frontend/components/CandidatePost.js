@@ -218,7 +218,6 @@ export default function CandidatePost(props) {
           //console.log('Type de qualifications ',data.data);
           console.log('CANDIDATURE CREEE : ',data.storedApplying._id);
           if (data.result) {
-            
             let newArray = data.data.map((data,i) => {
               return data.name;
             });
