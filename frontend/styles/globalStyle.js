@@ -76,7 +76,7 @@ export default StyleSheet.create({
   },
 
   scrollView: {
-    color: '#fff',
+    color: "#fff",
     backgroundColor: "#281C47",
   },
 
@@ -95,25 +95,25 @@ export default StyleSheet.create({
   },
 
   container: {
-    color:'#fff',
+    color: "#fff",
     flex: 1,
     backgroundColor: "#281C47",
-    paddingBottom : 5,
+    paddingBottom: 5,
   },
 
   safeAreaContainer: {
     flex: 1,
-    color: '#fff',
+    color: "#fff",
   },
 
   contentContainer: {
-    color: '#fff',
+    color: "#fff",
     margin: 25,
   },
 
   text: {
-    color: '#fff',
+    marginBottom: 15,
+    color: "#fff",
     fontSize: 20,
-
-  }
+  },
 });

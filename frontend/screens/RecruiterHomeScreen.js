@@ -25,12 +25,11 @@ import {
 } from "react-native";
 import config from "../config";
 import CardBG from "../components/CardBG";
-import RecruiterProfileScreen from "./RecruiterProfileScreen";
+import ProfileScreen from "./ProfileScreen";
 import AnnounceArchivedScreen from "./AnnounceArchivedScreen";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 export default function RecruiterHomeScreen() {
-
   const navigation = useNavigation();
 
   return (
@@ -65,9 +64,7 @@ export default function RecruiterHomeScreen() {
                   </Text>
                   <PrimaryButton
                     textBtn="Remplir mon profil"
-                    actionOnPress={() =>
-                      navigation.navigate(RecruiterProfileScreen)
-                    }
+                    actionOnPress={() => navigation.navigate(ProfileScreen)}
                   />
                 </View>
                 <View style={styles.candidaturesContainer}>
@@ -108,9 +105,7 @@ export default function RecruiterHomeScreen() {
                     <CardBG textCard="Séjour 3" />
                   </View>
                   <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate(AnnounceArchivedScreen)
-                    }
+                    onPress={() => navigation.navigate(AnnounceArchivedScreen)}
                   >
                     <Text style={styles.linkText}>
                       Voir mes annonces archivées
