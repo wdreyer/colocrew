@@ -11,7 +11,7 @@ import Svg, { Path } from "react-native-svg";
 
 import * as ImagePicker from "expo-image-picker";
 
-export default function UploadImage() {
+export default function UploadImage(props) {
     const [hasPermission, setHasPermission] = useState(false);
     const [image, setImage] = useState("");
 
@@ -34,6 +34,8 @@ export default function UploadImage() {
         if (!result.canceled) {
             setImage(result.assets[0].uri);
         }
+
+        props.onUpdate(result.assets[0].uri);
     };
 
     if (!hasPermission) {

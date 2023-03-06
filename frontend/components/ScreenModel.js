@@ -7,35 +7,35 @@ import { useState } from "react";
 import globalStyle from "../styles/globalStyle";
 
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ScrollView,
-  KeyboardAvoidingView,
-  Alert,
-  Modal,
-  Pressable,
-  TextInput,
-  SafeAreaView,
-  Dimensions,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Image,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView,
+    KeyboardAvoidingView,
+    Alert,
+    Modal,
+    Pressable,
+    TextInput,
+    SafeAreaView,
+    Dimensions,
 } from "react-native";
 import config from "../config";
 
 export default function ScreenModel() {
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        style={globalStyle.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <KeyboardAvoidingView
+      style={globalStyle.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        style={globalStyle.body}
+        contentContainerStyle={globalStyle.scrollView}
       >
-        <ScrollView
-          style={globalStyle.body}
-          contentContainerStyle={globalStyle.scrollView}
-        >
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <SafeAreaProvider style={globalStyle.safeAreaContainer}>
             <StatusBar style="light" />
 
@@ -53,8 +53,8 @@ export default function ScreenModel() {
               </View>
             </View>
           </SafeAreaProvider>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

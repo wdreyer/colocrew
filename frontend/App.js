@@ -14,7 +14,9 @@ import CandidateHomeScreen from './screens/CandidateHomeScreen';
 import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
-import RecruterPostAnnounce from './screens/RecruterPostAnnounce';
+import RecruterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
+import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
+import MyAnnounceScreen from './screens/MyAnnounceScreen';
 
 
 
@@ -109,7 +111,6 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
