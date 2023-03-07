@@ -26,7 +26,7 @@ import {
 } from "react-native";
 import config from "../config";
 
-export default function CandidatePostApplyFormScreen({navifgation}) {
+export default function CandidatePostApplyFormScreen({navigation}) {
   return (
       <KeyboardAvoidingView
         style={globalStyle.container}

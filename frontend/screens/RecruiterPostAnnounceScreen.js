@@ -24,7 +24,7 @@ import ToggleButton from "../components/ToggleButton";
 import config from "../config";
 import { getToday } from "react-native-modern-datepicker";
 
-export default function RecruterPostAnnounce({ navigation }) {
+export default function RecruiterPostAnnounceScreen({ navigation }) {
     const todayDate = getToday();
 
     const user = useSelector((state) => state.users);
@@ -136,7 +136,7 @@ export default function RecruterPostAnnounce({ navigation }) {
             // Create new camp in DB when no picture
 
             const newCamp = {
-                idRecruiter: user.uid,
+                idRecruiter: "64006d199c90d73bb9029e6e",
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -169,7 +169,7 @@ export default function RecruterPostAnnounce({ navigation }) {
             // Create new camp in DB when picture(s)
 
             const newCamp = {
-                idRecruiter: user.uid,
+                idRecruiter: "64006d199c90d73bb9029e6e",
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -424,7 +424,7 @@ export default function RecruterPostAnnounce({ navigation }) {
 
                                 <View style={styles.sectionContainer}>
                                     <Text style={globalStyle.subtitle}>
-                                        Types d'activités *
+                                        Types dactivités *
                                     </Text>
                                     <View style={styles.wrapper}>
                                         {tabActivities &&
@@ -443,7 +443,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                                                     data
                                                                 )
                                                             }
-                                                            id={e._id}
+                                                            id={e.name}
                                                         />
                                                     </View>
                                                 );
@@ -486,7 +486,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                                                     data
                                                                 )
                                                             }
-                                                            id={e._id}
+                                                            id={e.name}
                                                         />
                                                     </View>
                                                 );

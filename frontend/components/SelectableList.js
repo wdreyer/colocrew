@@ -44,7 +44,7 @@ export default function SelectableList (props) {
         setSelected={(val) => handleListElements(val)}
         data={data}
         save="value"
-        label="Activitésssssss"
+        label="Activités"
         boxStyles={{color:"#281C47", backgroundColor:"#DBD7E7", width:'100%'}}
         dropdownStyles={{color:"#FFF", backgroundColor:"#53496B"}}
         dropdownTextStyles={{color:"#FFF", backgroundColor:"#53496B"}}

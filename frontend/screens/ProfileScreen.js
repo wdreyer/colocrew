@@ -20,12 +20,19 @@ import { useSelector } from "react-redux";
 import avatarImage from "../assets/MathiasAvatar.png";
 import config from "../config";
 
-export default function CandidateProfileScreen({ navigation }) {
+export default function ProfileScreen({ navigation,route }) {
   const [profileData, setProfileData] = useState({});
   const user = useSelector((state) => state.users);
   const uid = user.uid;
   const [editable, setEditable] = useState(false);
-  const enfantRef = useRef(null);
+  useEffect(() => {
+    if (route.params && route.params.isEditable) {
+      setEditable(true);
+    } else {
+      setEditable(false);
+    }
+  }, [route.params]);
+
   const handleEditable = () => {
     setEditable(!editable);
   };

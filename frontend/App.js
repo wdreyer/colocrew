@@ -14,9 +14,10 @@ import CandidateHomeScreen from "./screens/CandidateHomeScreen";
 import CandidateSwipeScreen from "./screens/CandidateSwipeScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import CandidatePostApplyFormScreen from "./screens/CandidatePostApplyFormScreen";
-import RecruiterPostAnnounce from "./screens/RecruiterPostAnnounceScreen";
+import RecruiterPostAnnounceScreen from "./screens/RecruiterPostAnnounceScreen";
 import AnnounceArchivedScreen from "./screens/AnnounceArchivedScreen";
 import MyAnnounceScreen from "./screens/MyAnnounceScreen";
+import DisplayAnnounceScreen from "./screens/DisplayAnnounceScreen";
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -111,10 +112,12 @@ export default function App() {
       <NavigationContainer>
 
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="RecruiterPostAnnounce" component={RecruiterPostAnnounce} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
+          <Stack.Screen name="RecruiterPostAnnounceScreen" component={RecruiterPostAnnounceScreen} />
+          <Stack.Screen name="DisplayAnnounceScreen" component={DisplayAnnounceScreen} />  
+
           <Stack.Screen
             name="TabCandidateNavigator"
             component={TabCandidateNavigator}

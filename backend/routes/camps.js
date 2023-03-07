@@ -9,6 +9,8 @@ const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 
 router.post("/createCamp", async (req, res) => {
+    
+
     if (!req.files) {
         // Create new camp when any picture in DB
 
@@ -43,7 +45,10 @@ router.post("/createCamp", async (req, res) => {
             endDate,
             childNumber,
             animNumber,
+            
         } = req.body;
+        const datePost = Date.now();
+
 
         const camp = new Camp({
             idRecruiter,
@@ -57,6 +62,7 @@ router.post("/createCamp", async (req, res) => {
             endDate,
             childNumber,
             animNumber,
+            datePost,
         });
 
         camp.save().then((result) => {
@@ -76,7 +82,7 @@ router.post("/createCamp", async (req, res) => {
         });
     } else {
         // Create new camp with one or more picture in DB
-
+        console.log(req.files)
         if (
             !checkBody(JSON.parse(req.body.newCamp), [
                 "idRecruiter",
@@ -118,6 +124,8 @@ router.post("/createCamp", async (req, res) => {
                 photoPath
             );
             fs.unlinkSync(photoPath);
+            const datePost = Date.now();
+
 
             const camp = new Camp({
                 idRecruiter,
@@ -132,6 +140,7 @@ router.post("/createCamp", async (req, res) => {
                 endDate,
                 childNumber,
                 animNumber,
+                datePost : datePost,
             });
 
             camp.save().then((result) => {
