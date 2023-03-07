@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,7 +16,6 @@ import ProfileScreen from "./screens/ProfileScreen";
 import CandidatePostApplyFormScreen from "./screens/CandidatePostApplyFormScreen";
 import RecruiterPostAnnounce from "./screens/RecruiterPostAnnounceScreen";
 import AnnounceArchivedScreen from "./screens/AnnounceArchivedScreen";
-import ApplyArchivedScreen from "./screens/ApplyArchivedScreen";
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -24,6 +23,25 @@ import users from "./reducers/users";
 import ScreenModel from "./components/ScreenModel";
 
 const Tab = createBottomTabNavigator();
+
+const HomeIcon = ({ source, size, color }) => (
+  <Image
+    source={require("./assets/tente.png")}
+    style={[{ width: 40, height: 40, tintColor: color, marginTop: 20 }]}
+  />
+);
+const SearchIcon = ({ source, size, color }) => (
+  <Image
+    source={require("./assets/search.png")}
+    style={{ width: 40, height: 40, tintColor: color, marginTop: 20 }}
+  />
+);
+const ProfileIcon = ({ source, size, color }) => (
+  <Image
+    source={require("./assets/utilisateur.png")}
+    style={[{ width: 40, height: 40, tintColor: color, marginTop: 20 }]}
+  />
+);
 
 const TabRecruiterNavigator = () => {
   return (
@@ -33,11 +51,11 @@ const TabRecruiterNavigator = () => {
           let iconName = "";
 
           if (route.name === "RecruiterHome") {
-            iconName = "home";
+            iconName = HomeIcon;
           } else if (route.name === "RecruiterSwipe") {
-            iconName = "heart";
+            iconName = HeartIcon;
           } else if (route.name === "ProfileScreen") {
-            iconName = "user";
+            iconName = ProfileIcon;
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
@@ -50,14 +68,51 @@ const TabRecruiterNavigator = () => {
           position: "absolute",
           borderTopWidth: 0,
         },
-        tabBarActiveTintColor: "#C988A4",
-        tabBarInactiveTintColor: "#fff",
+        tabBarActiveTintColor: "rgba(255,255,255)",
+        tabBarInactiveTintColor: "rgba(255,255,255, 0.4)",
         headerShown: false,
+        tabBarShowLabel: false,
       })}
     >
-      <Tab.Screen name="RecruiterHome" component={RecruiterHomeScreen} />
-      <Tab.Screen name="RecruiterSwipe" component={RecruiterSwipeScreen} />
-      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Tab.Screen
+        name="RecruiterHome"
+        component={RecruiterHomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <HomeIcon
+              source={require("./assets/tente.png")}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="RecruiterSwipe"
+        component={RecruiterSwipeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <SearchIcon
+              source={require("./assets/search.png")}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <ProfileIcon
+              source={require("./assets/utilisateur.png")}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -70,11 +125,11 @@ const TabCandidateNavigator = () => {
           let iconName = "";
 
           if (route.name === "CandidateHome") {
-            iconName = "home";
+            iconName = HomeIcon;
           } else if (route.name === "CandidateSwipe") {
-            iconName = "heart";
+            iconName = HeartIcon;
           } else if (route.name === "ProfileScreen") {
-            iconName = "user";
+            iconName = ProfileIcon;
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
@@ -87,14 +142,51 @@ const TabCandidateNavigator = () => {
           position: "absolute",
           borderTopWidth: 0,
         },
-        tabBarActiveTintColor: "#C988A4",
-        tabBarInactiveTintColor: "#fff",
+        tabBarActiveTintColor: "rgba(255,255,255)",
+        tabBarInactiveTintColor: "rgba(255,255,255, 0.4)",
         headerShown: false,
+        tabBarShowLabel: false,
       })}
     >
-      <Tab.Screen name="CandidateHome" component={CandidateHomeScreen} />
-      <Tab.Screen name="CandidateSwipe" component={CandidateSwipeScreen} />
-      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Tab.Screen
+        name="CandidateHome"
+        component={CandidateHomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <HomeIcon
+              source={require("./assets/tente.png")}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="CandidateSwipe"
+        component={CandidateSwipeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <SearchIcon
+              source={require("./assets/search.png")}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <ProfileIcon
+              source={require("./assets/utilisateur.png")}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -109,7 +201,6 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
@@ -127,3 +218,15 @@ export default function App() {
     </Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  iconShadow: {
+    shadowColor: "#fff",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 20,
+  },
+});
