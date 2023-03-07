@@ -7,9 +7,11 @@ const campsSchema = mongoose.Schema({
     startDate : Date,
     endDate : Date,
     description : String,
+    location : String,
     lodgingtype :  Array,
     learningGoals : Array,
-    salaryseType : String,
+    activities: Array,
+    salaryType : String,
     salary: Number,
     contractType : String,
     salaryPeriod : String,
@@ -20,8 +22,6 @@ const campsSchema = mongoose.Schema({
     childNumber: Number,
     animNumber: Number,
     datePost : Date,
-
-    
 })
 
 const Camp = mongoose.model('camps', campsSchema);

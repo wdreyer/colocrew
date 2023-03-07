@@ -71,7 +71,7 @@ return (
             </View>
           
               <View style={globalStyle.contentContainer}>
-               <DisplayAnnounce displayTitle={false} {...updatedProps} />
+               <DisplayAnnounce navigation={navigation.navigate} displayTitle={false} {...updatedProps} />
                <PrimaryButton textBtn='Retour' actionOnPress={() =>
                 navigation.navigate("TabRecruiterNavigator",{
                   screen: 'RecruiterHomeScreen',

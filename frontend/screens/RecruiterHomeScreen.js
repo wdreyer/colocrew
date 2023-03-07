@@ -134,8 +134,6 @@ export default function RecruiterHomeScreen({navigation}) {
                     Dernières candidatures postées:{" "}
                   </Text>
                   <CardBG textCard="Candidature 1" />
-                  <CardBG textCard="Candidature 2" />
-                  <CardBG textCard="Candidature 3" />
                 </View>     
                
                </>
@@ -157,8 +155,6 @@ export default function RecruiterHomeScreen({navigation}) {
                   </Text>
                   
                   <CardBG textCard="Candidature 1" />
-                  <CardBG textCard="Candidature 2" />
-                  <CardBG textCard="Candidature 3" />
                 </View> 
                 </>
   )}

@@ -134,9 +134,8 @@ export default function RecruiterPostAnnounceScreen({ navigation }) {
 
         if (!imageUrl) {
             // Create new camp in DB when no picture
-
             const newCamp = {
-                idRecruiter: "64006d199c90d73bb9029e6e",
+                idRecruiter: user.mangoID,
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -169,7 +168,7 @@ export default function RecruiterPostAnnounceScreen({ navigation }) {
             // Create new camp in DB when picture(s)
 
             const newCamp = {
-                idRecruiter: "64006d199c90d73bb9029e6e",
+                idRecruiter: user.mangoID,
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -256,18 +255,21 @@ export default function RecruiterPostAnnounceScreen({ navigation }) {
     };
 
     const handleActivitiesButtons = (data) => {
-        if (data.state && !postActivities.some((e) => e === data.id)) {
-            setPostActivities((prev) => [...prev, data.id]);
-        } else if (!data.state && postActivities.some((e) => e === data.id)) {
-            setPostActivities((prev) => prev.filter((e) => e !== data.id));
+        console.log(data)
+        if (data.state && !postActivities.some((e) => e === data.value)) {
+            setPostActivities((prev) => [...prev, data.value]);
+        } else if (!data.state && postActivities.some((e) => e === data.value)) {
+            setPostActivities((prev) => prev.filter((e) => e !== data.value));
         }
     };
 
+
+
     const handleLodgingsButtons = (data) => {
-        if (data.state && !postLodgings.some((e) => e === data.id)) {
-            setPostLodgings((prev) => [...prev, data.id]);
-        } else if (!data.state && postLodgings.some((e) => e === data.id)) {
-            setPostLodgings((prev) => prev.filter((e) => e !== data.id));
+        if (data.state && !postLodgings.some((e) => e === data.value)) {
+            setPostLodgings((prev) => [...prev, data.value]);
+        } else if (!data.state && postLodgings.some((e) => e === data.value)) {
+            setPostLodgings((prev) => prev.filter((e) => e !== data.value));
         }
     };
 
@@ -443,7 +445,7 @@ export default function RecruiterPostAnnounceScreen({ navigation }) {
                                                                     data
                                                                 )
                                                             }
-                                                            id={e.name}
+                                                   
                                                         />
                                                     </View>
                                                 );
@@ -486,7 +488,7 @@ export default function RecruiterPostAnnounceScreen({ navigation }) {
                                                                     data
                                                                 )
                                                             }
-                                                            id={e.name}
+                                                            id={e._id}
                                                         />
                                                     </View>
                                                 );

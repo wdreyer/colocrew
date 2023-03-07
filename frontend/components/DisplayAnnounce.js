@@ -60,6 +60,16 @@ export default function DisplayAnnounce(props) {
 
               <Text style={styles.loveText}><FontAwesome size={30} name="heart"/> {props.likes.length}</Text>
               <Text style={styles.annouceTitle}>Vos Candidats : </Text>
+              {props.likes.length === 0 && (
+                <>
+                <Text style={styles.announceText}>Vous navez pas encore de like, rendez vous sur la page <Text onPress={() =>
+                  navigation("TabRecruiterNavigator",{
+                    screen: 'RecruiterSwipe',
+                  })
+                } style={styles.textLink} >Swipe</Text> pour trouver des candidats qui vous conviennent</Text>
+                </>
+
+              )}
             </View>
           </View>
         )}
@@ -68,6 +78,10 @@ export default function DisplayAnnounce(props) {
 
 }
 const styles = StyleSheet.create({
+  textLink: {
+    color: "#7AC3F7",
+    textDecorationLine: "underline",
+  },
 
 
   announceContainer : {
@@ -79,6 +93,7 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     flex: 1,
     height: "100%",
+    marginBottom: 10,
   },
   announceImages: {
     alignSelf: "center",
