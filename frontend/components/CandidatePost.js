@@ -216,17 +216,16 @@ export default function CandidatePost(props) {
         .then((response) => response.json())
         .then((data) => {
           //console.log('Type de qualifications ',data.data);
-          console.log('CANDIDATURE CREEE : ',data.storedApplying._id);
           if (data.result) {
-            let newArray = data.data.map((data,i) => {
-              return data.name;
-            });
-            setTabQualifications(newArray);
+            console.log('CANDIDATURE CREEE : ',data.storedResult);
+          }
+          else {
+            console.log('Erreur de ')
           }
         });
 
         console.log("Formulaire soumis");
-        //navigation.navigate("CandidateHomeScreen");
+        props.formSubmitted(true);
     };
 
 
@@ -295,7 +294,7 @@ export default function CandidatePost(props) {
         
         <PrimaryButton
           textBtn="Publier ma candidature"
-          actionOnPress={() => handleSubmitCandidateForm()}
+          actionOnPress={(data) => handleSubmitCandidateForm(data)}
         />
     </View>
     )

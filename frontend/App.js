@@ -28,6 +28,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import users from './reducers/users';
 import ScreenModel from './components/ScreenModel';
 
+// AsyncStorage.clear()
+
 const reducers = combineReducers({ users });
 const persistConfig = { key: 'faceUpP3', storage: AsyncStorage };
 const Tab = createBottomTabNavigator();
@@ -104,7 +106,7 @@ const TabCandidateNavigator = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="CandidateHome" component={CandidateHomeScreen} />
+      <Tab.Screen name="CandidateHome" component={CandidateHomeScreen} initialParams={{ test: null }} />
       <Tab.Screen name="CandidateSwipe" component={CandidateSwipeScreen} />
       <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
     </Tab.Navigator>
