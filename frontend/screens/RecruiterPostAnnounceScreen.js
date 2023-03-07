@@ -24,7 +24,7 @@ import ToggleButton from "../components/ToggleButton";
 import config from "../config";
 import { getToday } from "react-native-modern-datepicker";
 
-export default function RecruterPostAnnounce({ navigation }) {
+export default function RecruiterPostAnnounceScreen({ navigation }) {
     const todayDate = getToday();
 
     const user = useSelector((state) => state.users);
@@ -134,9 +134,8 @@ export default function RecruterPostAnnounce({ navigation }) {
 
         if (!imageUrl) {
             // Create new camp in DB when no picture
-
             const newCamp = {
-                idRecruiter: user.uid,
+                idRecruiter: user.mangoID,
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -169,7 +168,7 @@ export default function RecruterPostAnnounce({ navigation }) {
             // Create new camp in DB when picture(s)
 
             const newCamp = {
-                idRecruiter: user.uid,
+                idRecruiter: user.mangoID,
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -256,18 +255,21 @@ export default function RecruterPostAnnounce({ navigation }) {
     };
 
     const handleActivitiesButtons = (data) => {
-        if (data.state && !postActivities.some((e) => e === data.id)) {
-            setPostActivities((prev) => [...prev, data.id]);
-        } else if (!data.state && postActivities.some((e) => e === data.id)) {
-            setPostActivities((prev) => prev.filter((e) => e !== data.id));
+        console.log(data)
+        if (data.state && !postActivities.some((e) => e === data.value)) {
+            setPostActivities((prev) => [...prev, data.value]);
+        } else if (!data.state && postActivities.some((e) => e === data.value)) {
+            setPostActivities((prev) => prev.filter((e) => e !== data.value));
         }
     };
 
+
+
     const handleLodgingsButtons = (data) => {
-        if (data.state && !postLodgings.some((e) => e === data.id)) {
-            setPostLodgings((prev) => [...prev, data.id]);
-        } else if (!data.state && postLodgings.some((e) => e === data.id)) {
-            setPostLodgings((prev) => prev.filter((e) => e !== data.id));
+        if (data.state && !postLodgings.some((e) => e === data.value)) {
+            setPostLodgings((prev) => [...prev, data.value]);
+        } else if (!data.state && postLodgings.some((e) => e === data.value)) {
+            setPostLodgings((prev) => prev.filter((e) => e !== data.value));
         }
     };
 
@@ -424,7 +426,7 @@ export default function RecruterPostAnnounce({ navigation }) {
 
                                 <View style={styles.sectionContainer}>
                                     <Text style={globalStyle.subtitle}>
-                                        Types d'activités *
+                                        Types dactivités *
                                     </Text>
                                     <View style={styles.wrapper}>
                                         {tabActivities &&
@@ -443,7 +445,7 @@ export default function RecruterPostAnnounce({ navigation }) {
                                                                     data
                                                                 )
                                                             }
-                                                            id={e._id}
+                                                   
                                                         />
                                                     </View>
                                                 );

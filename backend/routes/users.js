@@ -42,6 +42,28 @@ router.get('/authByUid/:uid', (req, res, next) => {
     }
   } )
 });
+
+
+
+router.get('/displayCampByUser/:uid', (req, res, next) => {
+  User.findOne({uid:req.params.uid})
+  .populate({
+    path: 'camps',
+})
+  .then((data) =>{
+    if(data){
+      res.json({result:true, data:data.camps })
+    }
+    else {
+      res.json({
+        result: false,
+        error: "no user with this UID find",
+      });
+    }
+  } )
+});
+
+
 router.put('/updateRole', (req, res, next) => {
   const { uid, isCandidate, isRecruiter } = req.body;
   console.log(isCandidate);
