@@ -5,24 +5,33 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import LoginScreen from "./screens/LoginScreen";
-import SignUpScreen from "./screens/SignUpScreen";
-import AreaChoiceScreen from "./screens/AreaChoiceScreen";
-import RecruiterHomeScreen from "./screens/RecruiterHomeScreen";
-import RecruiterSwipeScreen from "./screens/RecruiterSwipeScreen";
-import CandidateHomeScreen from "./screens/CandidateHomeScreen";
-import CandidateSwipeScreen from "./screens/CandidateSwipeScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import CandidatePostApplyFormScreen from "./screens/CandidatePostApplyFormScreen";
-import RecruiterPostAnnounce from "./screens/RecruiterPostAnnounceScreen";
-import AnnounceArchivedScreen from "./screens/AnnounceArchivedScreen";
-import MyAnnounceScreen from "./screens/MyAnnounceScreen";
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import AreaChoiceScreen from './screens/AreaChoiceScreen';
+import RecruiterHomeScreen from './screens/RecruiterHomeScreen';
+import RecruiterSwipeScreen from './screens/RecruiterSwipeScreen';
+import CandidateHomeScreen from './screens/CandidateHomeScreen';
+import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
+import RecruterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
+import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
+import MyAnnounceScreen from './screens/MyAnnounceScreen';
 
-import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
-import users from "./reducers/users";
-import ScreenModel from "./components/ScreenModel";
 
+
+import { Provider } from 'react-redux';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import users from './reducers/users';
+import ScreenModel from './components/ScreenModel';
+
+// AsyncStorage.clear()
+
+const reducers = combineReducers({ users });
+const persistConfig = { key: 'faceUpP3', storage: AsyncStorage };
 const Tab = createBottomTabNavigator();
 
 const TabRecruiterNavigator = () => {
@@ -62,6 +71,11 @@ const TabRecruiterNavigator = () => {
   );
 };
 
+const store = configureStore({
+  reducer: persistReducer(persistConfig, reducers),
+  middleware: (GetDefaultMiddleware) => GetDefaultMiddleware({serializableCheck: false}),
+});
+
 const TabCandidateNavigator = () => {
   return (
     <Tab.Navigator
@@ -92,39 +106,34 @@ const TabCandidateNavigator = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="CandidateHome" component={CandidateHomeScreen} />
+      <Tab.Screen name="CandidateHome" component={CandidateHomeScreen} initialParams={{ test: null }} />
       <Tab.Screen name="CandidateSwipe" component={CandidateSwipeScreen} />
       <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
 
-const store = configureStore({
-  reducer: { users },
-});
+
+
+const persistor = persistStore(store);
 
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="RecruiterPostAnnounce" component={RecruiterPostAnnounce} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-          <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
-          <Stack.Screen
-            name="TabCandidateNavigator"
-            component={TabCandidateNavigator}
-          />
-          <Stack.Screen
-            name="TabRecruiterNavigator"
-            component={TabRecruiterNavigator}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="LoginScreen" component={LoginScreen} />
+              <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+              <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
+              <Stack.Screen name="CandidatePostApplyFormScreen" component={CandidatePostApplyFormScreen} />
+              <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
+              <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
+            </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }

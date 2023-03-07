@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const applicationsSchema = mongoose.Schema({
      
     idCandidate : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+    datePost : Date,
     startDate : Date,
     endDate : Date,
     title : String,
