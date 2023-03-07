@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import { useSelector, useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addUserToStore } from "../reducers/users";
 import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
 import app from '../src/firebase'
@@ -21,6 +22,14 @@ const auth = getAuth(app)
 import config from '../config';
 
 export default function LoginScreen({ navigation }) {
+    // const SetStorePersistData = async (value) => {
+    //     try {
+    //         const jsonValue = JSON.stringify(value)
+    //       await AsyncStorage.setItem('@storage_Key', jsonValue)
+    //     } catch (e) {
+    //       console.log('ERREUR DE STORAGE PERSISTANT : ', e)
+    //     }
+    //   }
 
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users);
@@ -56,10 +65,21 @@ export default function LoginScreen({ navigation }) {
               })
             .then(rs => rs.json())
             .then(res => {          
+                // const DataToStore = {
+                //     isConnected : true,
+                //     email : res.data.email,
+                //     mongoID : res.data._id,
+                //     uid: res.data.uid,
+                //     isCandidate: res.data.isCandidate,
+                //     isRecruiter: res.data.isRecruiter,
+                // };
+                // SetStorePersistData (DataToStore);
                 console.log("here",res.data.isRecruiter) 
+                
                dispatch(addUserToStore({
                   isConnected : true,
                   email : res.data.email,
+                  mongoID : res.data._id,
                   uid: res.data.uid,
                   isCandidate: res.data.isCandidate,
                   isRecruiter: res.data.isRecruiter,

@@ -6,10 +6,14 @@ const Lodgings = require("../models/lodgings");
 const Qualifications = require("../models/qualifications");
 const Contracts = require("../models/contracts");
 const Applications = require("../models/applications");
+const Users = require("../models/users");
 
 router.post('/newApply', function(req, res, next) {
+    const datePost = Date.now();
     if(req.body.startDate && req.body.endDate){
         const Apply = {
+            idCandidate : req.body.idCandidate,
+            datePost : datePost,
             startDate : req.body.startDate,
             endDate : req.body.endDate,
             description : req.body.description,
@@ -18,24 +22,45 @@ router.post('/newApply', function(req, res, next) {
             activities : req.body.activities,
             contractType : req.body.contractType,
         }
-
         const newApply = new Applications(Apply);
             newApply.save()
-                .then(result => {
-                        res.status(201).json({
-                        message: "Candidature créée avec succès",
-                        createdApplying: true,
-                        applicationsList: Apply,
-                    });
-                    
+                .then((result) => {
+                    //console.log('RESULT RESULT : ',result);
+                    const storedApplying = result;
+                    Users.findOneAndUpdate(
+                        { _id: Apply.idCandidate },
+                        { $push: { applications: result._id } }
+                    ).then((data) => {
+                        if (data === null) {
+                            return res.json({ result: false });
+                        } else {
+                            res.status(200).json({
+                                result: true,
+                                message: "application successfully created",
+                                storedResult : storedApplying,
+                            });
+                        }
                 })
-                .catch(err => {
-                console.log(err); 
-                res.status(500).json({
-                    error: err
                 });
-                });
+    
 }
 });
+
+router.get('/myApplications/:ID', function(req, res, next){
+        Users.find({_id:req.params.ID})
+        .populate('applications')
+            .then((data) => {
+                if (data === null) {
+                    return res.json({ result: false });
+                } else {
+                    console.log(data[0].applications);
+                    res.status(200).json({
+                        result: true,
+                        message: "application successfully created",
+                        result : data[0].applications,
+                    });
+                }
+            })
+})
 
 module.exports = router;

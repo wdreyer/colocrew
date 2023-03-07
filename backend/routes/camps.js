@@ -13,7 +13,6 @@ router.post("/createCamp", async (req, res) => {
 
     if (!req.files) {
         // Create new camp when any picture in DB
-
         if (
             !checkBody(req.body, [
                 "idRecruiter",
