@@ -46,6 +46,20 @@ router.post('/newApply', function(req, res, next) {
 }
 });
 
+router.get('/', (req, res, next) => {
+    Applications.find()
+    .populate('idCandidate')
+    .then((data) =>{
+      if(data){
+        res.json({result:true, data:data })
+      }
+      else {
+        res.json({
+          result: false,
+        });
+      }
+    } )
+});
 router.get('/myApplications/:ID', function(req, res, next){
         Users.find({_id:req.params.ID})
         .populate('applications')
