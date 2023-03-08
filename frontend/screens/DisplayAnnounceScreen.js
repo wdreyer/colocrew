@@ -34,11 +34,13 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 
 export default function DisplayAnnounceScreen({navigation,route}) {
-    const [editable, setEditable] = useState(false);
-    console.log(route.params.props)
-    
-
+    const [editable, setEditable] = useState(false);   
     const updatedProps = {...route.params.props, display: 'announce'}
+
+    const handleEditable = () => {
+      navigation.navigate('RecruiterPostAnnounceScreen', {editing : true, updatedProps : updatedProps})
+
+    }
 
 return (
     <KeyboardAvoidingView
@@ -63,20 +65,24 @@ return (
               onPress={() => handleEditable()}
             >
               <FontAwesome
-                name={!editable ? "edit" : ""}
+                name={!editable ? "edit" : "save"}
                 color="white"
                 size={30}
               />
             </TouchableOpacity>
-            </View>
-          
+            </View>          
               <View style={globalStyle.contentContainer}>
+              {!editable && (
+                <>
                <DisplayAnnounce navigation={navigation.navigate} displayTitle={false} {...updatedProps} />
                <PrimaryButton textBtn='Retour' actionOnPress={() =>
                 navigation.navigate("TabRecruiterNavigator",{
                   screen: 'RecruiterHomeScreen',
                 })
               }/>
+              </>
+              )}
+
                </View>            
           </SafeAreaProvider>
         </TouchableWithoutFeedback>

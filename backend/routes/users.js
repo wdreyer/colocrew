@@ -44,7 +44,6 @@ router.get('/authByUid/:uid', (req, res, next) => {
 });
 
 
-
 router.get('/displayCampByUser/:uid', (req, res, next) => {
   User.findOne({uid:req.params.uid})
   .populate({
