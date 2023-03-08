@@ -6,14 +6,13 @@ import config from '../config';
 
 export default function SelectableList (props) {
     const [DataActivities, setDataActivities] = useState([]);
-    const [selected, setSelected] = useState("");
+    const [selectedActivities, setSelectedActivities] = useState("");
     const [data,setData] = useState([]);
 
-    const handleListElements = (val) => {
-      setSelected(val);
-      
-
-    }
+    const handleActivitiesList = (val) => {
+      setSelectedActivities(val);
+      props.handleActivitiesList(val);
+    };
     
     
     //console.log('Type de données SelectableList', type);
@@ -36,15 +35,17 @@ export default function SelectableList (props) {
           }
         });
     }, []);
-    console.log(selected);
+   
+    //console.log(selectedActivities);
+   
     return (
       <MultipleSelectList
         placeholder="Choisir mes activités préférées"
         searchPlaceholder="Recherche"
-        setSelected={(val) => handleListElements(val)}
+        setSelected={(val) => handleActivitiesList(val)}
         data={data}
         save="value"
-        label="Activitésssssss"
+        label="Activités"
         boxStyles={{color:"#281C47", backgroundColor:"#DBD7E7", width:'100%'}}
         dropdownStyles={{color:"#FFF", backgroundColor:"#53496B"}}
         dropdownTextStyles={{color:"#FFF", backgroundColor:"#53496B"}}

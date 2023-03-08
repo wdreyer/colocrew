@@ -3,9 +3,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Input from "../components/Input";
 import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
-import { useState } from "react";
 import globalStyle from "../styles/globalStyle";
-import CandidatePost from "../components/CandidatePost";
+import DisplayAnnounce from "../components/DisplayAnnounce";
+import { useFocusEffect } from '@react-navigation/native';
 
 import {
   StyleSheet,
@@ -25,18 +25,22 @@ import {
   Dimensions,
 } from "react-native";
 import config from "../config";
+import CardBG from "../components/CardBG";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { useSelector } from 'react-redux';
+import { display } from "@mui/system";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function CandidatePostApplyFormScreen({ navigation }) {
 
 
+export default function DisplayAnnounceScreen({navigation,route}) {
+    const [editable, setEditable] = useState(false);
+    console.log(route.params.props)
+    
 
-  const formSubmitted = (data) => {
-    if (data) {
-      navigation.navigate("TabCandidateNavigator", { screen: 'CandidateHome', params: { test: true } });
-    }
-  };
+    const updatedProps = {...route.params.props, display: 'announce'}
 
-  return (
+return (
     <KeyboardAvoidingView
       style={globalStyle.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -48,26 +52,38 @@ export default function CandidatePostApplyFormScreen({ navigation }) {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <SafeAreaProvider style={globalStyle.safeAreaContainer}>
             <StatusBar style="light" />
+
             <View style={globalStyle.headerContainer}>
               <Image
                 style={globalStyle.logo}
                 source={require("../assets/LogoMiniBlanc.png")}
               />
-              <Text style={globalStyle.titleText}>Ma candidature</Text>
-              <Text> </Text>
+              <Text style={globalStyle.titleText}>{route.params.props.title}</Text>
+              <TouchableOpacity
+              onPress={() => handleEditable()}
+            >
+              <FontAwesome
+                name={!editable ? "edit" : ""}
+                color="white"
+                size={30}
+              />
+            </TouchableOpacity>
             </View>
-            <View>
+          
               <View style={globalStyle.contentContainer}>
-                <CandidatePost
-                  isEditable={true}
-                  formSubmitted={(data) => formSubmitted(data)}
-                />
-                {/* Ajoutez ici les autres éléments de la screen */}
-              </View>
-            </View>
+               <DisplayAnnounce navigation={navigation.navigate} displayTitle={false} {...updatedProps} />
+               <PrimaryButton textBtn='Retour' actionOnPress={() =>
+                navigation.navigate("TabRecruiterNavigator",{
+                  screen: 'RecruiterHomeScreen',
+                })
+              }/>
+               </View>            
           </SafeAreaProvider>
         </TouchableWithoutFeedback>
       </ScrollView>
     </KeyboardAvoidingView>
-  );
+
+
+
+)   
 }

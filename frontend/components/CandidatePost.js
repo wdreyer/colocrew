@@ -1,6 +1,7 @@
 import { StyleSheet, Text, Pressable, TextInput, Switch, View, Modal} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
+import {useSelector, useDispatch} from 'react-redux'
 import Input from "./Input";
 import PrimaryButton from "./PrimaryButton";
 import ModalDatePicker from "./ModalDatePicker";
@@ -11,6 +12,8 @@ import config from "../config";
 
 
 export default function CandidatePost(props) {
+    const user = useSelector((state) => state.users);
+    console.log('USER => ',user)
     const todayDate = getToday();
     const formattedDate = getFormatedDate(new Date(), "DD/MM/YYYY"); 
     //console.log('Formatted date ',formattedDate);
@@ -25,8 +28,11 @@ export default function CandidatePost(props) {
     const [postLodgings, setPostLodgings] = useState([]);
     const [postLocations, setPostLocations] = useState([]);
     const [postDescription , setPostDescription] = useState([]);
+    const [postActivitiesList  , setPostActivitiesList]  = useState([]);
+    //const [postUsersID, setPostUsersID] = useState([]);
 
     useEffect(() => {
+
             fetch(`${config.URL_BACKEND}/settings/contractType`, {
               method: "GET",
               headers: { "Content-Type": "application/json" },
@@ -122,7 +128,6 @@ export default function CandidatePost(props) {
         }
 
         const handleLocationsButtons = (data) => {
-          //console.log(data)
           if (data.state && !postLocations.some((e) => e === data.value)) {
             setPostLocations(prev => [...prev, data.value]);
         } else if (!data.state && postLocations.some((e) => e === data.value)) {
@@ -184,20 +189,26 @@ export default function CandidatePost(props) {
     const handleDescriptionField = (value) => {
         setPostDescription(value);
         //console.log(postDescription);
-    }
+    };
+
+    const handleActivitiesList = (data) => {
+      setPostActivitiesList(data);
+    };
+    //console.log('========> ',postActivitiesList);
 
     const handleSubmitCandidateForm = () => {
       fetch(`${config.URL_BACKEND}/applications/newApply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          {
+          { 
+            idCandidate : user.mongoID,
             startDate : startDate,
             endDate : endDate,
             description : postDescription,
             lodgingType : postLodgings,
             locations : postLocations,
-            activities : [],
+            activities : postActivitiesList,
             contractType : postContracts,
           }
         ),
@@ -206,14 +217,15 @@ export default function CandidatePost(props) {
         .then((data) => {
           //console.log('Type de qualifications ',data.data);
           if (data.result) {
-            let newArray = data.data.map((data,i) => {
-              return data.name;
-            });
-            setTabQualifications(newArray);
+            console.log('CANDIDATURE CREEE : ',data.storedResult);
+          }
+          else {
+            console.log('Erreur de ')
           }
         });
 
         console.log("Formulaire soumis");
+        props.formSubmitted(true);
     };
 
 
@@ -277,12 +289,12 @@ export default function CandidatePost(props) {
         
         <Text style={styles.labelsFields}>Activités</Text>
         <View style={styles.selectableList}>
-          <SelectableList type='activities'/>
+          <SelectableList type='activities' handleActivitiesList={(data)=>handleActivitiesList(data)}/>
         </View>
         
         <PrimaryButton
           textBtn="Publier ma candidature"
-          actionOnPress={() => handleSubmitCandidateForm()}
+          actionOnPress={(data) => handleSubmitCandidateForm(data)}
         />
     </View>
     )
