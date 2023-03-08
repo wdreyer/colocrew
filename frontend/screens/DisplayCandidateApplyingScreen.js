@@ -4,7 +4,7 @@ import Input from "../components/Input";
 import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
 import globalStyle from "../styles/globalStyle";
-import DisplayAnnounce from "../components/DisplayAnnounce";
+import DisplayCandidateApplying from "../components/DisplayCandidateApplying";
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
@@ -35,10 +35,14 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function DisplayCandidateApplyingScreen({navigation,route}) {
     const [editable, setEditable] = useState(false);
-    //console.log(route.params.props)
-    
+    //console.log('ROUTE PARAMS PROPS Depuis DisplayCandidateApplyingScreen', route.params.props)
 
-    //const updatedProps = {...route.params.props, display: 'announce'}
+    const updatedProps = {...route.params.props, display: 'announce'}
+
+    const handleEditable = () => {
+      setEditable(true);
+      console.log('GOGOGOG')
+    }
 
 return (
     <KeyboardAvoidingView
@@ -58,7 +62,7 @@ return (
                 style={globalStyle.logo}
                 source={require("../assets/LogoMiniBlanc.png")}
               />
-              <Text style={globalStyle.titleText}>{route.params.props.title}</Text>
+              <Text style={globalStyle.titleText}></Text>
               <TouchableOpacity
               onPress={() => handleEditable()}
             >
@@ -71,10 +75,10 @@ return (
             </View>
           
               <View style={globalStyle.contentContainer}>
-               <DisplayAnnounce navigation={navigation.navigate} displayTitle={false} {...updatedProps} />
+               <DisplayCandidateApplying navigation={navigation.navigate} displayTitle={false} {...updatedProps} />
                <PrimaryButton textBtn='Retour' actionOnPress={() =>
-                navigation.navigate("TabRecruiterNavigator",{
-                  screen: 'RecruiterHomeScreen',
+                navigation.navigate("TabCandidateNavigator",{
+                  screen: 'CandidateHomeScreen',
                 })
               }/>
                </View>            

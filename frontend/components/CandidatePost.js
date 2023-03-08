@@ -9,6 +9,7 @@ import SelectableList from "./SelectableList";
 import ToggleButton from "./ToggleButton";
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import config from "../config";
+import { shittyDateFormater } from "../modules/dateFormater";
 
 
 export default function CandidatePost(props) {
@@ -228,6 +229,9 @@ export default function CandidatePost(props) {
         props.formSubmitted(true);
     };
 
+    const formatedStartDate = shittyDateFormater(startDate);
+    const formatedEndDate = shittyDateFormater(endDate);
+
 
   if (props.isEditable) {
     return (
@@ -257,8 +261,8 @@ export default function CandidatePost(props) {
             </View>
         </View>
         <View style={styles.dispoDates}>
-            <Text style={styles.date}>Du {startDate}</Text>
-            <Text style={styles.date}>au {endDate}</Text>
+            <Text style={styles.date}>Du {formatedStartDate}</Text>
+            <Text style={styles.date}>au {formatedEndDate}</Text>
         </View>
         </View>
         <View>

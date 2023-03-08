@@ -7,6 +7,9 @@ import moment from "moment"
 
 
 export default function CandidateCard(props) {
+  //console.log(props);
+  const { navigation, ...updatedProps } = props;
+  delete updatedProps.navigation;
 
   const convertDate = (date) =>{
     const maDate = new Date(date);
@@ -20,13 +23,13 @@ export default function CandidateCard(props) {
   
 
   const handleOnPress = () => {
-    //const datasApplying = props.datas;
-    console.log('blablabla');
-    navigation.navigate("DisplayCandidateApplyingScreen", {datas : props.datas});
+    //console.log('prop navigation', props.navigation);
+    navigation("DisplayCandidateApplyingScreen",{
+      props: {...updatedProps, display: 'announce'}
+    })
+    //navigation.navigate("DisplayCandidateApplyingScreen", {datas : props.datas});
   }
-  
-  
-
+  //console.log('Updated props : ',props);
   return (
     <View style={styles.cardContainer}>
       <View style={styles.container}>

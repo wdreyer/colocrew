@@ -4,7 +4,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DatePicker from 'react-native-modern-datepicker';
-import { dateFormater } from "../modules/dateFormater";
+import { dateFormater, shittyDateFormater } from "../modules/dateFormater";
 
 
 
@@ -23,7 +23,7 @@ export default function ModalDatePicker(props) {
         setDateModalVisible(!dateModalVisible)
     };
 
-    console.log(selectedDate, dateFormater(selectedDate))
+    const formattedDate =  shittyDateFormater(selectedDate)
 
     return (
             <View style={styles.centeredView}>
@@ -39,7 +39,7 @@ export default function ModalDatePicker(props) {
                   <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                             <Text style={styles.modalTitle}>{props.titleModal}</Text>
-                            <Text style={styles.modalChoosenDate}>{selectedDate}</Text>
+                            <Text style={styles.modalChoosenDate}>{formattedDate}</Text>
                             <View style={styles.datePicker}>
                                   <DatePicker
                                     options={{
@@ -121,9 +121,10 @@ const styles = StyleSheet.create({
       color: '#FFF',
   },
   modalChoosenDate: {
-    fontSize: 30,
+    fontSize: 20,
+    fontWeight: 'bold',
     marginTop: 10,
-    color: '#281C47',
+    color: '#FAD4D8',
 },
   modalButtons: {
         marginTop: 20,

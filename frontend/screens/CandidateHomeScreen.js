@@ -75,7 +75,7 @@ let applyings
 //console.log('MyApplyings =====>>>>>>>>>>>>>>>> ' ,myApplyings);
   if (myApplyings.length !== 0){
     applyings = myApplyings.map((e, i) => {
-      return(<View key={i}><CandidateCard  ID={i+1} _id={e._id} startDate={e.startDate} endDate={e.endDate} contractType={e.contractType} locations={e.locations} activities={e.activities} likes={e.likes.length} datas={e} /></View>
+      return(<View key={i}><CandidateCard  navigation={navigation.navigate} display="card" datas={e} ID={i+1} _id={e._id} startDate={e.startDate} endDate={e.endDate} contractType={e.contractType} locations={e.locations} activities={e.activities} likes={e.likes.length}  /></View>
     )})
   } else {
     applyings = (<View ><Text style={styles.message}>Vous n'avez pas encore posté de candidature.</Text></View>)

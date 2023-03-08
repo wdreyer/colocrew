@@ -2,8 +2,8 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function DisplayAnnounce(props) {
-  const { navigation, ...updatedProps } = props;
-  delete updatedProps.navigation;
+  //const { navigation, ...updatedProps } = props;
+  //delete updatedProps.navigation;
 
   console.log(props.lodgingtype)
 
