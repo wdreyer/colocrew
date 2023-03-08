@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Input(props) {
 
-    const [textInput, setTextInput] = useState(props.defaultValue);
+    const [textInput, setTextInput] = useState('');
+    useEffect(()=> {
+    if(props.defaultValue){
+        setTextInput(props.defaultValue)
+    }
+    },[props]);
+
+    console.log(textInput)
 
     const handleInput = (value) => {
         setTextInput(value)

@@ -55,9 +55,6 @@ export default function DisplayAnnounce(props) {
               <Text style={styles.announceText}>Salaire : {props.salary}</Text>
               <Text style={styles.announceText}>Logement : {props.lodgingtype.join(' ')}</Text>
               <Text style={styles.announceText}>Activités : {props.activities.join(' ')}</Text>
-
-
-
               <Text style={styles.loveText}><FontAwesome size={30} name="heart"/> {props.likes.length}</Text>
               <Text style={styles.annouceTitle}>Vos Candidats : </Text>
               {props.likes.length === 0 && (
