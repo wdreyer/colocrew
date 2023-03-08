@@ -4,6 +4,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DatePicker from 'react-native-modern-datepicker';
+import { dateFormater } from "../modules/dateFormater";
 
 
 
@@ -17,8 +18,13 @@ export default function ModalDatePicker(props) {
 
         props.recupDate(selectedDate)
         //console.log('Click HandleDateModal');
+        
+        
         setDateModalVisible(!dateModalVisible)
     };
+
+    console.log(selectedDate, dateFormater(selectedDate))
+
     return (
             <View style={styles.centeredView}>
               <View  style={styles.calendarIcons}>

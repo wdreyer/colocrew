@@ -10,6 +10,7 @@ export default function CandidateCard(props) {
 
   const convertDate = (date) =>{
     const maDate = new Date(date);
+    //console.log(maDate);
     const day = maDate.getDate().toString().padStart(2, '0');
     const month = (maDate.getMonth() + 1).toString().padStart(2, '0');
     const year = maDate.getFullYear().toString();
@@ -17,13 +18,20 @@ export default function CandidateCard(props) {
     return(formattedDate);
   } 
   
+
+  const handleOnPress = () => {
+    //const datasApplying = props.datas;
+    console.log('blablabla');
+    navigation.navigate("DisplayCandidateApplyingScreen", {datas : props.datas});
+  }
+  
   
 
   return (
     <View style={styles.cardContainer}>
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => props.actionOnPress()}
+          onPress={() => handleOnPress()} // props.actionOnPress()}
           activeOpacity={0.7}
           style={styles.contentContainer}
           > 

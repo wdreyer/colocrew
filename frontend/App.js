@@ -18,6 +18,7 @@ import RecruterPostAnnounce from './screens/RecruiterPostAnnounceScreen';
 import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
 import MyAnnounceScreen from './screens/MyAnnounceScreen';
 import DisplayAnnounceScreen from "./screens/DisplayAnnounceScreen";
+import DisplayCandidateApplyingScreen from "./screens/DisplayCandidateApplyingScreen";
 
 
 
@@ -130,6 +131,7 @@ export default function App() {
               <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
               <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
               <Stack.Screen name="DisplayAnnounceScreen" component={DisplayAnnounceScreen} />
+              <Stack.Screen name="DisplayCandidateApplyingScreen" component={DisplayCandidateApplyingScreen} />
               <Stack.Screen name="CandidatePostApplyFormScreen" component={CandidatePostApplyFormScreen} />
               <Stack.Screen name="TabCandidateNavigator" component={TabCandidateNavigator} />
               <Stack.Screen name="TabRecruiterNavigator" component={TabRecruiterNavigator} />
