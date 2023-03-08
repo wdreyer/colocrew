@@ -18,11 +18,17 @@ import {
     Image,
     TouchableOpacity,
 } from "react-native";
-import avatarImage from "../assets/hasbulla.jpg";
+
+import moment from "moment";
+
+// afficher la date formatée
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
+    // spécifier le format de la date
+    const dateFormat = "YYYY-MM-DDTHH:mm:ss:SSSZ";
+
     // let xPosition = new Animated.Value(0);
     const [xPosition, setXPosition] = useState(new Animated.Value(0));
     let swipeDirection = "";
@@ -32,10 +38,14 @@ export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
         outputRange: ["-20deg", "0deg", "20deg"],
     });
 
+    const handleLike = () => {
+        console.log("test");
+    };
+
     let panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => false,
-        onMoveShouldSetPanResponder: (evt, gestureState) => true,
-        onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+        onMoveShouldSetPanResponder: (evt, gestureState) => false,
+        onStartShouldSetPanResponderCapture: (evt) => true,
         onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
         onPanResponderMove: (evt, gestureState) => {
             xPosition.setValue(gestureState.dx);
@@ -45,6 +55,7 @@ export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
                 swipeDirection = "Left";
             }
         },
+
         onPanResponderRelease: (evt, gestureState) => {
             if (
                 gestureState.dx < SCREEN_WIDTH - 150 &&
@@ -54,7 +65,7 @@ export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
                 Animated.spring(xPosition, {
                     toValue: 0,
                     speed: 5,
-                    bounciness: 10,
+                    bounciness: 15,
                     useNativeDriver: false,
                 }).start();
             } else if (gestureState.dx > SCREEN_WIDTH - 150) {
@@ -93,8 +104,6 @@ export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
         },
     });
 
-
-
     return (
         <Animated.View
             {...panResponder.panHandlers}
@@ -111,33 +120,47 @@ export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
             ]}
         >
             <View style={styles.avatarContainer}>
-                <Image source={avatarImage} style={styles.avatar} />
+                <Image
+                    source={
+                        item.idCandidate.photos
+                            ? { uri: item.idCandidate.photos }
+                            : {
+                                  uri: "http://tsr-industrie.fr/wp-content/uploads/2016/04/ef3-placeholder-image.jpg",
+                              }
+                    }
+                    style={styles.avatar}
+                />
             </View>
-            <Text style={styles.cardTitleStyle}> {item.cardTitle}</Text>
+            <Text style={styles.cardTitleStyle}>
+                {item.idCandidate.firstname} {item.idCandidate.lastname}
+            </Text>
 
             <View style={styles.containerQualifications}>
-                {item.qualifications.map((qualification, i) => {
-                    return (
-                        <View key={i} style={styles.qualifications}>
-                            <Text style={styles.qualification}>
+                {item.idCandidate.qualifications &&
+                    item.idCandidate.qualifications.map((qualification, i) => {
+                        return (
+                            <Text key={i} style={styles.qualification}>
                                 {qualification}
                             </Text>
-                        </View>
-                    );
-                })}
+                        );
+                    })}
             </View>
 
             <Text style={styles.disponibilities}>
-                Disponible du {item.startDate} au {item.endDate}
+                Disponible du {moment(item.startDate, dateFormat).format("DD-MM-YYYY")} au {moment(item.startDate, dateFormat).format("DD-MM-YYYY")}
             </Text>
 
-            <Text style={styles.description}> {item.description}</Text>
+            <Text style={styles.description}> {item.description.substring(0, 80)} ...</Text>
 
             <View style={styles.swipeButtonContainer}>
                 <TouchableOpacity style={styles.backgroundSwipeButton}>
                     <FontAwesome name="close" size={35} color="#C398BC" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => onLikeTest()} style={styles.backgroundSwipeButton}>
+                <TouchableOpacity
+                    onPress={() => handleLike()}
+                    activeOpacity={0.1}
+                    style={styles.backgroundSwipeButton}
+                >
                     <FontAwesome name="heart" size={35} color="red" />
                 </TouchableOpacity>
             </View>
@@ -159,12 +182,16 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
         width: "80%",
-        height: "85%",
+        height: 450,
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
         borderRadius: 7,
         padding: 10,
+        elevation: 10, // sets the box shadow on android
+        shadowColor: "#171717",
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
     },
     cardTitleStyle: {
         color: "#fff",
@@ -189,18 +216,16 @@ const styles = StyleSheet.create({
     },
 
     containerQualifications: {
-        width: "100%",
-    },
-
-    qualifications: {
+        width: "70%",
         flexDirection: "row",
-        alignItems: "center",
+        flexWrap: "wrap",
         justifyContent: "center",
-        width: "100%",
     },
 
     qualification: {
         color: "#fff",
+        margin: 3,
+        fontWeight: "bold",
     },
 
     disponibilities: {
@@ -215,7 +240,8 @@ const styles = StyleSheet.create({
         color: "#fff",
         textAlign: "center",
         marginBottom: 20,
-        fontSize: 19
+        fontSize: 17,
+        fontStyle:"italic"
     },
 
     swipeButtonContainer: {
@@ -229,6 +255,6 @@ const styles = StyleSheet.create({
         height: 80,
         width: 80,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
 });

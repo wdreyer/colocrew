@@ -20,6 +20,7 @@ export default StyleSheet.create({
     marginTop: 20,
     flex: 1,
     height: 100,
+    backgroundColor: "red"
   },
 
   mainTitlePage: {

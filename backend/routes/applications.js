@@ -38,4 +38,19 @@ router.post('/newApply', function(req, res, next) {
 }
 });
 
+router.get('/', (req, res, next) => {
+    Applications.find()
+    .populate('idCandidate')
+    .then((data) =>{
+      if(data){
+        res.json({result:true, data:data })
+      }
+      else {
+        res.json({
+          result: false,
+        });
+      }
+    } )
+});
+
 module.exports = router;

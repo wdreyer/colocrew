@@ -40,6 +40,7 @@ router.get('/authByUid/:uid', (req, res, next) => {
     }
   } )
 });
+
 router.put('/updateRole', (req, res, next) => {
   const { uid, isCandidate, isRecruiter } = req.body;
   console.log(isCandidate);
