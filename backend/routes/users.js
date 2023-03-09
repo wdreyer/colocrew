@@ -26,7 +26,6 @@ router.post('/createUser', (req, res, next) => {
 });
 
 router.get('/authByUid/:uid', (req, res, next) => {
-  console.log(req)
   User.findOne({uid:req.params.uid})
   .then((data) =>{
     if(data){
@@ -64,7 +63,6 @@ router.get('/displayCampByUser/:uid', (req, res, next) => {
 
 router.put('/updateRole', (req, res, next) => {
   const { uid, isCandidate, isRecruiter } = req.body;
-  console.log(isCandidate);
   User.findOneAndUpdate({ uid }, { isCandidate, isRecruiter }, { new: true })
     .then(result => {
       if (result.nModified === 0) {
@@ -80,7 +78,6 @@ router.put('/updateRole', (req, res, next) => {
 
 router.put("/", function (req, res) {
   console.log("enter the road")
-  console.log(req.body)
   const {uid,firstname,lastname, email, phone, description, birthDate } = req.body;
   // Si l'id n'existe pas : return res.json({result: false})
   User.findOneAndUpdate({uid: uid}, {
