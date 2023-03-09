@@ -165,4 +165,20 @@ router.post("/createCamp", async (req, res) => {
     }
 });
 
+
+router.get('/:idRecruiter', (req, res, next) => {
+    Camp.find({idRecruiter: req.params.idRecruiter})
+    .populate('idRecruiter')
+    .then((data) =>{
+      if(data){
+        res.json({result:true, data:data })
+      }
+      else {
+        res.json({
+          result: false,
+        });
+      }
+    } )
+});
+
 module.exports = router;
