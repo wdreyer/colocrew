@@ -4,6 +4,7 @@
 // import React in our code
 import React, { useEffect, useState } from "react";
 import "../components/SwipeableCard";
+import { useSelector } from "react-redux";
 
 // import all the components we are going to use
 import { SafeAreaView, StyleSheet, View, Text, Image } from "react-native";
@@ -11,56 +12,55 @@ import { SafeAreaView, StyleSheet, View, Text, Image } from "react-native";
 import globalStyle from "../styles/globalStyle";
 import config from "../config";
 
-// const DEMO_CONTENT = [
-//     {
-//         id: "1",
-//         cardTitle: "John Doe",
-//         avatarImage: "../assets/hasbulla.jpg",
-//         qualifications: ["Bafa", "Surveillant de Baignade"],
-//         startDate: "03/07/2023",
-//         endDate: "17/07/2023",
-//         description:
-//             "Je suis William, animateur grave chaud, embauchez moi svp, j’ai pas d’argent, je dois rembourser ma formation à la capsule",
-//     },
-//     {
-//         id: "2",
-//         cardTitle: "John Doe",
-//         avatarImage: "../assets/MathiasAvatar.png",
-//         qualifications: ["Bafa", "BAFD"],
-//         startDate: "03/07/2023",
-//         endDate: "17/07/2023",
-//         description:
-//             "Je suis William, animateur grave chaud, embauchez moi svp, j’ai pas d’argent, je dois rembourser ma formation à la capsule",
-//     },
-//     {
-//         id: "3",
-//         cardTitle: "John Doe",
-//         avatarImage: "../assets/MathiasAvatar.png",
-//         qualifications: ["Bafa", "Autre"],
-//         startDate: "03/07/2023",
-//         endDate: "17/07/2023",
-//         description:
-//             "Je suis William, animateur grave chaud, embauchez moi svp, j’ai pas d’argent, je dois rembourser ma formation à la capsule",
-//     },
-// ].reverse();
-
 export default RecruiterSwipeScreen = () => {
     const [noMoreCard, setNoMoreCard] = useState(false);
-    // const [sampleCardArray, setSampleCardArray] = useState(DEMO_CONTENT);
     const [swipeDirection, setSwipeDirection] = useState("--");
-    const [candidates, setCandidates] = useState([])
+    const [candidates, setCandidates] = useState([]);
 
+    const [recruiterCamps, setRecruiterCamps] = useState([]);
+
+    const user = useSelector((state) => state.users);
+    const userId = user.mongoID;
 
     useEffect(() => {
-        fetchCandidates();
+        getCampsByIdRecruiter();
+        // getApplicationsByDates();
     }, []);
 
-    const fetchCandidates = () => {
-        fetch(`${config.URL_BACKEND}/applications`)
+    const getCampsByIdRecruiter = () => {
+        fetch(`${config.URL_BACKEND}/camps/${userId}`)
             .then((rs) => rs.json())
             .then((res) => {
-                setCandidates(res.data);
+                for (let i = 0; i < res.data.length; i++) {
+                    const intervalDateCamp = {
+                        startDate: res.data[i].startDate.getTime(),
+                        endDate: res.data[i].endDate.getTime(),
+                    };
+                    setRecruiterCamps([...recruiterCamps, intervalDateCamp]);
+                }
+            })
+            .then(() => {
+                const test = "1685746800000"
+                // fetch(`${config.URL_BACKEND}/applications/displayCandidatesByDates/?startDate=2023-04-02&endDate=2023-04-09`)
+                //     .then((rs) => rs.json())
+                //     .then((res) => {
+                //         console.log(res)
+                //         setCandidates([...candidates], res.data);
+                //     });
             });
+    };
+
+
+    const getApplicationsByDates = () => {
+        for (let i = 0; i < recruiterCamps.length; i++) {
+            // console.log(recruiterCamps[i]);
+        }
+
+        // fetch(`${config.URL_BACKEND}/applications/displayCandidatesByDates?startDate=2023-04-02&endDate=2023-04-10`)
+        //     .then((rs) => rs.json())
+        //     .then((res) => {
+        //         setCandidates(res.data);
+        //     });
     };
 
     const removeCard = (id) => {
@@ -91,18 +91,18 @@ export default RecruiterSwipeScreen = () => {
                 {swipeDirection}
             </Text> */}
             <View style={styles.container}>
-                {candidates && candidates.map((item, key) => (
-
-                    <SwipeableCard
-                        key={key}
-                        item={item}
-                        removeCard={() => removeCard(item._id)}
-                        swipedDirection={lastSwipedDirection}
-                    />
-                ))}
+                {candidates &&
+                    candidates.map((item, key) => (
+                        <SwipeableCard
+                            key={key}
+                            item={item}
+                            removeCard={() => removeCard(item._id)}
+                            swipedDirection={lastSwipedDirection}
+                        />
+                    ))}
                 {noMoreCard ? (
                     <Text style={{ fontSize: 22, color: "#fff" }}>
-                        No Cards Found.
+                        Aucune proposition disponible.
                     </Text>
                 ) : null}
             </View>

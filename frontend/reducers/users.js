@@ -7,6 +7,7 @@ const initialState = {
     uid : "",
     isCandidate : false,
     isRecruiter : false,
+    mongoID: ""
 };
 
 export const usersSlice = createSlice({
