@@ -66,7 +66,7 @@ const TabRecruiterNavigator = () => {
           if (route.name === "RecruiterHome") {
             iconName = HomeIcon;
           } else if (route.name === "RecruiterSwipe") {
-            iconName = HeartIcon;
+            iconName = SearchIcon;
           } else if (route.name === "ProfileScreen") {
             iconName = ProfileIcon;
           }
@@ -145,7 +145,7 @@ const TabCandidateNavigator = () => {
           if (route.name === "CandidateHome") {
             iconName = HomeIcon;
           } else if (route.name === "CandidateSwipe") {
-            iconName = HeartIcon;
+            iconName = SearchIcon;
           } else if (route.name === "ProfileScreen") {
             iconName = ProfileIcon;
           }
