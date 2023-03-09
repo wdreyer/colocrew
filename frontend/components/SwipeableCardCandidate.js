@@ -38,10 +38,6 @@ export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
         outputRange: ["-20deg", "0deg", "20deg"],
     });
 
-    const handleLike = () => {
-        console.log("test");
-    };
-
     let panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => false,
         onMoveShouldSetPanResponder: (evt, gestureState) => false,

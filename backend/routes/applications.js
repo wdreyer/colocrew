@@ -10,9 +10,9 @@ const Users = require("../models/users");
 
 router.post("/newApply", function (req, res, next) {
     const datePost = Date.now();
-    console.log('START DATE VERS DB',req.body.startDate);
-    console.log('END DATE VERS DB',req.body.endDate);
-    if(req.body.startDate && req.body.endDate){
+    console.log("START DATE VERS DB", req.body.startDate);
+    console.log("END DATE VERS DB", req.body.endDate);
+    if (req.body.startDate && req.body.endDate) {
         const Apply = {
             idCandidate: req.body.idCandidate,
             datePost: datePost,
@@ -77,22 +77,33 @@ router.get("/myApplications/:ID", function (req, res, next) {
         });
 });
 
-router.get("/displayCandidatesByDates", (req, res, next) => {
-// 86 400 000
-    Applications.find({
-        startDate: { $lte: new Date(req.query.startDate).getTime() },
-        endDate: { $gte: new Date(req.query.endDate).getTime() },
-    })
-        .populate("idCandidate")
-        .then((data) => {
-            if (data) {
-                res.json({ result: true, data: data });
-            } else {
-                res.json({
-                    result: false,
-                });
+router.get("/getApplicationsByUserCompatible/:id", async (req, res, next) => {
+    try {
+        const user = await Users.findById(req.params.id).populate(
+            "camps"
+        );
+        let campsDates = [];
+        let applicationsCompatible = [];
+
+        for (let item of user.camps) {
+            campsDates.push({
+                startDate: item.startDate,
+                endDate: item.endDate,
+            });
+            
+            const compatibleApplications = await Applications.find({
+                startDate: { $lte: item.startDate },
+                endDate: { $gte: item.endDate },
+            });
+            if (compatibleApplications.length > 0) {
+                applicationsCompatible.push(compatibleApplications[0]);
             }
-        });
+        }
+        res.json({ result: true, data: applicationsCompatible });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
 });
 
 module.exports = router;

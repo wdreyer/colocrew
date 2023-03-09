@@ -26,6 +26,9 @@ import config from "../config";
 import { getToday } from "react-native-modern-datepicker";
 
 
+import {dateFormater, shittyDateFormater} from "../modules/dateFormater";
+
+
 export default function CreateEditAnnounce(props) {
 
 

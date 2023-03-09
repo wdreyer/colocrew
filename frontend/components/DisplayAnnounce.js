@@ -5,8 +5,6 @@ export default function DisplayAnnounce(props) {
   const { navigation, ...updatedProps } = props;
   delete updatedProps.navigation;
 
-  console.log(props.lodgingtype)
-
    const  formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, '0');

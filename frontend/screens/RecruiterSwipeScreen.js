@@ -3,7 +3,8 @@
 
 // import React in our code
 import React, { useEffect, useState } from "react";
-import "../components/SwipeableCardCamps";
+
+import "../components/SwipeableCardCandidate";
 import { useSelector } from "react-redux";
 
 // import all the components we are going to use
@@ -17,26 +18,23 @@ export default RecruiterSwipeScreen = () => {
     const [swipeDirection, setSwipeDirection] = useState("--");
     const [candidates, setCandidates] = useState([]);
 
-    const [recruiterCamps, setRecruiterCamps] = useState([]);
-
     const user = useSelector((state) => state.users);
     const userId = "64006d199c90d73bb9029e6e"
 
+    console.log(user)
+    
+
     useEffect(() => {
-        getCampsByIdRecruiter();
-        // getApplicationsByDates();
+        getApplicationsByIdRecruiter();
     }, []);
-
-    const getCampsByIdRecruiter = () => {
-        fetch(`${config.URL_BACKEND}/camps/getCampsByUserCompatible/${userId}/`)
-        .then((rs) => rs.json())
-        .then((res) => {
-            console.log(res.data);
-            setCandidates(res.data);
-        });
+    
+    const getApplicationsByIdRecruiter = () => {
+        fetch(`${config.URL_BACKEND}/applications/getApplicationsByUserCompatible/${userId}`)
+            .then((rs) => rs.json())
+            .then((res) => {
+                setCandidates(res.data);
+            });
     };
-
-
 
     const removeCard = (id) => {
         candidates.splice(

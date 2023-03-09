@@ -6,6 +6,7 @@ function dateFormater(date) {
   const formattedDate = day + "/" + month + "/" + year;
   return formattedDate;
 }
+ 
 
 
 function shittyDateFormater(date) {
