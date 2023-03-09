@@ -147,7 +147,7 @@ export default SwipeableCard = ({ item, removeCard, swipedDirection }) => {
             </View>
 
             <Text style={styles.disponibilities}>
-                Disponible du {moment(item.startDate, dateFormat).format("DD-MM-YYYY")} au {moment(item.startDate, dateFormat).format("DD-MM-YYYY")}
+                Disponibilités : du {moment(item.startDate, dateFormat).format("DD-MM-YYYY")} au {moment(item.startDate, dateFormat).format("DD-MM-YYYY")}
             </Text>
 
             <Text style={styles.description}> {item.description.substring(0, 80)} ...</Text>
@@ -226,6 +226,8 @@ const styles = StyleSheet.create({
         color: "#fff",
         margin: 3,
         fontWeight: "bold",
+        backgroundColor: "#281C47",
+        padding: 3,
     },
 
     disponibilities: {

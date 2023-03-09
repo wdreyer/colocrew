@@ -21,6 +21,7 @@ import DisplayAnnounceScreen from "./screens/DisplayAnnounceScreen";
 
 
 
+
 import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -126,6 +127,8 @@ export default function App() {
       <PersistGate persistor={persistor}>
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
+
+              <Stack.Screen name="RecruiterSwipeScreen" component={RecruiterSwipeScreen} />
               <Stack.Screen name="LoginScreen" component={LoginScreen} />
               <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
               <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
