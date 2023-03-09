@@ -24,7 +24,6 @@ export default function UploadImage(props) {
         }
         },[props]);
 
-        console.log(defaultImage)
 
     useEffect(() => {
         (async () => {
