@@ -1,276 +1,308 @@
-import { StyleSheet, Text, Pressable, TextInput, Switch, View, Modal} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  Pressable,
+  TextInput,
+  Switch,
+  View,
+  Modal,
+} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import Input from "./Input";
 import PrimaryButton from "./PrimaryButton";
 import ModalDatePicker from "./ModalDatePicker";
 import SelectableList from "./SelectableList";
 import ToggleButton from "./ToggleButton";
-import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
+import { getToday, getFormatedDate } from "react-native-modern-datepicker";
 import config from "../config";
-import { shittyDateFormater } from "../modules/dateFormater";
-
+import { shittyDateFormater } from "../modules/dateformater";
 
 export default function CandidatePost(props) {
-    const user = useSelector((state) => state.users);
-    console.log('USER => ',user)
-    const todayDate = getToday();
-    const formattedDate = getFormatedDate(new Date(), "DD/MM/YYYY"); 
-    //console.log('Formatted date ',formattedDate);
-    const [dateModalVisible, setDateModalVisible] = useState(false);
-    const [tabContracts, setTabContracts] = useState([]);
-    const [tabQualifications, setTabQualifications] = useState([]);
-    const [tabLodgings, setTabLodgings] = useState([]);
-    const [tabLocations, setTabLocations] = useState([]);
+  const user = useSelector((state) => state.users);
+  console.log("USER => ", user);
+  const todayDate = getToday();
+  const formattedDate = getFormatedDate(new Date(), "DD/MM/YYYY");
+  //console.log('Formatted date ',formattedDate);
+  const [dateModalVisible, setDateModalVisible] = useState(false);
+  const [tabContracts, setTabContracts] = useState([]);
+  const [tabQualifications, setTabQualifications] = useState([]);
+  const [tabLodgings, setTabLodgings] = useState([]);
+  const [tabLocations, setTabLocations] = useState([]);
 
-    const [postContracts, setPostContracts] = useState([]);
-    const [postQualifications, setPostQualifications] = useState([]);
-    const [postLodgings, setPostLodgings] = useState([]);
-    const [postLocations, setPostLocations] = useState([]);
-    const [postDescription , setPostDescription] = useState([]);
-    const [postActivitiesList  , setPostActivitiesList]  = useState([]);
-    //const [postUsersID, setPostUsersID] = useState([]);
+  const [postContracts, setPostContracts] = useState([]);
+  const [postQualifications, setPostQualifications] = useState([]);
+  const [postLodgings, setPostLodgings] = useState([]);
+  const [postLocations, setPostLocations] = useState([]);
+  const [postDescription, setPostDescription] = useState([]);
+  const [postActivitiesList, setPostActivitiesList] = useState([]);
+  //const [postUsersID, setPostUsersID] = useState([]);
 
-    useEffect(() => {
-
-            fetch(`${config.URL_BACKEND}/settings/contractType`, {
-              method: "GET",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                //console.log('Type de contracts ',data.data);
-                if (data.result) {
-                  let newArray = data.data.map((data,i) => {
-                    return data.name;
-                  });
-                  setTabContracts(newArray);
-                }
-              });
-
-              fetch(`${config.URL_BACKEND}/settings/qualifications`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(),
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  //console.log('Type de qualifications ',data.data);
-                  if (data.result) {
-                    let newArray = data.data.map((data,i) => {
-                      return data.name;
-                    });
-                    setTabQualifications(newArray);
-                  }
-                });
-
-                fetch(`${config.URL_BACKEND}/settings/lodgings`, {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(),
-                  })
-                    .then((response) => response.json())
-                    .then((data) => {
-                      //console.log('Type de lodgings ',data.data);
-                      if (data.result) {
-                        let newArray = data.data.map((data,i) => {
-                          return data.name;
-                        });
-                        setTabLodgings(newArray);
-                      }
-                    });
-
-                fetch(`${config.URL_BACKEND}/settings/locations`, {
-                  method: "GET",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(),
-                })
-                  .then((response) => response.json())
-                  .then((data) => {
-                    //console.log('Type de lodgings ',data.data);
-                    if (data.result) {
-                      let newArray = data.data.map((data,i) => {
-                        return data.name;
-                      });
-                      setTabLocations(newArray);
-                    }
-                  });
-                
-                
-          }, []);
-
-        const handleContractTypesButtons = (data) => {
-          //console.log(data)
-          if (data.state && !postContracts.some((e) => e === data.value)) {
-              setPostContracts(prev => [...prev, data.value]);
-          } else if (!data.state ) {
-            setPostContracts(prev => prev.filter(e => e !== data.value));
-          }
+  useEffect(() => {
+    fetch(`${config.URL_BACKEND}/settings/contractType`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log('Type de contracts ',data.data);
+        if (data.result) {
+          let newArray = data.data.map((data, i) => {
+            return data.name;
+          });
+          setTabContracts(newArray);
         }
+      });
 
-        const handleQualificationsButtons = (data) => {
-          //console.log(data)
-          if (data.state && !postQualifications.some((e) => e === data.value)) {
-              setPostQualifications(prev => [...prev, data.value]);
-          } else if (!data.state && postQualifications.some((e) => e === data.value)) {
-            setPostQualifications(prev => prev.filter(e => e !== data.value));
-          }
+    fetch(`${config.URL_BACKEND}/settings/qualifications`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log('Type de qualifications ',data.data);
+        if (data.result) {
+          let newArray = data.data.map((data, i) => {
+            return data.name;
+          });
+          setTabQualifications(newArray);
         }
+      });
 
-        const handleLodgingsButtons = (data) => {
-          //console.log(data)
-          if (data.state && !postLodgings.some((e) => e === data.value)) {
-            setPostLodgings(prev => [...prev, data.value]);
-        } else if (!data.state && postLodgings.some((e) => e === data.value)) {
-          setPostLodgings(prev => prev.filter(e => e !== data.value));
+    fetch(`${config.URL_BACKEND}/settings/lodgings`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log('Type de lodgings ',data.data);
+        if (data.result) {
+          let newArray = data.data.map((data, i) => {
+            return data.name;
+          });
+          setTabLodgings(newArray);
         }
+      });
+
+    fetch(`${config.URL_BACKEND}/settings/locations`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log('Type de lodgings ',data.data);
+        if (data.result) {
+          let newArray = data.data.map((data, i) => {
+            return data.name;
+          });
+          setTabLocations(newArray);
         }
+      });
+  }, []);
 
-        const handleLocationsButtons = (data) => {
-          if (data.state && !postLocations.some((e) => e === data.value)) {
-            setPostLocations(prev => [...prev, data.value]);
-        } else if (!data.state && postLocations.some((e) => e === data.value)) {
-          setPostLocations(prev => prev.filter(e => e !== data.value));
+  const handleContractTypesButtons = (data) => {
+    //console.log(data)
+    if (data.state && !postContracts.some((e) => e === data.value)) {
+      setPostContracts((prev) => [...prev, data.value]);
+    } else if (!data.state) {
+      setPostContracts((prev) => prev.filter((e) => e !== data.value));
+    }
+  };
+
+  const handleQualificationsButtons = (data) => {
+    //console.log(data)
+    if (data.state && !postQualifications.some((e) => e === data.value)) {
+      setPostQualifications((prev) => [...prev, data.value]);
+    } else if (
+      !data.state &&
+      postQualifications.some((e) => e === data.value)
+    ) {
+      setPostQualifications((prev) => prev.filter((e) => e !== data.value));
+    }
+  };
+
+  const handleLodgingsButtons = (data) => {
+    //console.log(data)
+    if (data.state && !postLodgings.some((e) => e === data.value)) {
+      setPostLodgings((prev) => [...prev, data.value]);
+    } else if (!data.state && postLodgings.some((e) => e === data.value)) {
+      setPostLodgings((prev) => prev.filter((e) => e !== data.value));
+    }
+  };
+
+  const handleLocationsButtons = (data) => {
+    if (data.state && !postLocations.some((e) => e === data.value)) {
+      setPostLocations((prev) => [...prev, data.value]);
+    } else if (!data.state && postLocations.some((e) => e === data.value)) {
+      setPostLocations((prev) => prev.filter((e) => e !== data.value));
+    }
+  };
+
+  //console.log('TABLEAU DE CONTRATS ==>  ',postContracts)
+  //console.log('TABLEAU DE LOGEMENTS ==>  ',postLodgings)
+  //console.log('TABLEAU DE Qualifications ==>  ',postQualifications)
+
+  const ContractTypesButtons = () => {
+    let contractsList = tabContracts.map((e, i) => (
+      <ToggleButton
+        key={i}
+        isPressed={postContracts.some((el) => el === e)}
+        textButton={e}
+        funcReverseData={(data) => handleContractTypesButtons(data)}
+      ></ToggleButton>
+    ));
+    return <View style={styles.section}>{contractsList}</View>;
+  };
+
+  const LodgingButtons = () => {
+    let lodgingsList = tabLodgings.map((e, i) => (
+      <ToggleButton
+        key={i}
+        isPressed={postLodgings.some((el) => el === e)}
+        textButton={e}
+        funcReverseData={(data) => handleLodgingsButtons(data)}
+      ></ToggleButton>
+    ));
+    return <View style={styles.section}>{lodgingsList}</View>;
+  };
+
+  const QualificationsButtons = () => {
+    let qualificationsList = tabQualifications.map((e, i) => (
+      <ToggleButton
+        key={i}
+        isPressed={postQualifications.some((el) => el === e)}
+        textButton={e}
+        funcReverseData={(data) => handleQualificationsButtons(data)}
+      ></ToggleButton>
+    ));
+    return <View style={styles.section}>{qualificationsList}</View>;
+  };
+
+  const LocationsButtons = () => {
+    let locationsList = tabLocations.map((e, i) => (
+      <ToggleButton
+        key={i}
+        isPressed={postLocations.some((el) => el === e)}
+        textButton={e}
+        funcReverseData={(data) => handleLocationsButtons(data)}
+      ></ToggleButton>
+    ));
+    return <View style={styles.section}>{locationsList}</View>;
+  };
+
+  //   const data = [
+  //     { key: "1", value: "Mobiles", disabled: true },
+  //     { key: "2", value: "Appliances" },
+  //     { key: "3", value: "Cameras" },
+  //     { key: "4", value: "Computers", disabled: true },
+  //     { key: "5", value: "Vegetables" },
+  //     { key: "6", value: "Diary Products" },
+  //     { key: "7", value: "Drinks" },
+  //   ];
+
+  const [startDate, setStartDate] = useState(todayDate);
+  const [endDate, setEndDate] = useState(todayDate);
+  const [childrenAge, setChildrenAge] = useState("");
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const recupStartDate = (date) => {
+    setStartDate(date);
+    //console.log('RECUP START DATE Candidate FORM :  ', date);
+  };
+
+  const recupEndDate = (date) => {
+    setEndDate(date);
+    //console.log('RECUP END DATE Candidate FORM :  ', date);
+  };
+
+  const handleDescriptionField = (value) => {
+    setPostDescription(value);
+    //console.log(postDescription);
+  };
+
+  const handleActivitiesList = (data) => {
+    setPostActivitiesList(data);
+  };
+  //console.log('========> ',postActivitiesList);
+
+  const handleSubmitCandidateForm = () => {
+    fetch(`${config.URL_BACKEND}/applications/newApply`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idCandidate: user.mongoID,
+        startDate: startDate,
+        endDate: endDate,
+        description: postDescription,
+        lodgingType: postLodgings,
+        locations: postLocations,
+        activities: postActivitiesList,
+        contractType: postContracts,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log('Type de qualifications ',data.data);
+        if (data.result) {
+          console.log("CANDIDATURE CREEE : ", data.storedResult);
+        } else {
+          console.log("Erreur de ");
         }
-        }
-        
-        //console.log('TABLEAU DE CONTRATS ==>  ',postContracts)
-        //console.log('TABLEAU DE LOGEMENTS ==>  ',postLodgings)
-        //console.log('TABLEAU DE Qualifications ==>  ',postQualifications)
+      });
 
+    console.log("Formulaire soumis");
+    props.formSubmitted(true);
+  };
 
-        const ContractTypesButtons = () => {
-                let contractsList = tabContracts.map((e, i) => <ToggleButton key={i} isPressed={postContracts.some(el => el === e)} textButton={e} funcReverseData={(data) => handleContractTypesButtons(data) }></ToggleButton>);
-                return(<View style={styles.section}>{contractsList}</View>)
-            }
-        
-        const LodgingButtons = () => {
-            let lodgingsList = tabLodgings.map((e, i) => <ToggleButton key={i} isPressed={postLodgings.some(el => el === e)} textButton={e} funcReverseData={(data) => handleLodgingsButtons(data) }></ToggleButton>);
-            return(<View style={styles.section}>{lodgingsList}</View>)
-            }
-
-        const QualificationsButtons = () => {
-            let qualificationsList = tabQualifications.map((e, i) => <ToggleButton key={i} isPressed={postQualifications.some(el => el === e)} textButton={e} funcReverseData={(data) => handleQualificationsButtons(data) }></ToggleButton>);
-            return(<View style={styles.section}>{qualificationsList}</View>)
-            }
-        
-        const LocationsButtons = () => {
-          let locationsList = tabLocations.map((e, i) => <ToggleButton key={i} isPressed={postLocations.some(el => el === e)} textButton={e} funcReverseData={(data) => handleLocationsButtons(data) }></ToggleButton>);
-          return(<View style={styles.section}>{locationsList}</View>)
-          }
-
-//   const data = [
-//     { key: "1", value: "Mobiles", disabled: true },
-//     { key: "2", value: "Appliances" },
-//     { key: "3", value: "Cameras" },
-//     { key: "4", value: "Computers", disabled: true },
-//     { key: "5", value: "Vegetables" },
-//     { key: "6", value: "Diary Products" },
-//     { key: "7", value: "Drinks" },
-//   ];
-
-    const [startDate, setStartDate] = useState(todayDate);
-    const [endDate, setEndDate] = useState(todayDate);
-    const [childrenAge, setChildrenAge] = useState("");
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-
-    const recupStartDate= (date) => {
-        setStartDate(date);
-        //console.log('RECUP START DATE Candidate FORM :  ', date);
-    };
-
-    const recupEndDate = (date) => {
-        setEndDate(date);
-        //console.log('RECUP END DATE Candidate FORM :  ', date);
-    };
-
-    const handleDescriptionField = (value) => {
-        setPostDescription(value);
-        //console.log(postDescription);
-    };
-
-    const handleActivitiesList = (data) => {
-      setPostActivitiesList(data);
-    };
-    //console.log('========> ',postActivitiesList);
-
-    const handleSubmitCandidateForm = () => {
-      fetch(`${config.URL_BACKEND}/applications/newApply`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          { 
-            idCandidate : user.mongoID,
-            startDate : startDate,
-            endDate : endDate,
-            description : postDescription,
-            lodgingType : postLodgings,
-            locations : postLocations,
-            activities : postActivitiesList,
-            contractType : postContracts,
-          }
-        ),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          //console.log('Type de qualifications ',data.data);
-          if (data.result) {
-            console.log('CANDIDATURE CREEE : ',data.storedResult);
-          }
-          else {
-            console.log('Erreur de ')
-          }
-        });
-
-        console.log("Formulaire soumis");
-        props.formSubmitted(true);
-    };
-
-    const formatedStartDate = shittyDateFormater(startDate);
-    const formatedEndDate = shittyDateFormater(endDate);
-
+  const formatedStartDate = shittyDateFormater(startDate);
+  const formatedEndDate = shittyDateFormater(endDate);
 
   if (props.isEditable) {
     return (
-    <View style={styles.CenteredView}>
+      <View style={styles.CenteredView}>
         <View style={styles.datePickers}>
           <Text style={styles.labelDatePicker}>Disponibilités*</Text>
           <View style={styles.containerDatePickers}>
             <View style={styles.datePicker}>
-                <Text style={styles.labelCalendar}>Date de début*</Text>
-                <ModalDatePicker
+              <Text style={styles.labelCalendar}>Date de début*</Text>
+              <ModalDatePicker
                 titleModal="Date de début"
                 currentDate={startDate}
                 selectedDate={startDate}
                 todayDate={todayDate}
-                recupDate={(startDate)=>recupStartDate(startDate)}
-                />
+                recupDate={(startDate) => recupStartDate(startDate)}
+              />
             </View>
             <View style={styles.datePicker}>
-                <Text style={styles.labelCalendar}>Date de fin*</Text>
-                <ModalDatePicker
+              <Text style={styles.labelCalendar}>Date de fin*</Text>
+              <ModalDatePicker
                 titleModal="Date de fin"
                 currentDate={endDate}
                 selectedDate={endDate}
                 todayDate={todayDate}
-                recupDate={(endDate)=>recupEndDate(endDate)}
-                />
+                recupDate={(endDate) => recupEndDate(endDate)}
+              />
             </View>
-        </View>
-        <View style={styles.dispoDates}>
+          </View>
+          <View style={styles.dispoDates}>
             <Text style={styles.date}>Du {formatedStartDate}</Text>
             <Text style={styles.date}>au {formatedEndDate}</Text>
-        </View>
+          </View>
         </View>
         <View>
-        <Input multiline={true} labelTxt='Je suis hyper motivé !' onChangeText={(value) => handleDescriptionField(value)}></Input>
-
+          <Input
+            multiline={true}
+            labelTxt="Je suis hyper motivé !"
+            onChangeText={(value) => handleDescriptionField(value)}
+          ></Input>
         </View>
-        
-        
+
         {/* <Switch
             trackColor={{ false: "#767577", true: "#CCC" }}
             thumbColor={isEnabled ? "#B8336A" : "#AAA"}
@@ -279,34 +311,37 @@ export default function CandidatePost(props) {
             value={isEnabled}
         /> */}
 
-        <Text  style={styles.labelsFields}>Type de contrat préféré</Text>
-        <ContractTypesButtons/>
-        
-        <Text  style={styles.labelsFields}>Qualifications</Text>
-        <QualificationsButtons/>
+        <Text style={styles.labelsFields}>Type de contrat préféré</Text>
+        <ContractTypesButtons />
+
+        <Text style={styles.labelsFields}>Qualifications</Text>
+        <QualificationsButtons />
 
         <Text style={styles.labelsFields}>Environnement souhaité</Text>
-        <LocationsButtons/>
+        <LocationsButtons />
 
         <Text style={styles.labelsFields}>Type d'hébergement souhaité</Text>
-        <LodgingButtons/>
-        
+        <LodgingButtons />
+
         <Text style={styles.labelsFields}>Activités</Text>
         <View style={styles.selectableList}>
-          <SelectableList type='activities' handleActivitiesList={(data)=>handleActivitiesList(data)}/>
+          <SelectableList
+            type="activities"
+            handleActivitiesList={(data) => handleActivitiesList(data)}
+          />
         </View>
-        
+
         <PrimaryButton
           textBtn="Publier ma candidature"
           actionOnPress={(data) => handleSubmitCandidateForm(data)}
         />
-    </View>
-    )
+      </View>
+    );
   } else {
-    console.log("erreur")
-    return (<Text>Erreur</Text>);
+    console.log("erreur");
+    return <Text>Erreur</Text>;
   }
-};
+}
 
 const styles = StyleSheet.create({
   CenteredView: {
@@ -328,41 +363,41 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-},
+  },
 
-labelsFields: {
+  labelsFields: {
     fontSize: 14,
-    color: '#fff',
+    color: "#fff",
     marginBottom: 10,
     marginTop: 20,
-},
+  },
 
-section:{
-    position:'relative',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+  section: {
+    position: "relative",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
     width: 350,
-    height: 'auto',
+    height: "auto",
     padding: 5,
     borderWidth: 0,
     borderRadius: 2,
-    borderColor: '#938CA4',
-},
-containerDatePickers:{
-  marginTop: 10,
-  flexDirection:'row',
-  justifyContent: 'center',
-  height:90,
-  width:'100%',
-  backgroundColor:'#53496B',
-},
+    borderColor: "#938CA4",
+  },
+  containerDatePickers: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    height: 90,
+    width: "100%",
+    backgroundColor: "#53496B",
+  },
 
   datePickers: {
-    backgroundColor:'#53496B',
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    backgroundColor: "#53496B",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
     borderWidth: 0.3,
     borderColor: "#fff",
     borderRadius: 5,
@@ -371,54 +406,51 @@ containerDatePickers:{
     width: "100%",
     padding: 5,
     color: "#fff",
-
   },
   labelCalendar: {
-    color:'#fff',
+    color: "#fff",
     fontSize: 16,
-    
+
     marginBottom: 25,
   },
 
   labelDatePicker: {
     color: "#fff",
     fontSize: 14,
-    
+
     top: -6,
     zIndex: 100,
     backgroundColor: "#53496B",
-    position:'absolute',
+    position: "absolute",
     paddingHorizontal: 3,
-    
-},
+  },
 
-datePicker:{
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin:10,
-    width:'35%',
-},
+  datePicker: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    width: "35%",
+  },
 
-dispoDates: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    height:40,
-},
+  dispoDates: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    height: 40,
+  },
 
-date: {
-fontSize: 20,
-fontWeight: 'bold',
-color: "#FFF",
-margin: 10,
+  date: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#FFF",
+    margin: 10,
+  },
 
-},
+  selectableList: {
+    justifyContent: "center",
+    width: "100%",
+    marginBottom: 40,
+  },
 
-selectableList: {
-  justifyContent: 'center',
-  width: '100%',
-  marginBottom: 40,
-},
-  
   button: {
     borderRadius: 20,
     padding: 10,

@@ -16,7 +16,6 @@ import ProfileScreen from './screens/ProfileScreen';
 import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
 import RecruiterPostAnnounceScreen from './screens/RecruiterPostAnnounceScreen';
 import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
-import MyAnnounceScreen from './screens/MyAnnounceScreen';
 import DisplayAnnounceScreen from "./screens/DisplayAnnounceScreen";
 import DisplayCandidateApplyingScreen from "./screens/DisplayCandidateApplyingScreen";
 
@@ -185,8 +184,6 @@ export default function App() {
       <PersistGate persistor={persistor}>
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-
-              <Stack.Screen name="RecruiterSwipeScreen" component={RecruiterSwipeScreen} />
               <Stack.Screen name="LoginScreen" component={LoginScreen} />
               <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
               <Stack.Screen name="AreaChoiceScreen" component={AreaChoiceScreen} />
