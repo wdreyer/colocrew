@@ -30,7 +30,6 @@ router.get('/authByUid/:uid', (req, res, next) => {
   User.findOne({uid:req.params.uid})
   .then((data) =>{
     if(data){
-      console.log('Dans la route =>>   ',data);
       res.json({result:true, data:data });
       
     }
