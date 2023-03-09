@@ -4,6 +4,8 @@ import Input from "../components/Input";
 import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
 import globalStyle from "../styles/globalStyle";
+import DisplayAnnounce from "../components/DisplayAnnounce";
+import { useFocusEffect } from "@react-navigation/native";
 
 import {
   StyleSheet,
@@ -24,19 +26,20 @@ import {
 } from "react-native";
 import config from "../config";
 import CardBG from "../components/CardBG";
-import RecruiterProfileScreen from "./RecruiterProfileScreen";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector } from "react-redux";
+import { display } from "@mui/system";
 
 export default function RecruiterHomeScreen({ navigation }) {
   const [profilPercent, setProfilePercent] = useState(0);
   const [campsData, setCampsData] = useState([]);
   const user = useSelector((state) => state.users);
-  const uid = "8vpGzN94vRf0sRR1tHrI1DsIVt03";
+  const uid = user.uid;
 
   useEffect(() => {
     fetchUserData();
   }, []);
+
   useFocusEffect(
     useCallback(() => {
       fetchUserData();
@@ -51,7 +54,6 @@ export default function RecruiterHomeScreen({ navigation }) {
     })
       .then((rs) => rs.json())
       .then((res) => {
-        console.log(res);
         let calculPercent = 0;
         const { firstname, lastname, phone, birthDate, description, camps } =
           res.data;
@@ -63,10 +65,11 @@ export default function RecruiterHomeScreen({ navigation }) {
         }
         setProfilePercent(calculPercent);
         if (camps.length > 0) {
-          setCampsData(camps);
+          displayUserCamps(camps);
         }
       });
   };
+
   const displayUserCamps = (camps) => {
     {
       fetch(`${config.URL_BACKEND}/users/displayCampByUser/${uid}`, {
@@ -79,7 +82,7 @@ export default function RecruiterHomeScreen({ navigation }) {
           const campsData = res.data.map((data, i) => {
             return (
               <DisplayAnnounce
-                text="texte to display"
+                navigation={navigation.navigate}
                 display="card"
                 key={i}
                 {...data}
@@ -137,8 +140,6 @@ export default function RecruiterHomeScreen({ navigation }) {
                       Dernières candidatures postées:{" "}
                     </Text>
                     <CardBG textCard="Candidature 1" />
-                    <CardBG textCard="Candidature 2" />
-                    <CardBG textCard="Candidature 3" />
                   </View>
                 </>
               )}
@@ -178,7 +179,7 @@ export default function RecruiterHomeScreen({ navigation }) {
                   />
                 </View>
               )}
-              <View>
+              <>
                 <Text style={globalStyle.text}>Mes annonces : </Text>
                 <View style={styles.séjourContainer}>
                   <CardBG textCard="Séjour 1" />
@@ -192,7 +193,20 @@ export default function RecruiterHomeScreen({ navigation }) {
                     Voir mes annonces archivées
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </>
+
+              {campsData.length > 0 && (
+                <View>
+                  <Text style={globalStyle.subtitle}>Mes Annonces :</Text>
+                  {campsData}
+                  <PrimaryButton
+                    textBtn="Publier une annonce"
+                    actionOnPress={() =>
+                      navigation.navigate("RecruiterPostAnnounceScreen")
+                    }
+                  />
+                </View>
+              )}
             </View>
           </SafeAreaProvider>
         </TouchableWithoutFeedback>

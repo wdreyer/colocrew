@@ -7,16 +7,17 @@ const initialState = {
     uid : "",
     isCandidate : false,
     isRecruiter : false,
+    mongoID: ""
 };
 
 export const usersSlice = createSlice({
- name: 'users',
-
+  name: 'users',
   initialState,
- reducers: {
+  reducers: {
    addUserToStore: (state, action) => {
     state.isConnected = action.payload.isConnected;
     state.email = action.payload.email;
+    state.mongoID = action.payload.mongoID;
     state.uid = action.payload.uid;
     state.isCandidate = action.payload.isCandidate;
     state.isRecruiter = action.payload.isRecruiter;

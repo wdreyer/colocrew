@@ -10,29 +10,26 @@ export default StyleSheet.create({
     width: windowWidth,
     color: "#fff",
   },
-
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 40,
     flex: 1,
-    height: 100,
   },
 
   mainTitlePage: {
     color: "#fff",
     fontSize: 30,
     marginTop: 10,
-    marginBottom: 20,
     textAlign: "center",
   },
 
   subtitle: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 25,
     marginTop: 10,
     marginBottom: 20,
   },
@@ -78,6 +75,7 @@ export default StyleSheet.create({
   scrollView: {
     color: "#fff",
     backgroundColor: "#281C47",
+    paddingBottom : 100,
   },
 
   logo: {
@@ -109,12 +107,12 @@ export default StyleSheet.create({
   contentContainer: {
     color: "#fff",
     margin: 25,
+
   },
 
   text: {
     marginBottom: 15,
     color: "#fff",
     fontSize: 20,
-
   }
 });

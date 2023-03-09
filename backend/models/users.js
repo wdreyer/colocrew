@@ -20,7 +20,7 @@ const addressSchema = mongoose.Schema({
     birthDate: { type: String, default: null },
     description: { type: String, default: '' },
     photos: { type: String, default: '' },
-    qualifications: [{ type: mongoose.Schema.Types.ObjectId, ref: 'qualifications' }],
+    qualifications: Array,
     isCandidate: { type: Boolean, default: false },
     applications: [{ type: mongoose.Schema.Types.ObjectId, ref: 'applications' }],
     isRecruiter: { type: Boolean, default: false },

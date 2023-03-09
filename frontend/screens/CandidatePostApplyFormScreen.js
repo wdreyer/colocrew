@@ -26,36 +26,48 @@ import {
 } from "react-native";
 import config from "../config";
 
-export default function CandidatePostApplyFormScreen({navifgation}) {
+export default function CandidatePostApplyFormScreen({ navigation }) {
+
+
+
+  const formSubmitted = (data) => {
+    if (data) {
+      navigation.navigate("TabCandidateNavigator", { screen: 'CandidateHome', params: { test: true } });
+    }
+  };
+
   return (
-      <KeyboardAvoidingView
-        style={globalStyle.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <KeyboardAvoidingView
+      style={globalStyle.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        style={globalStyle.body}
+        contentContainerStyle={globalStyle.scrollView}
       >
-        <ScrollView
-          style={globalStyle.body}
-          contentContainerStyle={globalStyle.scrollView}
-        >
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <SafeAreaProvider style={globalStyle.safeAreaContainer}>
-              <StatusBar style="light" />
-              <View style={globalStyle.headerContainer}>
-                <Image
-                  style={globalStyle.logo}
-                  source={require("../assets/LogoMiniBlanc.png")}
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <SafeAreaProvider style={globalStyle.safeAreaContainer}>
+            <StatusBar style="light" />
+            <View style={globalStyle.headerContainer}>
+              <Image
+                style={globalStyle.logo}
+                source={require("../assets/LogoMiniBlanc.png")}
+              />
+              <Text style={globalStyle.titleText}>Ma candidature</Text>
+              
+            </View>
+            <View>
+              <View style={globalStyle.contentContainer}>
+                <CandidatePost
+                  isEditable={true}
+                  formSubmitted={(data) => formSubmitted(data)}
                 />
-                <Text style={globalStyle.titleText}>Ma candidature</Text>
-                <Text> </Text>
+                {/* Ajoutez ici les autres éléments de la screen */}
               </View>
-              <View>
-                <View style={globalStyle.contentContainer}>
-                  <CandidatePost isEditable={true} />
-                  {/* Ajoutez ici les autres éléments de la screen */}
-                </View>
-              </View>
-            </SafeAreaProvider>
-          </TouchableWithoutFeedback>
-        </ScrollView>
-      </KeyboardAvoidingView>
+            </View>
+          </SafeAreaProvider>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

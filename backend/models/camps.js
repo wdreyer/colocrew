@@ -7,11 +7,11 @@ const campsSchema = mongoose.Schema({
     startDate : Date,
     endDate : Date,
     description : String,
-    lodgingtype : [{ type: mongoose.Schema.Types.ObjectId, ref: 'lodgings' }],
     location : String,
-    activities : [{ type: mongoose.Schema.Types.ObjectId, ref: 'activities'  }],
-    learningGoals : [{ type: mongoose.Schema.Types.ObjectId, ref: 'learninggoals' }],
-    salaryseType : String,
+    lodgingtype :  Array,
+    learningGoals : Array,
+    activities: Array,
+    salaryType : String,
     salary: Number,
     contractType : String,
     salaryPeriod : String,
@@ -21,8 +21,7 @@ const campsSchema = mongoose.Schema({
     dislikes : [{ type: mongoose.Schema.Types.ObjectId, ref: 'users'  }],
     childNumber: Number,
     animNumber: Number,
-
-    
+    datePost : Date,
 })
 
 const Camp = mongoose.model('camps', campsSchema);
