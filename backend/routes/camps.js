@@ -2,11 +2,39 @@ var express = require("express");
 var router = express.Router();
 const Camp = require("../models/camps");
 const User = require("../models/users");
+const Applications = require('../models/applications')
 const { checkBody } = require("../modules/checkBody");
 
 const uniqid = require("uniqid");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
+
+router.get("/getCampsByUserCompatible/:id", async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id).populate("applications");
+      let applicationsDates = [];
+      let campsCompatible = [];
+  
+      for (let item of user.applications) {
+        applicationsDates.push({ startDate: item.startDate, endDate: item.endDate });
+        const compatibleCamps = await Camp.find({
+          startDate: { $gte: item.startDate },
+          endDate: { $lte: item.endDate }
+        });
+        if (compatibleCamps.length >0 ){
+        campsCompatible.push(compatibleCamps[0]);
+        }
+      }  
+      res.json({result: true, data :campsCompatible});
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+    
+
+
 
 router.post("/createCamp", async (req, res) => {    
 
@@ -159,6 +187,20 @@ router.post("/createCamp", async (req, res) => {
             res.json({ result: false, error: resultMove });
         }
     }
+});
+
+router.get('/', (req, res, next) => {
+    Camp.find()
+    .then((data) =>{
+      if(data){
+        res.json({result:true, data:data })
+      }
+      else {
+        res.json({
+          result: false,
+        });
+      }
+    } )
 });
 
 

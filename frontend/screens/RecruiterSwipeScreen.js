@@ -3,6 +3,7 @@
 
 // import React in our code
 import React, { useEffect, useState } from "react";
+
 import "../components/SwipeableCardCandidate";
 import { useSelector } from "react-redux";
 
@@ -18,7 +19,7 @@ export default RecruiterSwipeScreen = () => {
     const [candidates, setCandidates] = useState([]);
 
     const user = useSelector((state) => state.users);
-    const userId = user.mongoID;
+    const userId = "64006d199c90d73bb9029e6e"
 
     console.log(user)
     
@@ -26,7 +27,7 @@ export default RecruiterSwipeScreen = () => {
     useEffect(() => {
         getApplicationsByIdRecruiter();
     }, []);
-
+    
     const getApplicationsByIdRecruiter = () => {
         fetch(`${config.URL_BACKEND}/applications/getApplicationsByUserCompatible/${userId}`)
             .then((rs) => rs.json())
