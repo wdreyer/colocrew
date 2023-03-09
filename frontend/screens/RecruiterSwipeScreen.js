@@ -3,7 +3,7 @@
 
 // import React in our code
 import React, { useEffect, useState } from "react";
-import "../components/SwipeableCard";
+import "../components/SwipeableCardCandidate";
 import { useSelector } from "react-redux";
 
 // import all the components we are going to use
@@ -17,56 +17,22 @@ export default RecruiterSwipeScreen = () => {
     const [swipeDirection, setSwipeDirection] = useState("--");
     const [candidates, setCandidates] = useState([]);
 
-    const [recruiterCamps, setRecruiterCamps] = useState([]);
-
     const user = useSelector((state) => state.users);
     const userId = user.mongoID;
 
+    console.log(user)
+    
+
     useEffect(() => {
-        getCampsByIdRecruiter();
-        // getApplicationsByDates();
+        getApplicationsByIdRecruiter();
     }, []);
 
-    const getCampsByIdRecruiter = () => {
-        fetch(`${config.URL_BACKEND}/applications/`)
+    const getApplicationsByIdRecruiter = () => {
+        fetch(`${config.URL_BACKEND}/applications/getApplicationsByUserCompatible/${userId}`)
             .then((rs) => rs.json())
             .then((res) => {
-                console.log(res.data);
                 setCandidates(res.data);
             });
-
-        // fetch(`${config.URL_BACKEND}/camps/${userId}`)
-        //     .then((rs) => rs.json())
-        //     .then((res) => {
-        //         for (let i = 0; i < res.data.length; i++) {
-        //             const intervalDateCamp = {
-        //                 startDate: res.data[i].startDate.getTime(),
-        //                 endDate: res.data[i].endDate.getTime(),
-        //             };
-        //             setRecruiterCamps([...recruiterCamps, intervalDateCamp]);
-        //         }
-        //     })
-        //     .then(() => {
-        //         const test = "1685746800000"
-        //         fetch(`${config.URL_BACKEND}/applications/displayCandidatesByDates/?startDate=2023-03-11&endDate=2023-03-18`)
-        //             .then((rs) => rs.json())
-        //             .then((res) => {
-        //                 console.log(res)
-        //                 setCandidates([...candidates], res.data);
-        //             });
-        //     });
-    };
-
-    const getApplicationsByDates = () => {
-        for (let i = 0; i < recruiterCamps.length; i++) {
-            // console.log(recruiterCamps[i]);
-        }
-
-        // fetch(`${config.URL_BACKEND}/applications/displayCandidatesByDates?startDate=2023-04-02&endDate=2023-04-10`)
-        //     .then((rs) => rs.json())
-        //     .then((res) => {
-        //         setCandidates(res.data);
-        //     });
     };
 
     const removeCard = (id) => {

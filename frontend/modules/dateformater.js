@@ -16,6 +16,6 @@ function dateFormater (date) {
     const year = maDate.getFullYear().toString();
     const formattedDate = day + '/' + month + '/' + year;
     return(formattedDate);
-  }
+  } 
 
   module.exports = { dateFormater, shittyDateFormater };
