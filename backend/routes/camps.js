@@ -12,6 +12,8 @@ router.post("/createCamp", async (req, res) => {
     
 
     if (!req.files) {
+        console.log("here",req.body)
+
         // Create new camp when any picture in DB
         if (
             !checkBody(req.body, [
@@ -81,7 +83,7 @@ router.post("/createCamp", async (req, res) => {
         });
     } else {
         // Create new camp with one or more picture in DB
-        console.log(req.files)
+        console.log("here",req.body.newCamp)
         if (
             !checkBody(JSON.parse(req.body.newCamp), [
                 "idRecruiter",
