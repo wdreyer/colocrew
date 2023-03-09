@@ -14,6 +14,17 @@ import * as ImagePicker from "expo-image-picker";
 export default function UploadImage(props) {
     const [hasPermission, setHasPermission] = useState(false);
     const [image, setImage] = useState("");
+    const [defaultImage, setDefaultImage] = useState('');
+
+
+    useEffect(()=> {
+        if(props.defaultImage){
+            setDefaultImage(props.defaultImage)
+
+        }
+        },[props]);
+
+        console.log(defaultImage)
 
     useEffect(() => {
         (async () => {
@@ -39,6 +50,7 @@ export default function UploadImage(props) {
 
     const deleteImage = () => {
         setImage('')
+        setDefaultImage('')
         props.onUpdate('');
     }
 
@@ -56,7 +68,7 @@ export default function UploadImage(props) {
             style={styles.container}
             onPress={() => pickImage()}
         >
-            {image ? (
+            {image || props.defaultImage ? (
                 <Svg
                     onPress={() => deleteImage()}
                     style={styles.addButton}
@@ -84,7 +96,9 @@ export default function UploadImage(props) {
                 resizeMode="cover"
                 style={styles.imageBackground}
                 source={
-                    !image
+                    defaultImage
+                        ? { uri: defaultImage }
+                        : !image
                         ? require("../assets/placeholderImage.jpg")
                         : { uri: image }
                 }
