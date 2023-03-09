@@ -34,11 +34,12 @@ router.get("/getCampsByUserCompatible/:id", async (req, res) => {
 
     
 
-
-
 router.post("/createCamp", async (req, res) => {    
+  
 
     if (!req.files) {
+        console.log(req.body.newCamp)
+
         // Create new camp when any picture in DB
         if (
             !checkBody(req.body, [
@@ -107,6 +108,7 @@ router.post("/createCamp", async (req, res) => {
             });
         });
     } else {
+        console.log(req.body.newCamp)
         // Create new camp with one or more picture in DB
         if (
             !checkBody(JSON.parse(req.body.newCamp), [

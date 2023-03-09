@@ -30,9 +30,12 @@ import {dateFormater, shittyDateFormater} from "../modules/dateFormater";
 
 
 export default function CreateEditAnnounce(props) {
-
-
     const user = useSelector((state) => state.users);
+    console.log("nav ?",props.navigation.navigate)
+
+
+
+
 
     const [titleAnnounce, setTitleAnnounce] = useState("");
     const [placeAnnounce, setPlaceAnnounce] = useState("");
@@ -51,8 +54,6 @@ export default function CreateEditAnnounce(props) {
     const [endDate, setEndDate] = useState(getToday());
 
     const [imageUrl, setImageUrl] = useState("");
-
-    console.log("date to modify",startDate)
 
 
     useEffect(()=> {
@@ -293,7 +294,7 @@ export default function CreateEditAnnounce(props) {
         } else {
             // Create new camp in DB when picture(s)
             const newCamp = {
-                idRecruiter: user.mangoID,
+                idRecruiter: user.mongoID,
                 title: titleAnnounce,
                 location: placeAnnounce,
                 description: descriptionAnnounce,
@@ -321,8 +322,17 @@ export default function CreateEditAnnounce(props) {
                 body: formData,
             })
                 .then((response) => response.json())
-                .then((data) => console.log(data)                
-                );
+                .then((data) => {
+                    setIsActiveErrorTitle(false);
+                    setIsActiveErrorPlace(false);
+                    setIsActiveErrorDescription(false);
+                    setIsActiveErrorSalary(false);
+                    setIsActiveErrorPostLodgings(false);
+                    setIsActiveErrorPostActivities(false);
+                    setIsActiveErrorCounterChild(false);
+                    setIsActiveErrorCounterAnim(false);
+                    props.navigation('RecruiterHome')
+                });
         }
     };
 
