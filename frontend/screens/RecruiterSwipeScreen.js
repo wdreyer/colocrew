@@ -28,28 +28,34 @@ export default RecruiterSwipeScreen = () => {
     }, []);
 
     const getCampsByIdRecruiter = () => {
-        fetch(`${config.URL_BACKEND}/camps/${userId}`)
+        fetch(`${config.URL_BACKEND}/applications/`)
             .then((rs) => rs.json())
             .then((res) => {
-                for (let i = 0; i < res.data.length; i++) {
-                    const intervalDateCamp = {
-                        startDate: res.data[i].startDate.getTime(),
-                        endDate: res.data[i].endDate.getTime(),
-                    };
-                    setRecruiterCamps([...recruiterCamps, intervalDateCamp]);
-                }
-            })
-            .then(() => {
-                const test = "1685746800000"
-                // fetch(`${config.URL_BACKEND}/applications/displayCandidatesByDates/?startDate=2023-04-02&endDate=2023-04-09`)
-                //     .then((rs) => rs.json())
-                //     .then((res) => {
-                //         console.log(res)
-                //         setCandidates([...candidates], res.data);
-                //     });
+                console.log(res.data);
+                setCandidates(res.data);
             });
-    };
 
+        // fetch(`${config.URL_BACKEND}/camps/${userId}`)
+        //     .then((rs) => rs.json())
+        //     .then((res) => {
+        //         for (let i = 0; i < res.data.length; i++) {
+        //             const intervalDateCamp = {
+        //                 startDate: res.data[i].startDate.getTime(),
+        //                 endDate: res.data[i].endDate.getTime(),
+        //             };
+        //             setRecruiterCamps([...recruiterCamps, intervalDateCamp]);
+        //         }
+        //     })
+        //     .then(() => {
+        //         const test = "1685746800000"
+        //         fetch(`${config.URL_BACKEND}/applications/displayCandidatesByDates/?startDate=2023-03-11&endDate=2023-03-18`)
+        //             .then((rs) => rs.json())
+        //             .then((res) => {
+        //                 console.log(res)
+        //                 setCandidates([...candidates], res.data);
+        //             });
+        //     });
+    };
 
     const getApplicationsByDates = () => {
         for (let i = 0; i < recruiterCamps.length; i++) {

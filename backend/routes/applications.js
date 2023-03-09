@@ -77,6 +77,7 @@ router.get("/myApplications/:ID", function (req, res, next) {
 
 router.get("/displayCandidatesByDates", (req, res, next) => {
 // 86 400 000
+console.log(new Date(req.query.startDate).getTime())
     Applications.find({
         startDate: { $lte: new Date(req.query.startDate).getTime() },
         endDate: { $gte: new Date(req.query.endDate).getTime() },
