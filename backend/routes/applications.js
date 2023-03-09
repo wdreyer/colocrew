@@ -27,7 +27,6 @@ router.post('/newApply', function(req, res, next) {
                         createdApplying: true,
                         applicationsList: Apply,
                     });
-                    
                 })
                 .catch(err => {
                 console.log(err); 
