@@ -34,7 +34,7 @@ export default function RecruiterHomeScreen({navigation}) {
   const [profilPercent,setProfilePercent] = useState(0);
   const [campsData, setCampsData] = useState([]);
   const user = useSelector((state) => state.users);
-  const uid = "8vpGzN94vRf0sRR1tHrI1DsIVt03";
+  const uid = user.uid; 
 
   useEffect(() => {
     fetchUserData();
