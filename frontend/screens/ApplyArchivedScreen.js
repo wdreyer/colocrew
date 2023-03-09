@@ -26,7 +26,7 @@ import {
 } from "react-native";
 import config from "../config";
 
-export default function AnnounceArchivedScreen() {
+export default function ApplyArchivedScreen() {
   return (
     <KeyboardAvoidingView
       style={globalStyle.container}
@@ -45,15 +45,15 @@ export default function AnnounceArchivedScreen() {
                 style={globalStyle.logo}
                 source={require("../assets/LogoMiniBlanc.png")}
               />
-              <Text style={globalStyle.titleText}>Annonces archivées</Text>
+              <Text style={globalStyle.titleText}>Candidatures archivées</Text>
               <Text> </Text>
             </View>
             <View>
               <View style={globalStyle.contentContainer}>
-                <View style={styles.séjourContainer}>
-                  <CardBG textCard="Séjour 1" />
-                  <CardBG textCard="Séjour 2" />
-                  <CardBG textCard="Séjour 3" />
+                <View style={styles.candidatureContainer}>
+                  <CardBG textCard="Candidature 1" />
+                  <CardBG textCard="Candidature 2" />
+                  <CardBG textCard="Candidature 3" />
                 </View>
               </View>
             </View>
@@ -65,7 +65,7 @@ export default function AnnounceArchivedScreen() {
 }
 
 const styles = StyleSheet.create({
-  sejourContainer: {
+  candidatureContainer: {
     marginTop: 30,
-  },
+  }
 });
