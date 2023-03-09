@@ -7,6 +7,7 @@ function dateFormater(date) {
   return formattedDate;
 }
 
+
 function shittyDateFormater(date) {
   const reFormatDate = date.split("/").join("-") + "T02:00:00.000+00:00";
   console.log(reFormatDate);

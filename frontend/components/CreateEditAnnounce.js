@@ -23,12 +23,10 @@ import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
 import ToggleButton from "../components/ToggleButton";
 import config from "../config";
-import { getToday , getFormatedDate} from "react-native-modern-datepicker";
+import { getToday } from "react-native-modern-datepicker";
 
-import {dateFormater, shittyDateFormater} from "../modules/dateformater";
 
 export default function CreateEditAnnounce(props) {
-    const todayDate = getToday();
 
 
     const user = useSelector((state) => state.users);
@@ -46,12 +44,12 @@ export default function CreateEditAnnounce(props) {
     const [tabActivities, setTabActivities] = useState([]);
     const [postActivities, setPostActivities] = useState([]);
 
-    const [startDate, setStartDate] = useState(todayDate);
-    const [endDate, setEndDate] = useState(todayDate);
+    const [startDate, setStartDate] = useState(getToday());
+    const [endDate, setEndDate] = useState(getToday());
 
     const [imageUrl, setImageUrl] = useState("");
 
-    console.log("date to modify",props.startDate)
+    console.log("date to modify",startDate)
 
 
     useEffect(()=> {
@@ -64,8 +62,8 @@ export default function CreateEditAnnounce(props) {
         setCounterAnim(props.animNumber);
         setPostLodgings(props.lodgingtype);
         setPostActivities(props.activities);
-        setStartDate(dateFormater(props.startDate));
-        setEndDate(dateFormater(props.endDate));
+        setStartDate(props.startDate);
+        setEndDate(props.endDate);
         setImageUrl(props.photos[0])
     }
 },[props]);
@@ -398,11 +396,11 @@ export default function CreateEditAnnounce(props) {
     };
 
     const recupDateFrom = (date) => {
-        setStartDate(shittyDateFormater(date));
+        setStartDate(date);
     };
 
     const recupDateTo = (date) => {
-        setEndDate(shittyDateFormater(date));
+        setEndDate(date);
     };
 
     useEffect(() => {
@@ -665,8 +663,8 @@ export default function CreateEditAnnounce(props) {
                                                 <ModalDatePicker
                                                     titleModal="Date de début"
                                                     current={startDate}
-                                                    selectedDate={startDate}
-                                                    todayDate={todayDate}
+                                                    selectedDate={startDate}                                                 
+                                                
                                                     recupDate={(dateFrom) =>
                                                         recupDateFrom(dateFrom)
                                                     }
@@ -684,7 +682,7 @@ export default function CreateEditAnnounce(props) {
                                                     titleModal="Date de fin"
                                                     currentDate={endDate}
                                                     selectedDate={endDate}
-                                                    todayDate={todayDate}
+                                                 
                                                     recupDate={(dateTo) =>
                                                         recupDateTo(dateTo)
                                                     }
