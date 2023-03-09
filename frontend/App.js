@@ -15,12 +15,8 @@ import CandidateSwipeScreen from './screens/CandidateSwipeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import CandidatePostApplyFormScreen from './screens/CandidatePostApplyFormScreen';
 import RecruiterPostAnnounceScreen from './screens/RecruiterPostAnnounceScreen';
-import AnnounceArchivedScreen from './screens/AnnounceArchivedScreen';
-import MyAnnounceScreen from './screens/MyAnnounceScreen';
 import DisplayAnnounceScreen from "./screens/DisplayAnnounceScreen";
 import DisplayCandidateApplyingScreen from "./screens/DisplayCandidateApplyingScreen";
-
-
 
 
 import { Provider } from 'react-redux';
@@ -81,8 +77,8 @@ const TabRecruiterNavigator = () => {
           position: "absolute",
           borderTopWidth: 0,
         },
-        tabBarActiveTintColor: "rgba(255,255,255)",
-        tabBarInactiveTintColor: "rgba(255,255,255, 0.4)",
+        tabBarActiveTintColor: "rgb(255,255,255)",
+        tabBarInactiveTintColor: "rgb(255,255,255)",
         headerShown: false,
         tabBarShowLabel: false,
       })}
