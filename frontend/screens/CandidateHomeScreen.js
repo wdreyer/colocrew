@@ -65,16 +65,17 @@ export default function CandidateHomeScreen({ navigation, route }) {
 
   }, [route.params]);
 
-  const actionOnPress = (_id) => {
-    navigation.navigate("CandidatePostApplyFormScreen")
+  const actionOnPress = (data) => {
+    console.log('<<>>>>>>>r',data);
+    //navigation.navigate("DisplayCandidateApplyingScreen", {})
   }
 
 
 let applyings
-console.log('MyApplyings =====>>>>>>>>>>>>>>>> ' ,myApplyings);
+//console.log('MyApplyings =====>>>>>>>>>>>>>>>> ' ,myApplyings);
   if (myApplyings.length !== 0){
     applyings = myApplyings.map((e, i) => {
-      return(<View key={i}><CandidateCard  ID={i+1} _id={e._id} startDate={e.startDate} endDate={e.endDate} contractType={e.contractType} locations={e.locations} activities={e.activities} likes={e.likes.length} actionOnPress={()=>actionOnPress()} /></View>
+      return(<View key={i}><CandidateCard  navigation={navigation.navigate} display="card" datas={e} ID={i+1} _id={e._id} startDate={e.startDate} endDate={e.endDate} contractType={e.contractType} locations={e.locations} activities={e.activities} likes={e.likes.length}  /></View>
     )})
   } else {
     applyings = (<View ><Text style={styles.message}>Vous n'avez pas encore posté de candidature.</Text></View>)

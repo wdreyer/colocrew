@@ -54,7 +54,7 @@ export default function CandidatePostApplyFormScreen({ navigation }) {
                 source={require("../assets/LogoMiniBlanc.png")}
               />
               <Text style={globalStyle.titleText}>Ma candidature</Text>
-              <Text> </Text>
+              
             </View>
             <View>
               <View style={globalStyle.contentContainer}>

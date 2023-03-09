@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function DisplayAnnounce(props) {
-  //const { navigation, ...updatedProps } = props;
+export default function DisplayCandidateApplying(props) {
+  const { navigation, ...updatedProps } = props;
   //delete updatedProps.navigation;
 
-  console.log(props.lodgingtype)
+  //console.log('DATAS PROPS DU COMPONENT DisplayCandidateApplying___--->',props.datas);
 
    const  formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -19,7 +19,7 @@ export default function DisplayAnnounce(props) {
         <>
         {props.display === "card"  &&  (
           <TouchableOpacity onPress={() =>
-           navigation("DisplayAnnounceScreen",{
+           navigation("DisplayCandidateApplyingScreen",{
               props: { ...updatedProps,display: 'announce'}
             })
           }
@@ -35,7 +35,7 @@ export default function DisplayAnnounce(props) {
               <Text style={styles.cardText}>Du : {formatDate(props.startDate)} </Text>
               <Text style={styles.cardText}>Au {formatDate(props.endDate)}</Text>
               <Text style={styles.locationText}>{props.location}</Text>
-              <Text style={styles.locationText}><FontAwesome size={30} name="heart"/> {props.likes.length}</Text>
+              <Text style={styles.locationText}><FontAwesome size={30} name="heart"/> ({props.datas.likes.length})</Text>
               </View>
             </View>
           </View>
@@ -45,35 +45,34 @@ export default function DisplayAnnounce(props) {
           <View style={styles.announceContainer}>           
                 {props.displayTitle && ( <Text style={styles.cardTitle}>{props.title}</Text>)}
                 <View style={styles.announceContainer}>
-                <Image
-                style={styles.announceImages}
-                source={{ uri: props.photos[0] }}
-              />
-              <Text style={styles.announceText}>Du : {formatDate(props.startDate)} Au {formatDate(props.endDate)}</Text>
-              <Text style={styles.announceText}>Lieu : {props.location}</Text>
-              <Text style={styles.announceText}>Description : {props.description}</Text>
-              <Text style={styles.announceText}>Salaire : {props.salary}</Text>
-              <Text style={styles.announceText}>Logement : {props.lodgingtype.join(' ')}</Text>
-              <Text style={styles.announceText}>Activités : {props.activities.join(' ')}</Text>
-              <Text style={styles.loveText}><FontAwesome size={30} name="heart"/> {props.likes.length}</Text>
-              <Text style={styles.annouceTitle}>Vos Candidats : </Text>
-              {props.likes.length === 0 && (
-                <>
-                <Text style={styles.announceText}>Vous navez pas encore de like, rendez vous sur la page <Text onPress={() =>
-                  navigation("TabRecruiterNavigator",{
-                    screen: 'RecruiterSwipe',
-                  })
-                } style={styles.textLink} >Swipe</Text> pour trouver des candidats qui vous conviennent</Text>
-                </>
+                
+                    <Text style={styles.announceText}>Mes disponibilités :</Text>
+                    <Text style={styles.announceText}>du  {formatDate(props.datas.startDate)} Au {formatDate(props.datas.endDate)}</Text>
+                    <Text style={styles.announceText}>Type(s) de contrats préférés : {props.datas.contractType}</Text>
+                    <Text style={styles.announceText}>Mes qualifications : {props.datas.qualifications}</Text>
+                    <Text style={styles.announceText}>Ma motivation : {props.datas.description}</Text>
+                    
+                    <Text style={styles.announceText}>Hébergement : {props.datas.lodgingType.join(', ')}</Text>
+                    <Text style={styles.announceText}>Environnement : {props.datas.locations.join(', ')}</Text>
+                    <Text style={styles.announceText}>Activités : {props.datas.activities.join(', ')}</Text>
 
-              )}
-            </View>
+                    <Text style={styles.loveText}><FontAwesome size={30} name="heart"/> {props.datas.likes.length}</Text>
+                    
+                    <Text style={styles.annouceTitle}>Vos séjours correspondants</Text>
+                    {props.datas.likes.length === 0 && (
+                        <>
+                        <Text style={styles.announceText}>Vous navez pas encore de like, rendez vous sur la page <Text onPress={() =>
+                        navigation("TabCandidateNavigator",{
+                            screen: 'CandidateSwipe',
+                            })} style={styles.textLink} >Swipe</Text> pour trouver des séjours qui vous conviennent</Text>
+                        </>
+                        )}
+                </View>
           </View>
         )}
-        </>
-      );
+    </>)
+};
 
-}
 const styles = StyleSheet.create({
   textLink: {
     color: "#7AC3F7",
