@@ -27,17 +27,18 @@ import CreateEditAnnounce from "../components/CreateEditAnnounce";
 
 export default function RecruiterPostAnnounceScreen({ navigation, route }) {
     const [editing,setEditing] = useState(false);
-    
+    const [propsToEdit, setPropsToEdit] = useState({})
     
     useEffect(()=> {
     if(route && route.params && route.params.editing){
         setEditing(route.params.editing)
+        setPropsToEdit(route.params.updatedProps)
     }    
      },[]);
 
     return (
      <>
-     <CreateEditAnnounce  navigation={navigation.navigate} editing={editing} {...route.params.updatedProps}/>
+     <CreateEditAnnounce  navigation={navigation.navigate} editing={editing} {...propsToEdit}/>
      </> 
     )
 }

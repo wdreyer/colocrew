@@ -11,6 +11,7 @@ import {
     ScrollView,
 } from "react-native";
 
+
 import Input from "./Input";
 import UploadImage from "../components/UploadImage";
 import globalStyle from "../styles/globalStyle";
@@ -22,10 +23,13 @@ import PrimaryButton from "../components/PrimaryButton";
 import ModalDatePicker from "../components/ModalDatePicker";
 import ToggleButton from "../components/ToggleButton";
 import config from "../config";
-import { getToday } from "react-native-modern-datepicker";
+import { getToday , getFormatedDate} from "react-native-modern-datepicker";
+
+import {dateFormater, shittyDateFormater} from "../modules/dateformater";
 
 export default function CreateEditAnnounce(props) {
     const todayDate = getToday();
+
 
     const user = useSelector((state) => state.users);
 
@@ -46,6 +50,10 @@ export default function CreateEditAnnounce(props) {
     const [endDate, setEndDate] = useState(todayDate);
 
     const [imageUrl, setImageUrl] = useState("");
+
+    console.log("date to modify",props.startDate)
+
+
     useEffect(()=> {
     if(props.editing){
         setTitleAnnounce(props.title);
@@ -56,12 +64,112 @@ export default function CreateEditAnnounce(props) {
         setCounterAnim(props.animNumber);
         setPostLodgings(props.lodgingtype);
         setPostActivities(props.activities);
-        setStartDate(props.startDate);
-        setEndDate(props.endDate);
+        setStartDate(dateFormater(props.startDate));
+        setEndDate(dateFormater(props.endDate));
         setImageUrl(props.photos[0])
     }
 },[props]);
-    console.log(titleAnnounce)
+
+    const editForm = () => {
+        if (
+            !titleAnnounce ||
+            !placeAnnounce ||
+            !descriptionAnnounce ||
+            !salaryAnnounce ||
+            !counterChild ||
+            !counterAnim ||
+            !postLodgings ||
+            !postActivities ||
+            !startDate ||
+            !endDate
+        ) {
+            toggleErrorMsg();
+            console.log("Champ(s) manquant(s)");
+            return;
+        }       
+        if (imageUrl === props.photos[0])
+       {
+            // Create new camp in DB when no picture
+            const editedCamp = {
+                idCamp: props._id,
+                title: titleAnnounce,
+                location: placeAnnounce,
+                description: descriptionAnnounce,
+                salary: salaryAnnounce,
+                startDate: startDate,
+                endDate: endDate,
+                childNumber: counterChild,
+                animNumber: counterAnim,
+                activities: postActivities,
+                lodgingtype: postLodgings,
+            };
+            fetch(`${config.URL_BACKEND}/camps/editCamp`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(editedCamp),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setIsActiveErrorTitle(false);
+                    setIsActiveErrorPlace(false);
+                    setIsActiveErrorDescription(false);
+                    setIsActiveErrorSalary(false);
+                    setIsActiveErrorPostLodgings(false);
+                    setIsActiveErrorPostActivities(false);
+                    setIsActiveErrorCounterChild(false);
+                    setIsActiveErrorCounterAnim(false);
+                    props.navigation('RecruiterHome')
+                });
+        } else {
+            // Create new camp in DB when picture(s)
+            const editedCamp = {
+                idCamp: props._id,
+                title: titleAnnounce,
+                location: placeAnnounce,
+                description: descriptionAnnounce,
+                salary: salaryAnnounce,
+                startDate: startDate,
+                endDate: endDate,
+                childNumber: counterChild,
+                animNumber: counterAnim,
+                activities: postActivities,
+                lodgingtype: postLodgings,
+            };
+            const formData = new FormData();
+
+            formData.append("editCamp", JSON.stringify(editedCamp));
+
+            formData.append("photoFromFront", {
+                uri: imageUrl,
+                name: imageUrl.split("/ImagePicker/")[1],
+                type: "image/jpeg",
+            });
+
+            fetch(`${config.URL_BACKEND}/camps/editCamp`, {
+                method: "PUT",
+                headers: { "Content-Type": "multipart/form-data" },
+                body: formData,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setIsActiveErrorTitle(false);
+                setIsActiveErrorPlace(false);
+                setIsActiveErrorDescription(false);
+                setIsActiveErrorSalary(false);
+                setIsActiveErrorPostLodgings(false);
+                setIsActiveErrorPostActivities(false);
+                setIsActiveErrorCounterChild(false);
+                setIsActiveErrorCounterAnim(false);
+                props.navigation('RecruiterHome')
+            });
+              
+        }
+
+
+
+
+
+    }
 
 
     const [isActiveErrorTitle, setIsActiveErrorTitle] = useState(false);
@@ -183,7 +291,6 @@ export default function CreateEditAnnounce(props) {
                 });
         } else {
             // Create new camp in DB when picture(s)
-
             const newCamp = {
                 idRecruiter: user.mangoID,
                 title: titleAnnounce,
@@ -291,11 +398,11 @@ export default function CreateEditAnnounce(props) {
     };
 
     const recupDateFrom = (date) => {
-        setStartDate(date);
+        setStartDate(shittyDateFormater(date));
     };
 
     const recupDateTo = (date) => {
-        setEndDate(date);
+        setEndDate(shittyDateFormater(date));
     };
 
     useEffect(() => {
@@ -340,7 +447,7 @@ export default function CreateEditAnnounce(props) {
                                     
 
                                 />
-                                {console.log("in the component",titleAnnounce)}
+                                
                                 <View
                                     style={
                                         isActiveErrorTitle &&
@@ -421,7 +528,6 @@ export default function CreateEditAnnounce(props) {
                                     type={"counter"}
                                     
                                 />
-                                {console.log(salaryAnnounce)}
                                 <View
                                     style={
                                         isActiveErrorSalary &&
@@ -446,6 +552,7 @@ export default function CreateEditAnnounce(props) {
                                     <View style={styles.uploadImageWrapper}>
                                         <UploadImage
                                             onUpdate={handleImageUrl}
+                                            defaultImage={imageUrl}
                                         />
                                     </View>
                                 </View>
@@ -458,10 +565,11 @@ export default function CreateEditAnnounce(props) {
                                         {tabActivities &&
                                             tabActivities.map((e) => {
                                                 return (
-                                                    <View key={e._id}>
+                                                    <View key={e._id}>                                    
                                                         <ToggleButton
+                                                       
                                                             isPressed={postActivities.some(
-                                                                (el) => el === e
+                                                                (el) => el === e.name
                                                             )}
                                                             textButton={e.name}
                                                             funcReverseData={(
@@ -504,7 +612,7 @@ export default function CreateEditAnnounce(props) {
                                                     <View key={e._id}>
                                                         <ToggleButton
                                                             isPressed={postLodgings.some(
-                                                                (el) => el === e
+                                                                (el) => el === e.name
                                                             )}
                                                             textButton={e.name}
                                                             funcReverseData={(
@@ -538,7 +646,7 @@ export default function CreateEditAnnounce(props) {
                                     </View>
                                 </View>
 
-                                <View style={styles.sectionContainer}>
+                                <View style={styles.CenteredView }>
                                     <View style={styles.datePickers}>
                                         <Text style={styles.labelDatePicker}>
                                             Disponibilités*
@@ -549,14 +657,14 @@ export default function CreateEditAnnounce(props) {
                                             <View style={styles.datePicker}>
                                                 <Text
                                                     style={
-                                                        styles.labelDatePicker
+                                                        styles.labelCalendar
                                                     }
                                                 >
                                                     Date de début*
                                                 </Text>
                                                 <ModalDatePicker
                                                     titleModal="Date de début"
-                                                    currentDate={startDate}
+                                                    current={startDate}
                                                     selectedDate={startDate}
                                                     todayDate={todayDate}
                                                     recupDate={(dateFrom) =>
@@ -567,7 +675,7 @@ export default function CreateEditAnnounce(props) {
                                             <View style={styles.datePicker}>
                                                 <Text
                                                     style={
-                                                        styles.labelDatePicker
+                                                        styles.labelCalendar
                                                     }
                                                 >
                                                     Date de fin*
@@ -601,8 +709,8 @@ export default function CreateEditAnnounce(props) {
                                             onChangeText={(value) =>
                                                 handleCounterChild(value)
                                             }
-                                            value={counterChild}
-                                            counter={true}
+                                            defaultValue={counterChild.toString()}
+                                            
                                             type={"counter"}
                                         />
                                     </View>
@@ -629,8 +737,8 @@ export default function CreateEditAnnounce(props) {
                                             onChangeText={(value) =>
                                                 handleCounterAnim(value)
                                             }
-                                            value={counterAnim}
-                                            counter={true}
+                                            defaultValue={counterAnim.toString()}
+                                            
                                             type={"counter"}
                                         />
                                     </View>
@@ -652,8 +760,8 @@ export default function CreateEditAnnounce(props) {
                                     </View>
                                 </View>
                                 <PrimaryButton
-                                    actionOnPress={handleForm}
-                                    textBtn="Publier une annonce"
+                                actionOnPress= {props.editing ?  editForm : handleForm }
+                                    textBtn= {props.editing ? "Enregistrer les changements" : "Publier une annonce"}
                                 />
                             </View>
                         </View>
@@ -744,6 +852,20 @@ const styles = StyleSheet.create({
         padding: 10,
     },
 
+    CenteredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 25,
+      },
+
+    labelCalendar: {
+        color:'#fff',
+        fontSize: 16,
+        
+        marginBottom: 25,
+      },
+
     containerDatePickers: {
         marginTop: 20,
         flexDirection: "row",
@@ -752,27 +874,31 @@ const styles = StyleSheet.create({
     },
 
     datePickers: {
-        flexDirection: "column",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        borderWidth: 1,
+        backgroundColor:'#53496B',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        borderWidth: 0.3,
         borderColor: "#fff",
         borderRadius: 5,
-        height: 120,
-        marginBottom: 10,
+        height: 200,
+        marginBottom: 20,
         width: "100%",
-        padding: 10,
+        padding: 5,
         color: "#fff",
-    },
+    
+      },
 
-    labelDatePicker: {
+      labelDatePicker: {
         color: "#fff",
-        fontSize: 12,
-        marginBottom: 2,
+        fontSize: 14,
+        
         top: -6,
         zIndex: 100,
-        backgroundColor: "#281C47",
+        backgroundColor: "#53496B",
+        position:'absolute',
         paddingHorizontal: 3,
+        
     },
 
     datePicker: {

@@ -10,8 +10,6 @@ export default function Input(props) {
     }
     },[props]);
 
-    console.log(textInput)
-
     const handleInput = (value) => {
         setTextInput(value)
         props.onChangeText(value)

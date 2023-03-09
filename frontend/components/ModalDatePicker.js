@@ -1,7 +1,7 @@
  import { StyleSheet, Text, Pressable, TextInput, Switch, View, Modal } from "react-native";
 import  PrimaryButton from "./PrimaryButton";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DatePicker from 'react-native-modern-datepicker';
 import { dateFormater, shittyDateFormater } from "../modules/dateFormater";
@@ -13,9 +13,21 @@ export default function ModalDatePicker(props) {
     //console.log('Date du jour ===> ',todayDate);
     const [dateModalVisible, setDateModalVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
+    const [currentDate, setCurrentDate] = useState("");
+
+    useEffect(()=> {
+      if(props.selectedDate){
+        setSelectedDate(props.selectedDate)
+      }
+      if(props.current){
+        setCurrentDate(props.current)
+      }
+      },[props]);
+  
+
+
     
     const handleDateModal = () => {
-
         props.recupDate(selectedDate)
         //console.log('Click HandleDateModal');
         
