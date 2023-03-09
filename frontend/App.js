@@ -80,7 +80,7 @@ const TabRecruiterNavigator = () => {
           position: "absolute",
           borderTopWidth: 0,
         },
-        tabBarActiveTintColor: "rgba(255,255,255)",
+        tabBarActiveTintColor: "rgb(255,255,255)",
         tabBarInactiveTintColor: "rgba(255,255,255, 0.4)",
         headerShown: false,
         tabBarShowLabel: false,
