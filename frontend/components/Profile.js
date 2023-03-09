@@ -6,6 +6,8 @@ import PrimaryButton from "./PrimaryButton";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
+import UploadImage from "../components/UploadImage";
+
 
 import {
   StyleSheet,
@@ -33,6 +35,7 @@ export default function ProfileScreen(props) {
   //States formulaire
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
+  const [photos, setPhotos] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [description, setDescription] = useState("");
@@ -61,6 +64,7 @@ export default function ProfileScreen(props) {
       props.profileData;
     setFirstName(firstname),
       setLastName(lastname),
+      setPhotos(photos),
       setEmail(email),
       setPhone(phone),
       setDescription(description),
@@ -72,6 +76,7 @@ export default function ProfileScreen(props) {
     console.log("enter");
     const updateUser = {
       uid,
+      photos,
       firstname,
       lastname,
       email,
@@ -105,7 +110,7 @@ export default function ProfileScreen(props) {
         style={{ flex: 0.5 }}
       >
         <View style={styles.avatarContainer}>
-          <Image source={avatarImage} style={styles.avatar} />
+          <UploadImage />
         </View>
       </LinearGradient>
 
