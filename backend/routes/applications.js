@@ -10,7 +10,9 @@ const Users = require("../models/users");
 
 router.post("/newApply", function (req, res, next) {
     const datePost = Date.now();
-    if (req.body.startDate && req.body.endDate) {
+    console.log('START DATE VERS DB',req.body.startDate);
+    console.log('END DATE VERS DB',req.body.endDate);
+    if(req.body.startDate && req.body.endDate){
         const Apply = {
             idCandidate: req.body.idCandidate,
             datePost: datePost,
