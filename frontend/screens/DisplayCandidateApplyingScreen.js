@@ -30,6 +30,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector } from 'react-redux';
 import { display } from "@mui/system";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import CandidatePost from "../components/CandidatePost";
 
 
 
@@ -42,6 +43,11 @@ export default function DisplayCandidateApplyingScreen({navigation,route}) {
     const handleEditable = () => {
       setEditable(true);
       console.log('GOGOGOG')
+    }
+
+    const formSubmitted = () => {
+      console.log("Fomulaire d'édition validé");
+      setEditable(false);
     }
 
 return (
@@ -67,7 +73,7 @@ return (
               onPress={() => handleEditable()}
             >
               <FontAwesome
-                name={!editable ? "edit" : ""}
+                name={!editable ? "edit" : ""} //------Edition-Fontawsome-Icon-----<<<<<<<<>>>>>>>>
                 color="white"
                 size={30}
               />
@@ -75,12 +81,21 @@ return (
             </View>
           
               <View style={globalStyle.contentContainer}>
-               <DisplayCandidateApplying navigation={navigation.navigate} displayTitle={false} {...updatedProps} />
-               <PrimaryButton textBtn='Retour' actionOnPress={() =>
-                navigation.navigate("TabCandidateNavigator",{
-                  screen: 'CandidateHomeScreen',
-                })
-              }/>
+              {!editable ? (
+                <>
+                  <View>
+                    <DisplayCandidateApplying navigation={navigation.navigate} displayTitle={false} {...updatedProps} />
+                    <PrimaryButton textBtn='Retour' actionOnPress={() =>
+                      navigation.navigate("TabCandidateNavigator",{
+                        screen: 'CandidateHomeScreen',
+                      })
+                    }/>
+                  </View> 
+                </>)  : (
+                  <View>
+                    <CandidatePost isEditApplying={true} datas={updatedProps} formSubmitted={(data) => formSubmitted(data)}/>
+                  </View>
+                )}
                </View>            
           </SafeAreaProvider>
         </TouchableWithoutFeedback>

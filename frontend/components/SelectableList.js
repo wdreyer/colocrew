@@ -8,13 +8,16 @@ export default function SelectableList (props) {
     const [DataActivities, setDataActivities] = useState([]);
     const [selectedActivities, setSelectedActivities] = useState("");
     const [data,setData] = useState([]);
+    const [checkedValues, setCheckedValues] = useState({});
 
     const handleActivitiesList = (val) => {
       setSelectedActivities(val);
       props.handleActivitiesList(val);
     };
+
+    let DefaultCheckedValues = [];
     
-    
+    //console.log('LIST ACTIVITES',props.defaultCheckedValues);
     //console.log('Type de données SelectableList', type);
     useEffect(() => {
       fetch(`${config.URL_BACKEND}/settings/${props.type}`, {
@@ -27,13 +30,19 @@ export default function SelectableList (props) {
           //console.log(data.activities);
           if (data.result) {
             // console.log("fetch Activities", data.props.type);
-            let newArray = data.data.map((data,i) => {
-              return { key:i, value: data.name, disabled: false };
-            });
-            setData(newArray);
+            //defaultOption={{ key:'1', value:'Jammu & Kashmir' }};
             
+            let newArray = data.data.map((data,i) => { 
+                // if(props.defaultCheckedValues.some((e) => e === data.name )){
+                //   DefaultCheckedValues.push({key:i, value: data.name})
+                //   console.log('LIST ACTIVITES', DefaultCheckedValues);
+                // }
+              return { key:i, value: data.name,  disabled: false };
+            });
+            setData(newArray);            
           }
         });
+
     }, []);
    
     //console.log(selectedActivities);
@@ -49,7 +58,7 @@ export default function SelectableList (props) {
         boxStyles={{color:"#281C47", backgroundColor:"#DBD7E7", width:'100%'}}
         dropdownStyles={{color:"#FFF", backgroundColor:"#53496B"}}
         dropdownTextStyles={{color:"#FFF", backgroundColor:"#53496B"}}
-        
+        defaultOption={{ DefaultCheckedValues }}
         inputStyles={{color:"#281C47", backgroundColor:"#DBD7E7", fontSize:16}}
         checkBoxStyles={{color:"#281C47", backgroundColor:"#DBD7E7"}}
         badgeStyles={{color:"#FFF", backgroundColor:"#C398BC"}}

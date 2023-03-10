@@ -59,7 +59,7 @@ export default function CandidatePostApplyFormScreen({ navigation }) {
             <View>
               <View style={globalStyle.contentContainer}>
                 <CandidatePost
-                  isEditable={true}
+                  isNewApplying={true}
                   formSubmitted={(data) => formSubmitted(data)}
                 />
                 {/* Ajoutez ici les autres éléments de la screen */}

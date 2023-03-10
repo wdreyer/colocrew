@@ -15,6 +15,7 @@ import { shittyDateFormater } from "../modules/dateFormater";
 export default function CandidatePost(props) {
     const user = useSelector((state) => state.users);
     console.log('USER => ',user)
+    //console.log('PROPS RECUES PAR LE FORMULAIRE', props)
     const todayDate = getToday();
     const formattedDate = getFormatedDate(new Date(), "DD/MM/YYYY"); 
     //console.log('Formatted date ',formattedDate);
@@ -24,49 +25,68 @@ export default function CandidatePost(props) {
     const [tabLodgings, setTabLodgings] = useState([]);
     const [tabLocations, setTabLocations] = useState([]);
 
+    const [post_id, setPost_id] = useState([]);
     const [postContracts, setPostContracts] = useState([]);
     const [postQualifications, setPostQualifications] = useState([]);
     const [postLodgings, setPostLodgings] = useState([]);
     const [postLocations, setPostLocations] = useState([]);
     const [postDescription , setPostDescription] = useState([]);
     const [postActivitiesList  , setPostActivitiesList]  = useState([]);
+    const [edited, setEdited] = useState([]);
+
     //const [postUsersID, setPostUsersID] = useState([]);
 
-    useEffect(() => {
 
-            fetch(`${config.URL_BACKEND}/settings/contractType`, {
-              method: "GET",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                //console.log('Type de contracts ',data.data);
-                if (data.result) {
-                  let newArray = data.data.map((data,i) => {
-                    return data.name;
-                  });
-                  setTabContracts(newArray);
-                }
-              });
-
-              fetch(`${config.URL_BACKEND}/settings/qualifications`, {
+      useEffect(() => {
+              fetch(`${config.URL_BACKEND}/settings/contractType`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(),
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  //console.log('Type de qualifications ',data.data);
+                  //console.log('Type de contracts ',data.data);
                   if (data.result) {
                     let newArray = data.data.map((data,i) => {
                       return data.name;
                     });
-                    setTabQualifications(newArray);
+                    setTabContracts(newArray);
                   }
                 });
-
+  
+                fetch(`${config.URL_BACKEND}/settings/qualifications`, {
+                  method: "GET",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    //console.log('Type de qualifications ',data.data);
+                    if (data.result) {
+                      let newArray = data.data.map((data,i) => {
+                        return data.name;
+                      });
+                      setTabQualifications(newArray);
+                    }
+                  });
+  
                 fetch(`${config.URL_BACKEND}/settings/lodgings`, {
+                      method: "GET",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(),
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        //console.log('Type de lodgings ',data.data);
+                        if (data.result) {
+                          let newArray = data.data.map((data,i) => {
+                            return data.name;
+                          });
+                          setTabLodgings(newArray);
+                        }
+                      });
+  
+                  fetch(`${config.URL_BACKEND}/settings/locations`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(),
@@ -78,28 +98,25 @@ export default function CandidatePost(props) {
                         let newArray = data.data.map((data,i) => {
                           return data.name;
                         });
-                        setTabLodgings(newArray);
+                        setTabLocations(newArray);
                       }
                     });
+            }, [props]);
 
-                fetch(`${config.URL_BACKEND}/settings/locations`, {
-                  method: "GET",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(),
-                })
-                  .then((response) => response.json())
-                  .then((data) => {
-                    //console.log('Type de lodgings ',data.data);
-                    if (data.result) {
-                      let newArray = data.data.map((data,i) => {
-                        return data.name;
-                      });
-                      setTabLocations(newArray);
-                    }
-                  });
-                
-                
-          }, []);
+
+if (props.isEditApplying){
+  useEffect (()=>{
+    setPostDescription(props.datas.datas.description);
+    setPostContracts(props.datas.datas.contractType);
+    setPostActivitiesList(props.datas.datas.activities);
+    setPostLodgings(props.datas.datas.lodgingType);
+    setPostLocations(props.datas.datas.locations);
+    setPost_id(props.datas.datas._id);
+    setEdited(false);
+
+
+  },[props, edited])
+}
 
         const handleContractTypesButtons = (data) => {
           //console.log(data)
@@ -176,6 +193,7 @@ export default function CandidatePost(props) {
     const [childrenAge, setChildrenAge] = useState("");
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  
 
     const recupStartDate= (date) => {
         setStartDate(date);
@@ -203,6 +221,7 @@ export default function CandidatePost(props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           { 
+            
             idCandidate : user.mongoID,
             startDate : startDate,
             endDate : endDate,
@@ -229,11 +248,49 @@ export default function CandidatePost(props) {
         props.formSubmitted(true);
     };
 
+    const handleSubmitEditCandidateForm = () => {
+      fetch(`${config.URL_BACKEND}/applications/editApply`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          { 
+            _id: post_id,
+            idCandidate : user.mongoID,
+            startDate : startDate,
+            endDate : endDate,
+            description : postDescription,
+            lodgingType : postLodgings,
+            locations : postLocations,
+            activities : postActivitiesList,
+            contractType : postContracts,
+          }
+        ),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log('Type de qualifications ',data.data);
+          if (data.result) {
+            console.log('CANDIDATURE MODIFIEE : ',data);
+            setPostDescription(data.description);
+            setPostContracts(data.contractType);
+            setPostActivitiesList(data.activites);
+            setPostLodgings(data.lodgingType);
+            setPostLocations(data.locations);
+            setEdited(false);
+          }
+          else {
+            console.log('Erreur de modification de l`annonce')
+          }
+        });
+        props.formSubmitted(true);
+        setEdited(true);
+    };
+
     const formatedStartDate = shittyDateFormater(startDate);
     const formatedEndDate = shittyDateFormater(endDate);
 
 
-  if (props.isEditable) {
+  if (props.isNewApplying) {
     return (
     <View style={styles.CenteredView}>
         <View style={styles.datePickers}>
@@ -267,18 +324,8 @@ export default function CandidatePost(props) {
         </View>
         <View>
         <Input multiline={true} labelTxt='Je suis hyper motivé !' onChangeText={(value) => handleDescriptionField(value)}></Input>
-
         </View>
         
-        
-        {/* <Switch
-            trackColor={{ false: "#767577", true: "#CCC" }}
-            thumbColor={isEnabled ? "#B8336A" : "#AAA"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-        /> */}
-
         <Text  style={styles.labelsFields}>Type de contrat préféré</Text>
         <ContractTypesButtons/>
         
@@ -299,21 +346,90 @@ export default function CandidatePost(props) {
         <PrimaryButton
           textBtn="Publier ma candidature"
           actionOnPress={(data) => handleSubmitCandidateForm(data)}
-        />
+          />
     </View>
     )
-  } else {
-    console.log("erreur")
-    return (<Text>Erreur</Text>);
+  } 
+  if (props.isEditApplying) {
+    console.log("Edition annonce existante", props.datas)
+    console.log(postQualifications,postContracts,postActivitiesList,postContracts,postLocations,postLodgings);
+    return (
+      <View style={styles.CenteredView}>
+        <Text  style={styles.titleForm}>Modifier votre annonce {props.datas.ID}</Text>
+          <View style={styles.datePickers}>
+            <Text style={styles.labelDatePicker}>Disponibilités*</Text>
+            <View style={styles.containerDatePickers}>
+              <View style={styles.datePicker}>
+                  <Text style={styles.labelCalendar}>Date de début*</Text>
+                  <ModalDatePicker
+                  titleModal="Date de début"
+                  currentDate={startDate}
+                  selectedDate={startDate}
+                  todayDate={todayDate}
+                  recupDate={(startDate)=>recupStartDate(startDate)}
+                  />
+              </View>
+              <View style={styles.datePicker}>
+                  <Text style={styles.labelCalendar}>Date de fin*</Text>
+                  <ModalDatePicker
+                  titleModal="Date de fin"
+                  currentDate={endDate}
+                  selectedDate={endDate}
+                  todayDate={todayDate}
+                  recupDate={(endDate)=>recupEndDate(endDate)}
+                  />
+              </View>
+          </View>
+          <View style={styles.dispoDates}>
+              <Text style={styles.date}>Du {formatedStartDate}</Text>
+              <Text style={styles.date}>au {formatedEndDate}</Text>
+          </View>
+          </View>
+          <View>
+          <Input multiline={true} defaultValue={postDescription} labelTxt='Je suis hyper motivé !' onChangeText={(value) => handleDescriptionField(value)}></Input>
+          </View>
+          
+          <Text  style={styles.labelsFields}>Type de contrat préféré{}</Text>
+          <ContractTypesButtons/>
+          
+          <Text  style={styles.labelsFields}>Qualifications</Text>
+          <QualificationsButtons/>
+  
+          <Text style={styles.labelsFields}>Environnement souhaité</Text>
+          <LocationsButtons/>
+  
+          <Text style={styles.labelsFields}>Type d'hébergement souhaité</Text>
+          <LodgingButtons/>
+          
+          <Text style={styles.labelsFields}>Activités</Text>
+          <View style={styles.selectableList}>
+            <SelectableList type='activities' defaultCheckedValues={postActivitiesList} handleActivitiesList={(data)=>handleActivitiesList(data)}/>
+          </View>
+          
+          <PrimaryButton
+            textBtn="Valider ma candidature"
+            actionOnPress={(data) => handleSubmitEditCandidateForm(data)}
+            />
+      </View>
+      )
   }
 };
+
+{/* <Switch
+    trackColor={{ false: "#767577", true: "#CCC" }}
+    thumbColor={isEnabled ? "#B8336A" : "#AAA"}
+    ios_backgroundColor="#3e3e3e"
+    onValueChange={toggleSwitch}
+    value={isEnabled}
+/> */}
+
 
 const styles = StyleSheet.create({
   CenteredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 25,
+    marginTop: 10,
   },
   modalView: {
     width: "90%",
@@ -321,13 +437,20 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 10,
+    padding: 5,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+},
+titleForm: {
+  fontSize: 22,
+  fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 20,
+    marginTop: 2,
 },
 
 labelsFields: {

@@ -25,7 +25,7 @@ import ToggleButton from "../components/ToggleButton";
 import config from "../config";
 import { getToday , getFormatedDate} from "react-native-modern-datepicker";
 
-import {dateFormater, shittyDateFormater} from "../modules/dateformater";
+import {dateFormater, shittyDateFormater} from "../modules/dateFormater";
 
 export default function CreateEditAnnounce(props) {
     const todayDate = getToday();
